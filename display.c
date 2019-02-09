@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <pic32mx.h>
-#include <ili9341.h>
+#include "ili9341.h"
 
 #define DISPLAY_VDD PORTFbits.RF4
 #define DISPLAY_VLED PORTFbits.RD2
@@ -19,8 +19,8 @@
 #define DISPLAY_SELECT_PORT PORTF
 #define DISPLAY_SELECT_MASK 0x20
 
-volatile uint16_t LCD_W=ILI9341_TFTWIDTH;
-volatile uint16_t LCD_H=ILI9341_TFTHEIGHT;
+volatile uint16_t LCD_W=320;
+volatile uint16_t LCD_H=240;
 
 void delay_us(int c){
     int con = c * 80;
