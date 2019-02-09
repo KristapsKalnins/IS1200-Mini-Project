@@ -2,14 +2,14 @@
 #include <pic32mx.h>
 #include "ili9341.h"
 
-#define DISPLAY_VDD PORTFbits.RF4
+#define DISPLAY_VDD PORTFbits.RF1
 #define DISPLAY_VLED PORTFbits.RD2
 #define DISPLAY_COMMAND_DATA PORTbits.RD1
 #define DISPLAY_RESET   PORTbits.RD9
 #define DISPLAY_SELECT PORTbits.RF5
 
 #define DISPLAY_VDD_PORT PORTF
-#define DISPLAY_VDD_MASK 0x10
+#define DISPLAY_VDD_MASK 0x2
 #define DISPLAY_VLED_PORT PORTD
 #define DISPLAT_VLED_MASK 0x4
 #define DISPLAY_COMMAND_DATA_PORT PORTD
@@ -41,11 +41,11 @@ void spi_initialize(){
 
 /* PIC to display port setup */
     PORTD = 0x206;
-    PORTF = 0x210;
+    PORTF = 0x202;
     ODCD = 0x0;
     ODCF = 0x0;
     TRISDCLR = 0x206;
-    TRISFCLR = 0x200;
+    TRISFCLR = 0x202;
 
 /* Set SPI to master*/
     SPI2CON = 0;
@@ -63,9 +63,9 @@ void spi_initialize(){
 
 
 void spi_send_recieve(unsigned char data){
-    while(!(SPI1STAT & 0x08));
-    SPI1BUF = data;
-    while(!(SPI1STAT & 0x01));
+    while(!(SPI2STAT & 0x08));
+    SPI2BUF = data;
+    while(!(SPI2STAT & 0x01));
 }
 
 void write_cmd_8(uint8_t com){
@@ -114,6 +114,7 @@ void hard_reset(void)//hard reset display
 
 void display_init(void)//set up display using predefined command sequence
 {
+    DISPLAY_VDD_PORT = DISPLAY_VDD_MASK;
 	spi_initialize();
 	hard_reset();
 	write_cmd_8(0x01);//soft reset
