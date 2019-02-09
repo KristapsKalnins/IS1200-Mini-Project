@@ -3,15 +3,14 @@
 
 #include <stdint.h>
 
-#define controlport PORTB
-#define controlddr DDRB
-#define controlpin PINB
-#define rstport PORTD
-#define rstddr DDRD
-#define rstpin PIND
-#define dc 0
-#define cs 1
-#define rst 7
+#define DISPLAY_VDD_PORT PORTF
+#define DISPLAY_VDD_MASK 0x10
+#define DISPLAY_VLED_PORT PORTD
+#define DISPLAT_VLED_MASK 0x4
+#define DISPLAY_COMMAND_DATA_PORT PORTD
+#define DISPLAY_COMMAND_DATA_MASK 0x2
+#define DISPLAY_RESET_PORT PORTD
+#define DISPLAY_RESET_MASK 0x200
 #define ILI9341_TFTHEIGHT 240 
 #define ILI9341_TFTWIDTH 320
 
