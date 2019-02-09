@@ -40,7 +40,7 @@ void spi_initialize(){
     SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
 	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
 	while(OSCCON & (1 << 21)); /* Wait until PBDIV ready */
-	OSCCON |= 0x100000; /* clear PBDIV bit <0,1> */
+	OSCCON |= 0x100000; /* set PBDIV bit <0,1> */
 	while(OSCCON & (1 << 21));  /* Wait until PBDIV ready */
 	SYSKEY = 0x0; /* Lock OSCCON */
 
