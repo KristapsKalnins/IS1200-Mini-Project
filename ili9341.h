@@ -1,6 +1,7 @@
 #ifndef _ILI9341_H_
 #define _ILI9341_H_
 
+#include <stdint.h>
 
 #define controlport PORTB
 #define controlddr DDRB
