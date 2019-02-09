@@ -48,14 +48,14 @@ void spi_initialize(){
     TRISFCLR = 0x200;
 
 /* Set SPI to master*/
-    SPI1CON = 0;
-    SPI1BRG = 4;
+    SPI2CON = 0;
+    SPI2BRG = 4;
 
 /* Clearing SPIROV (Overflow flag bit)*/
-    SPI1CON &= ~0x40;
+    SPI2CON &= ~0x40;
 
 /* CKP = 1 MSTEN = 1(Selecting clock edge and turning on master mode)*/
-    SPI1CON |= 0x60;
+    SPI2CON |= 0x60;
 
 /* Turn on SPI bus */
     SPI2CONSET = 0x8000;
