@@ -24,12 +24,14 @@ volatile uint16_t LCD_H=240;
 
 void delay_us(int c){
     int con = c * 80;
-    for(int i = con; i > 0; i--);
+    int i;
+    for(i = con; i > 0; i--);
 }
 
 void delay_ms(int c){
     int con = c * 80000 ;
-    for(int i = con; i > 0; i--);
+    int i;
+    for(i = con; i > 0; i--);
 }
 
 void spi_initialize(){

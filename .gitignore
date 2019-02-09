@@ -1,0 +1,8 @@
+main.c.o
+.deps/main.c.P
+main.c.o
+display.c.o
+outfile.elf
+outfile.hex
+.deps/display.c.P
+.deps/main.c.P
