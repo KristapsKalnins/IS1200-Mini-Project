@@ -2,8 +2,8 @@
 #include "ili9341.h"
 int main(void){
     display_init();
-    clear(GREENYELLOW);
-
-
+    while(1){
+   drawPixel(100,100,RED);
+}
     return 0;
 }

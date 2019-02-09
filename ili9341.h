@@ -11,8 +11,8 @@
 #define DISPLAY_COMMAND_DATA_MASK 0x2
 #define DISPLAY_RESET_PORT PORTD
 #define DISPLAY_RESET_MASK 0x200
-#define DISPLAY_SELECT_PORT PORTF
-#define DISPLAY_SELECT_MASK 0x20
+#define DISPLAY_SELECT_PORT PORTD
+#define DISPLAY_SELECT_MASK 0x1
 #define ILI9341_TFTHEIGHT 240 
 #define ILI9341_TFTWIDTH 320
 
@@ -36,8 +36,9 @@
 #define GREENYELLOW 0xAFE5     
 #define PINK        0xF81F
 
+void delay_ms(int c);
 void spi_initialize(void);
-void spi_send_recieve(unsigned char data);
+void spi_send(uint8_t data);
 void write_cmd_8(uint8_t com);
 void write_data_8(uint8_t data);
 void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
@@ -45,7 +46,9 @@ void hard_reset(void);
 void display_init(void);
 void setPixelColor(uint16_t color);
 void clear(uint16_t colour);
-//void ili9341_drawpixel(uint16_t x3,uint16_t y3,uint16_t colour1);
+void drawPixel(uint16_t x3,uint16_t y3,uint16_t colour1);
+void write_data_8(uint8_t data);
+void write_cmd_8(uint8_t com);
 //void ili9341_drawvline(uint16_t x,uint16_t y,uint16_t h,uint16_t colour);
 //void ili9341_drawhline(uint16_t x,uint16_t y,uint16_t w,uint16_t colour);
 //void ili9341_fillrect(uint16_t x,uint16_t y,uint16_t w,uint16_t h,uint16_t colour);

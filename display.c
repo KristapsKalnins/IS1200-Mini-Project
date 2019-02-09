@@ -6,7 +6,7 @@
 #define DISPLAY_VLED PORTFbits.RD2
 #define DISPLAY_COMMAND_DATA PORTbits.RD1
 #define DISPLAY_RESET   PORTbits.RD9
-#define DISPLAY_SELECT PORTbits.RF5
+#define DISPLAY_SELECT PORTbits.RD0
 
 #define DISPLAY_VDD_PORT PORTF
 #define DISPLAY_VDD_MASK 0x2
@@ -16,73 +16,90 @@
 #define DISPLAY_COMMAND_DATA_MASK 0x2
 #define DISPLAY_RESET_PORT PORTD
 #define DISPLAY_RESET_MASK 0x200
-#define DISPLAY_SELECT_PORT PORTF
-#define DISPLAY_SELECT_MASK 0x20
+#define DISPLAY_SELECT_PORT PORTD
+#define DISPLAY_SELECT_MASK 0x1
 
 volatile uint16_t LCD_W=320;
 volatile uint16_t LCD_H=240;
 
+
 void delay_us(int c){
-    int con = c * 80;
+    int con = c * 5;
     int i;
     for(i = con; i > 0; i--);
 }
 
 void delay_ms(int c){
-    int con = c * 80000 ;
+    int con = c * 4444;
     int i;
     for(i = con; i > 0; i--);
 }
 
 void spi_initialize(){
 /* Set up peripheral bus clock COPIED*/
-    OSCCON &= ~0x180000;
-    OSCCON |= 0x080000;
+    SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
+	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
+	while(OSCCON & (1 << 21)); /* Wait until PBDIV ready */
+	OSCCONCLR = 0x180000; /* clear PBDIV bit <0,1> */
+	while(OSCCON & (1 << 21));  /* Wait until PBDIV ready */
+	SYSKEY = 0x0; /* Lock OSCCON */
+
+    
+/* Set up output pins */
+	AD1PCFG = 0xFFFF;
+	ODCE = 0x0;
+	TRISECLR = 0xFF;
+	PORTE = 0x0;
+
 
 /* PIC to display port setup */
-    PORTD = 0x206;
-    PORTF = 0x202;
+    PORTD = 0x207;
+    PORTF = 0x2;
     ODCD = 0x0;
     ODCF = 0x0;
-    TRISDCLR = 0x206;
-    TRISFCLR = 0x202;
+    TRISDCLR = 0x207;
+    TRISFCLR = 0x2;
+	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
 
-/* Set SPI to master*/
-    SPI2CON = 0;
-    SPI2BRG = 4;
-
-/* Clearing SPIROV (Overflow flag bit)*/
-    SPI2CON &= ~0x40;
-
-/* CKP = 1 MSTEN = 1(Selecting clock edge and turning on master mode)*/
-    SPI2CON |= 0x60;
-
-/* Turn on SPI bus */
-    SPI2CONSET = 0x8000;
+	
+	IFSCLR(0) = 0x03800000;
+	/* Set up SPI as master */
+	SPI2CON = 0;
+	SPI2BRG = 1;
+	/* SPI2STAT bit SPIROV = 0; */
+	SPI2STATCLR = 0x40;
+	/* SPI2CON bit CKP = 1; */
+        SPI2CONSET = 0x40;
+	/* SPI2CON bit MSTEN = 1; */
+	SPI2CONSET = 0x20;
+	/*8 - bit mode*/
+	SPI2CONCLR = 0x400;
+	/* SPI2CON bit ON = 1; */
+	SPI2CONSET = 0x8000;
 }
 
-
-void spi_send_recieve(unsigned char data){
+void spi_send(unsigned char data){
     while(!(SPI2STAT & 0x08));
     SPI2BUF = data;
     while(!(SPI2STAT & 0x01));
+
 }
 
-void write_cmd_8(uint8_t com){
+void write_cmd_8(unsigned char com){
     DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
-    DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_PORT;
+    DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_MASK;
     delay_us(5);
-    spi_send_recieve(com);
-    DISPLAY_SELECT_PORT |= DISPLAY_SELECT_PORT;
+ 	spi_send(com);
+    DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
 }
 
-void write_data_8(uint8_t data)//data write
+void write_data_8(unsigned char data)//data write
 {
 	DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;//set dc high for data
 	delay_us(1);//delay
-	DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_PORT;//set cs low for operation
-	spi_send_recieve(data);
-	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_PORT;
+	DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_MASK;//set cs low for operation
+ 	spi_send(data);
+	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
 }
 
 void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)//set coordinate for print or other function
@@ -114,11 +131,19 @@ void hard_reset(void)//hard reset display
 
 void display_init(void)//set up display using predefined command sequence
 {
-    DISPLAY_VDD_PORT = DISPLAY_VDD_MASK;
 	spi_initialize();
+    DISPLAY_VDD_PORT |= DISPLAY_VDD_MASK;
 	hard_reset();
 	write_cmd_8(0x01);//soft reset
 	delay_ms(1000);
+
+ 	// write_cmd_8(0xEF);
+ 	// write_data_8(0x03);
+  	// write_data_8(0x80);
+  	// write_data_8(0x02);
+
+
+
 
 	//power control A
 	write_cmd_8(0xCB);
@@ -127,12 +152,14 @@ void display_init(void)//set up display using predefined command sequence
 	write_data_8(0x00);
 	write_data_8(0x34);
 	write_data_8(0x02);
+	
 
 	//power control B
 	write_cmd_8(0xCF);
 	write_data_8(0x00);
 	write_data_8(0xC1);
 	write_data_8(0x30);
+
 
 	//driver timing control A
 	write_cmd_8(0xE8);
@@ -260,5 +287,17 @@ void clear(uint16_t color){
         }
     }
 }
+void drawPixel(uint16_t x3,uint16_t y3,uint16_t colour1) //pixels will always be counted from right side.x is representing LCD width which will always be less tha 240.Y is representing LCD height which will always be less than 320
+{
+	if ((x3 < 0) ||(x3 >= LCD_W) || (y3 < 0) || (y3 >= LCD_H))
+	{
+		return;
+	}
+
+	setAddress(x3,y3,x3+1,y3+1);
+	setPixelColor(colour1);
+}
+
+
 
 

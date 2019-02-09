@@ -6,3 +6,8 @@ outfile.elf
 outfile.hex
 .deps/display.c.P
 .deps/main.c.P
+outfile.elf
+outfile.hex
+outfile.elf
+main.c.o
+outfile.hex
