@@ -40,7 +40,7 @@ void spi_initialize(){
     SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
 	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
 	while(OSCCON & (1 << 21)); /* Wait until PBDIV ready */
-	OSCCONCLR = 0x180000; /* clear PBDIV bit <0,1> */
+	OSCCON |= 0x100000; /* clear PBDIV bit <0,1> */
 	while(OSCCON & (1 << 21));  /* Wait until PBDIV ready */
 	SYSKEY = 0x0; /* Lock OSCCON */
 
@@ -65,7 +65,7 @@ void spi_initialize(){
 	IFSCLR(0) = 0x03800000;
 	/* Set up SPI as master */
 	SPI2CON = 0;
-	SPI2BRG = 1;
+	SPI2BRG = 4;
 	/* SPI2STAT bit SPIROV = 0; */
 	SPI2STATCLR = 0x40;
 	/* SPI2CON bit CKP = 1; */
@@ -105,15 +105,15 @@ void write_data_8(unsigned char data)//data write
 void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)//set coordinate for print or other function
 {
 	write_cmd_8(0x2A);     //SET COLUMN ADDRESS
-	write_data_8(x1>>8);
+//	write_data_8(x1>>8);
 	write_data_8(x1);
-	write_data_8(x2>>8);
+//	write_data_8(x2>>8);
 	write_data_8(x2);
 
 	write_cmd_8(0x2B);     //SET ROW ADDRESS
-	write_data_8(y1>>8);
+//	write_data_8(y1>>8);
 	write_data_8(y1);
-	write_data_8(y2);
+//	write_data_8(y2);
 	write_data_8(y2);
 
 	write_cmd_8(0x2C);//meory write
@@ -137,10 +137,10 @@ void display_init(void)//set up display using predefined command sequence
 	write_cmd_8(0x01);//soft reset
 	delay_ms(1000);
 
- 	// write_cmd_8(0xEF);
- 	// write_data_8(0x03);
-  	// write_data_8(0x80);
-  	// write_data_8(0x02);
+ 	write_cmd_8(0xEF);
+ 	write_data_8(0x03);
+  	write_data_8(0x80);
+  	write_data_8(0x02);
 
 
 
@@ -272,7 +272,7 @@ void display_init(void)//set up display using predefined command sequence
 
 //set color for drawing pixels
 void setPixelColor(uint16_t color){
-    write_data_8(color >> 8);
+   // write_data_8(color >> 8);
     write_data_8(color);
 }
 

@@ -3,7 +3,7 @@
 int main(void){
     display_init();
     while(1){
-   drawPixel(100,100,RED);
+   clear(RED);
 }
     return 0;
 }
