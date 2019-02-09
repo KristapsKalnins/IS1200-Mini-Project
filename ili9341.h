@@ -34,12 +34,11 @@
 #define GREENYELLOW 0xAFE5     
 #define PINK        0xF81F
 
-void ili9341_hard_init(void);
-void ili9341_spi_init(void);
-void ili9341_spi_send(unsigned char spi_data);
-void ili9341_writecommand8(uint8_t com);
-void ili9341_writedata8(uint8_t data);
-void ili9341_setaddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
+void spi_initialize(void);
+void spi_send_recieve(unsigned char data);
+void write_cmd_8(uint8_t com);
+void write_data_8(uint8_t data);
+void set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
 void ili9341_hard_reset(void);
 void ili9341_init(void);
 void ili9341_pushcolour(uint16_t colour);
