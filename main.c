@@ -2,7 +2,7 @@
 int main(void){
     spi_initalize();
     wake();
-
+    printf("%d\n", 5);
 
 
 
