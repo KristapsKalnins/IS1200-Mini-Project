@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <pic32mx.h>
 #include "ili9341.h"
+#include "spi.h"
 
 #define DISPLAY_VDD PORTFbits.RF1
 #define DISPLAY_VLED PORTFbits.RD2
@@ -19,8 +20,23 @@
 #define DISPLAY_SELECT_PORT PORTD
 #define DISPLAY_SELECT_MASK 0x1
 
-volatile uint16_t LCD_W=320;
-volatile uint16_t LCD_H=240;
+#define ILI9341_COLUMN_ADDR			0x2A
+#define ILI9341_PAGE_ADDR			0x2B
+#define ILI9341_GRAM				0x2C
+#define ILI9341_MAC					0x36
+#define ILI9341_WRITE_CONTINUE		0x3C 
+#define ILI9341_WDB					0x51
+#define ILI9341_WCD					0x53
+#define ILI9341_RGB_INTERFACE		0xB0
+#define ILI9341_FRC					0xB1
+#define ILI9341_BPC					0xB5
+#define ILI9341_DFC					0xB6
+
+
+
+volatile uint16_t LCD_W=240;
+volatile uint16_t LCD_H=320;
+uint16_t LCDbuffer[512];
 
 
 void delay_us(int c){
@@ -35,89 +51,26 @@ void delay_ms(int c){
     for(i = con; i > 0; i--);
 }
 
-void spi_initialize(){
-/* Set up peripheral bus clock COPIED*/
-    SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
-	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
-	while(OSCCON & (1 << 21)); /* Wait until PBDIV ready */
-	OSCCON |= 0x100000; /* set PBDIV bit <0,1> */
-	while(OSCCON & (1 << 21));  /* Wait until PBDIV ready */
-	SYSKEY = 0x0; /* Lock OSCCON */
-
-    
-/* Set up output pins */
-	AD1PCFG = 0xFFFF;
-	ODCE = 0x0;
-	TRISECLR = 0xFF;
-	PORTE = 0x0;
 
 
-/* PIC to display port setup */
-    PORTD = 0x207;
-    PORTF = 0x2;
-    ODCD = 0x0;
-    ODCF = 0x0;
-    TRISDCLR = 0x207;
-    TRISFCLR = 0x2;
-	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
 
-	
-	IFSCLR(0) = 0x03800000;
-	/* Set up SPI as master */
-	SPI2CON = 0;
-	SPI2BRG = 4;
-	/* SPI2STAT bit SPIROV = 0; */
-	SPI2STATCLR = 0x40;
-	/* SPI2CON bit CKP = 1; */
-        SPI2CONSET = 0x40;
-	/* SPI2CON bit MSTEN = 1; */
-	SPI2CONSET = 0x20;
-	/*8 - bit mode*/
-	SPI2CONCLR = 0x400;
-	/* SPI2CON bit ON = 1; */
-	SPI2CONSET = 0x8000;
-}
 
-void spi_send(unsigned char data){
-    while(!(SPI2STAT & 0x08));
-    SPI2BUF = data;
-    while(!(SPI2STAT & 0x01));
+// void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)//set coordinate for print or other function
+// {
+// 	write_cmd_8(0x2A);     //SET COLUMN ADDRESS
+// 	write_data_16(x1);
+// 	write_data_16(x1 >> 16);
+// 	write_data_16(x2);
+// 	write_data_16(x2 >> 16);
 
-}
+// 	write_cmd_8(0x2B);     //SET ROW ADDRESS
+// 	write_data_16(y1);
+// 	write_data_16(y1 >> 16);
+// 	write_data_16(y2);
+// 	write_data_16(y2 >> 16);
 
-void write_cmd_8(unsigned char com){
-    DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
-    DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_MASK;
-    delay_us(5);
- 	spi_send(com);
-    DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
-}
-
-void write_data_8(unsigned char data)//data write
-{
-	DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;//set dc high for data
-	delay_us(1);//delay
-	DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_MASK;//set cs low for operation
- 	spi_send(data);
-	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
-}
-
-void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)//set coordinate for print or other function
-{
-	write_cmd_8(0x2A);     //SET COLUMN ADDRESS
-//	write_data_8(x1>>8);
-	write_data_8(x1);
-//	write_data_8(x2>>8);
-	write_data_8(x2);
-
-	write_cmd_8(0x2B);     //SET ROW ADDRESS
-//	write_data_8(y1>>8);
-	write_data_8(y1);
-//	write_data_8(y2);
-	write_data_8(y2);
-
-	write_cmd_8(0x2C);//meory write
-}
+// 	write_cmd_8(0x2C);//meory write
+//}
 
 void hard_reset(void)//hard reset display
 {
@@ -136,14 +89,6 @@ void display_init(void)//set up display using predefined command sequence
 	hard_reset();
 	write_cmd_8(0x01);//soft reset
 	delay_ms(1000);
-
- 	write_cmd_8(0xEF);
- 	write_data_8(0x03);
-  	write_data_8(0x80);
-  	write_data_8(0x02);
-
-
-
 
 	//power control A
 	write_cmd_8(0xCB);
@@ -211,7 +156,7 @@ void display_init(void)//set up display using predefined command sequence
 	//frameration control,normal mode full colours
 	write_cmd_8(0xB1);
 	write_data_8(0x00);
-	write_data_8(0x18);
+	write_data_8(0x13);
 
 	//display function control
 	write_cmd_8(0xB6);
@@ -268,36 +213,74 @@ void display_init(void)//set up display using predefined command sequence
 	delay_ms(120);
 	//display on
 	write_cmd_8(0x29);
+	delay_ms(100);
+	write_cmd_8(ILI9341_GRAM);
+
+	Mode16();
 }
 
-//set color for drawing pixels
-void setPixelColor(uint16_t color){
-   // write_data_8(color >> 8);
-    write_data_8(color);
+void setAddress(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
+	write_cmd_16(0x2A);//col
+	write_data_16(x1);
+	write_data_16(x2);
+	write_cmd_16(0x2B);//row
+	write_data_16(y1);
+	write_data_16(y2);
+	write_cmd_16(ILI9341_GRAM);
 }
 
-//clear screen and fill with color
-void clear(uint16_t color){
-    uint16_t i,j;
-    setAddress(0,0, LCD_W-1, LCD_H-1);
-
-    for(i - 0; i<LCD_W; i++){
-        for(j = 0; j<LCD_H; j++){
-            setPixelColor(color);
-        }
-    }
-}
-void drawPixel(uint16_t x3,uint16_t y3,uint16_t colour1) //pixels will always be counted from right side.x is representing LCD width which will always be less tha 240.Y is representing LCD height which will always be less than 320
-{
-	if ((x3 < 0) ||(x3 >= LCD_W) || (y3 < 0) || (y3 >= LCD_H))
-	{
-		return;
+void rotate(char c) {
+	write_cmd_16(ILI9341_MAC);
+	if (c == 1) {
+		write_data_16(0x58);
+	} else if (c == 2) {
+		write_data_16(0x88);
+	} else if (c == 3) {
+		write_data_16(0x28);
+	} else if (c == 4) {
+		write_data_16(0xE8);
 	}
-
-	setAddress(x3,y3,x3+1,y3+1);
-	setPixelColor(colour1);
 }
 
 
 
 
+void drawPixel(uint16_t x1, uint16_t y1, uint32_t color) {
+	setAddress(x1,y1, x1+1, y1+1);
+	write_data_16(color);
+}
+
+void fillSceen(uint16_t color) {
+	fillRect(0,0,240,320,color);
+}
+
+void fillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+  uint16_t color){
+/* Draw a filled rectangle with starting top-left vertex (x,y),
+ *  width w and height h with given color
+ * Parameters:
+ *      x:  x-coordinate of top-left vertex; top left of screen is x=0
+ *              and x increases to the right
+ *      y:  y-coordinate of top-left vertex; top left of screen is y=0
+ *              and y increases to the bottom
+ *      w:  width of rectangle
+ *      h:  height of rectangle
+ *      color:  16-bit color value
+ * Returns:     Nothing
+ */
+  // rudimentary clipping (drawChar w/big text requires this)
+  if((x >= LCD_W) || (y >= LCD_H)) return;
+  if((x + w - 1) >= LCD_W)  w = LCD_W  - x;
+  if((y + h - 1) >= LCD_H) h = LCD_H - y;
+
+  setAddress(x, y, x+w-1, y+h-1);
+
+
+
+  for(y=h; y>0; y--) {
+    for(x=w; x>0; x--) {
+        write_data_16(color);
+    }
+  }
+
+}

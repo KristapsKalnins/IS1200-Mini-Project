@@ -11,3 +11,5 @@ outfile.hex
 outfile.elf
 main.c.o
 outfile.hex
+stubs.c.o
+spi.c.o

@@ -13,45 +13,42 @@
 #define DISPLAY_RESET_MASK 0x200
 #define DISPLAY_SELECT_PORT PORTD
 #define DISPLAY_SELECT_MASK 0x1
-#define ILI9341_TFTHEIGHT 240 
-#define ILI9341_TFTWIDTH 320
 
 #define BLACK       0x0000      
-#define NAVY        0x000F      
+#define NAVY        0x7800        
 #define DARKGREEN   0x03E0      
-#define DARKCYAN    0x03EF      
-#define MAROON      0x7800      
+#define DARKCYAN    0xFD20 
+#define MAROON      0x000F    
 #define PURPLE      0x780F      
 #define OLIVE       0x7BE0      
 #define LIGHTGREY   0xC618      
 #define DARKGREY    0x7BEF      
-#define BLUE        0x001F      
+#define BLUE        0xF800     
 #define GREEN       0x07E0      
-#define CYAN        0x07FF      
-#define RED         0xF800     
+#define CYAN        0xFFE0
+#define RED         0x001F     
 #define MAGENTA     0xF81F      
-#define YELLOW      0xFFE0      
+#define YELLOW      0x07FF   
 #define WHITE       0xFFFF      
-#define ORANGE      0xFD20      
+#define ORANGE      0x03EF  
 #define GREENYELLOW 0xAFE5     
 #define PINK        0xF81F
 
 void delay_ms(int c);
 void spi_initialize(void);
-void spi_send(uint8_t data);
-void write_cmd_8(uint8_t com);
-void write_data_8(uint8_t data);
 void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
 void hard_reset(void);
 void display_init(void);
 void setPixelColor(uint16_t color);
+void drawPixel(uint16_t x1, uint16_t y1, uint32_t color);
 void clear(uint16_t colour);
-void drawPixel(uint16_t x3,uint16_t y3,uint16_t colour1);
 void write_data_8(uint8_t data);
 void write_cmd_8(uint8_t com);
+void drawVertLine(uint16_t x, uint16_t y, uint16_t h, uint16_t color);
+void fillSceen(uint16_t color);
 //void ili9341_drawvline(uint16_t x,uint16_t y,uint16_t h,uint16_t colour);
 //void ili9341_drawhline(uint16_t x,uint16_t y,uint16_t w,uint16_t colour);
-//void ili9341_fillrect(uint16_t x,uint16_t y,uint16_t w,uint16_t h,uint16_t colour);
+void fillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
 //void ili9341_setRotation(uint8_t x);
 
 #endif
