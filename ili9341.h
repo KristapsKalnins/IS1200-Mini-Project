@@ -47,6 +47,7 @@ void fillSceen(uint16_t color);
 void fillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
 void drawPaddle(uint16_t x, uint16_t y, uint16_t color);
 void drawBitmap(const uint8_t* icon);
+void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color);
 
 
 #endif
