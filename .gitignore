@@ -15,3 +15,4 @@ stubs.c.o
 spi.c.o
 .deps\main.c.P
 .deps\spi.c.P
+assets.c.o
