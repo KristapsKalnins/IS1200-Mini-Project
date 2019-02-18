@@ -2,6 +2,7 @@
 #define SPI
 
 #include <stdint.h>
+
 void spi_initialize();
 inline void Mode16(void);
 inline void Mode8(void);

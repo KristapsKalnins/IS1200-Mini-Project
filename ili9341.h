@@ -39,16 +39,14 @@ void spi_initialize(void);
 void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
 void hard_reset(void);
 void display_init(void);
-void setPixelColor(uint16_t color);
 void drawPixel(uint16_t x1, uint16_t y1, uint32_t color);
-void clear(uint16_t colour);
+//void clear(uint16_t colour);
 void write_data_8(uint8_t data);
 void write_cmd_8(uint8_t com);
-void drawVertLine(uint16_t x, uint16_t y, uint16_t h, uint16_t color);
 void fillSceen(uint16_t color);
-//void ili9341_drawvline(uint16_t x,uint16_t y,uint16_t h,uint16_t colour);
-//void ili9341_drawhline(uint16_t x,uint16_t y,uint16_t w,uint16_t colour);
 void fillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
-//void ili9341_setRotation(uint8_t x);
+void drawPaddle(uint16_t x, uint16_t y, uint16_t color);
+void drawBitmap(const uint8_t* icon);
+
 
 #endif

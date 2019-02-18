@@ -2,6 +2,7 @@
 #include <pic32mx.h>
 #include "ili9341.h"
 #include "spi.h"
+#include "assets.h"
 
 #define DISPLAY_VDD PORTFbits.RF1
 #define DISPLAY_VLED PORTFbits.RD2
@@ -19,6 +20,8 @@
 #define DISPLAY_RESET_MASK 0x200
 #define DISPLAY_SELECT_PORT PORTD
 #define DISPLAY_SELECT_MASK 0x1
+#define PADDLE_LENGTH 50
+#define PADDLE_THICKNESS 10
 
 #define ILI9341_COLUMN_ADDR			0x2A
 #define ILI9341_PAGE_ADDR			0x2B
@@ -282,5 +285,20 @@ void fillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h,
         write_data_16(color);
     }
   }
+}
 
+void drawPaddle(uint16_t x, uint16_t y, uint16_t color){
+	fillRect(x, y, PADDLE_LENGTH, PADDLE_THICKNESS, color);
+}
+
+
+void drawBitmap(const uint8_t* icon){
+	int i;
+	int j;
+	for(i = 0; i < 32; i++){
+		setAddress(100, i+100, 131, i+101);
+		for(j = 0; j < 32; j++){
+				write_data_16(icon[j+(i*32)]);
+		}
+	}
 }
