@@ -4,24 +4,24 @@
 #include "spi.h"
 #include "assets.h"
 
-#define DISPLAY_VDD 				PORTbits.RF1
-#define DISPLAY_VLED 				PORTbits.RD2
-#define DISPLAY_COMMAND_DATA 		PORTbits.RD1
-#define DISPLAY_RESET   			PORTbits.RD9
-#define DISPLAY_SELECT 				PORTbits.RD0
+#define DISPLAY_VDD PORTFbits.RF1
+#define DISPLAY_VLED PORTFbits.RD2
+#define DISPLAY_COMMAND_DATA PORTbits.RD1
+#define DISPLAY_RESET   PORTbits.RD9
+#define DISPLAY_SELECT PORTbits.RD0
 
-#define DISPLAY_VDD_PORT 			PORTF
-#define DISPLAY_VDD_MASK 			0x2
-#define DISPLAY_VLED_PORT 			PORTD
-#define DISPLAT_VLED_MASK 			0x4
-#define DISPLAY_COMMAND_DATA_PORT 	PORTD
-#define DISPLAY_COMMAND_DATA_MASK 	0x2
-#define DISPLAY_RESET_PORT 			PORTD
-#define DISPLAY_RESET_MASK 			0x200
-#define DISPLAY_SELECT_PORT 		PORTD
-#define DISPLAY_SELECT_MASK 		0x1
-#define PADDLE_LENGTH 				50
-#define PADDLE_THICKNESS 			10
+#define DISPLAY_VDD_PORT PORTF
+#define DISPLAY_VDD_MASK 0x2
+#define DISPLAY_VLED_PORT PORTD
+#define DISPLAT_VLED_MASK 0x4
+#define DISPLAY_COMMAND_DATA_PORT PORTD
+#define DISPLAY_COMMAND_DATA_MASK 0x2
+#define DISPLAY_RESET_PORT PORTD
+#define DISPLAY_RESET_MASK 0x200
+#define DISPLAY_SELECT_PORT PORTD
+#define DISPLAY_SELECT_MASK 0x1
+#define PADDLE_LENGTH 50
+#define PADDLE_THICKNESS 10
 
 #define ILI9341_COLUMN_ADDR			0x2A
 #define ILI9341_PAGE_ADDR			0x2B
@@ -301,4 +301,38 @@ void drawBitmap(const uint8_t* icon){
 				write_data_16(icon[j+(i*32)]);
 		}
 	}
+}
+
+void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color) {
+	int16_t f = 1 - r;
+	int16_t ddF_x = 1;
+	int16_t ddF_y = -2 * r;
+	int16_t x = 0;
+	int16_t y = r;
+
+    drawPixel(x0, y0 + r, color);
+    drawPixel(x0, y0 - r, color);
+    drawPixel(x0 + r, y0, color);
+    drawPixel(x0 - r, y0, color);
+
+    while (x < y) {
+        if (f >= 0) {
+            y--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+        x++;
+        ddF_x += 2;
+        f += ddF_x;
+
+        drawPixel(x0 + x, y0 + y, color);
+        drawPixel(x0 - x, y0 + y, color);
+        drawPixel(x0 + x, y0 - y, color);
+        drawPixel(x0 - x, y0 - y, color);
+
+        drawPixel(x0 + y, y0 + x, color);
+        drawPixel(x0 - y, y0 + x, color);
+        drawPixel(x0 + y, y0 - x, color);
+        drawPixel(x0 - y, y0 - x, color);
+    }
 }
