@@ -10,7 +10,6 @@ int main(void){
     rotate(1);
     fillSceen(BG_COLOR);
     while(1){
-        drawCircle(100, 100, 10, BLUE);
         int i;
         for(i = 0; i < 190; i++){
             fillRect(i+50, 250, 1, 10, PADDLE_COLOR);

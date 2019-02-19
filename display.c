@@ -56,25 +56,6 @@ void delay_ms(int c){
 
 
 
-
-
-// void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)//set coordinate for print or other function
-// {
-// 	write_cmd_8(0x2A);     //SET COLUMN ADDRESS
-// 	write_data_16(x1);
-// 	write_data_16(x1 >> 16);
-// 	write_data_16(x2);
-// 	write_data_16(x2 >> 16);
-
-// 	write_cmd_8(0x2B);     //SET ROW ADDRESS
-// 	write_data_16(y1);
-// 	write_data_16(y1 >> 16);
-// 	write_data_16(y2);
-// 	write_data_16(y2 >> 16);
-
-// 	write_cmd_8(0x2C);//meory write
-//}
-
 void hard_reset(void)//hard reset display
 {
 	DISPLAY_RESET_PORT |=  DISPLAY_RESET_MASK;//pull high if low previously
