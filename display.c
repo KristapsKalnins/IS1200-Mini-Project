@@ -4,36 +4,36 @@
 #include "spi.h"
 #include "assets.h"
 
-#define DISPLAY_VDD PORTFbits.RF1
-#define DISPLAY_VLED PORTFbits.RD2
-#define DISPLAY_COMMAND_DATA PORTbits.RD1
-#define DISPLAY_RESET   PORTbits.RD9
-#define DISPLAY_SELECT PORTbits.RD0
+#define DISPLAY_VDD 							PORTFbits.RF1
+#define DISPLAY_VLED 							PORTFbits.RD2
+#define DISPLAY_COMMAND_DATA 			PORTbits.RD1
+#define DISPLAY_RESET   					PORTbits.RD9
+#define DISPLAY_SELECT 						PORTbits.RD0
 
-#define DISPLAY_VDD_PORT PORTF
-#define DISPLAY_VDD_MASK 0x2
-#define DISPLAY_VLED_PORT PORTD
-#define DISPLAT_VLED_MASK 0x4
+#define DISPLAY_VDD_PORT 					PORTF
+#define DISPLAY_VDD_MASK 					0x2
+#define DISPLAY_VLED_PORT 				PORTD
+#define DISPLAT_VLED_MASK 				0x4
 #define DISPLAY_COMMAND_DATA_PORT PORTD
 #define DISPLAY_COMMAND_DATA_MASK 0x2
-#define DISPLAY_RESET_PORT PORTD
-#define DISPLAY_RESET_MASK 0x200
-#define DISPLAY_SELECT_PORT PORTD
-#define DISPLAY_SELECT_MASK 0x1
-#define PADDLE_LENGTH 50
-#define PADDLE_THICKNESS 10
+#define DISPLAY_RESET_PORT 				PORTD
+#define DISPLAY_RESET_MASK 				0x200
+#define DISPLAY_SELECT_PORT 			PORTD
+#define DISPLAY_SELECT_MASK 			0x1
+#define PADDLE_LENGTH 						50
+#define PADDLE_THICKNESS 					10
 
-#define ILI9341_COLUMN_ADDR			0x2A
-#define ILI9341_PAGE_ADDR			0x2B
-#define ILI9341_GRAM				0x2C
-#define ILI9341_MAC					0x36
+#define ILI9341_COLUMN_ADDR				0x2A
+#define ILI9341_PAGE_ADDR					0x2B
+#define ILI9341_GRAM							0x2C
+#define ILI9341_MAC								0x36
 #define ILI9341_WRITE_CONTINUE		0x3C 
-#define ILI9341_WDB					0x51
-#define ILI9341_WCD					0x53
-#define ILI9341_RGB_INTERFACE		0xB0
-#define ILI9341_FRC					0xB1
-#define ILI9341_BPC					0xB5
-#define ILI9341_DFC					0xB6
+#define ILI9341_WDB								0x51
+#define ILI9341_WCD								0x53
+#define ILI9341_RGB_INTERFACE			0xB0
+#define ILI9341_FRC								0xB1
+#define ILI9341_BPC								0xB5
+#define ILI9341_DFC								0xB6
 
 
 
