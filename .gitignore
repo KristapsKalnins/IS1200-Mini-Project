@@ -19,3 +19,6 @@ assets.c.o
 .deps/assets.c.P
 .deps/spi.c.P
 .deps/main.c.P
+control.c.o
+.deps/control.c.P
+.deps/main.c.P

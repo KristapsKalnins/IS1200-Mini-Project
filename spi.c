@@ -28,13 +28,6 @@ void spi_initialize(){
 	while(OSCCON & (1 << 21));  /* Wait until PBDIV ready */
 	SYSKEY = 0x0; /* Lock OSCCON */
 
-/* Set up output pins */
-	AD1PCFG = 0xFFFF;
-	ODCE = 0x0;
-	TRISECLR = 0xFF;
-	PORTE = 0x0;
-	
-
 
 /* PIC to display port setup */
     PORTD = 0x207;
@@ -44,14 +37,6 @@ void spi_initialize(){
     TRISDCLR = 0x207;
     TRISFCLR = 0x2;
 
-	//Enabling SPI interrupts for Direct memory addressing
-	IECCLR(0)=0x03800000; // disable all interrupts
-	IFSCLR(0)=0x03800000; // clear any existing event
-	IPCCLR(5)=0x1f000000; // clear the priority
-	IPCSET(5)=0x0d000000; // Set IPL=3, Subpriority 1
-	IECSET(0)=0x03800000; 
-
-	DMACON = 0x8000;  //DMA 
 
 	/* Set up SPI as master */
 	SPI2CON = 0;
