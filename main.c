@@ -103,6 +103,24 @@ void timer2_interrupt_handler(void)
 
     if(counter != 0 ){return;}
     counter = GAME_SPEED;
+
+    if(getbtns() != 0)
+    {
+        if(getbtns() & 4)
+        {
+            //stuff for BTN4
+        }
+        if(getbtns() & 2)
+        {
+            //stuff for BTN3
+        }
+        if(getbtns() & 1)
+        {
+            //stuff for BTN2
+        }
+        
+    }
+
     /*
     *           STUFF 
     *       STUFF
