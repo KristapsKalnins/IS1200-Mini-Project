@@ -22,3 +22,4 @@ assets.c.o
 control.c.o
 .deps/control.c.P
 .deps/main.c.P
+vectors.S.o

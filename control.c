@@ -20,9 +20,9 @@ void enablePots() {
     AD1CON2SET = 0x4;
     // CSCNA: Scan inputs
     AD1CON2SET = 0x400;
-    
-    //VCFG: positive refrence voltage for the ADC
-    AD1CON2SET = 0x2000; 
+
+    //VCFG: negative refrence voltage for the ADC
+    AD1CON2SET = 0x4000; 
 
     // SAMC: 31 TAD
     AD1CON3SET = 0xF00;

@@ -11,7 +11,7 @@ int xCord;
 int last;
 
 int calcCord(int c){
-    return c > 0 ? (((190)*c)/1024) : 0;
+    return c > 0 ? ((190 * c)/1024) : 0;
 }
 
 void inputRead() { 
