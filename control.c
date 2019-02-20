@@ -52,3 +52,13 @@ void enableTimer2(int period, int priority, int prescaling, int interrupts)
 
     T2CONSET = 0x8000;      //enable
 }
+
+int getbtns(void)
+{
+    return ((PORTD & 0x00e0) >> 5); // return button values  
+}
+
+int getsw(void)
+{
+    return ((PORTD & 0x0f00) >> 8); //retrun switch values
+}
