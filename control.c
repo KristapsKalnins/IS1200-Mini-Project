@@ -20,6 +20,8 @@ void enablePots() {
     AD1CON2SET = 0x4;
     // CSCNA: Scan inputs
     AD1CON2SET = 0x400;
+    //VCFG: positive refrence voltage for the ADC
+    AD1CON2SET = 0x2000; 
 
     // SAMC: 31 TAD
     AD1CON3SET = 0xF00;
@@ -27,6 +29,7 @@ void enablePots() {
     // CSSL: ADC Input Pin Scan Selection bits
     AD1CSSLSET = 0x0110;
 
+    
     // start
     AD1CON1SET = 0x8000;
 }

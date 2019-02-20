@@ -2,15 +2,71 @@
 #include "ili9341.h"
 #include "spi.h"
 #include "assets.h"
+#include "control.h"
 
-#define PADDLE_COLOR YELLOW
+#define PADDLE_COLOR CYAN
 #define BG_COLOR WHITE
+int xCord;
+int last;
+
+int calcCord(int c){
+    return c > 0 ? (((190)*c)/1024) : 0;
+}
+
+void inputRead() { 
+    int analogIN1;
+    int analogIN2;
+
+    IFSCLR(1) = 0x2; //clears the ADC interrupt flag
+    AD1CON1SET = 0x4; //Start sampling automatically
+    while(!IFS(1) & 0x2); //While sampling, do nothing
+            
+    if (AD1CON2 & 0x80){
+        analogIN1 = ADC1BUF0;
+        analogIN2 = ADC1BUF1;   
+    }
+    else{
+        analogIN1 = ADC1BUF8;
+        analogIN2 = ADC1BUF9;
+    }
+    
+    last = xCord;
+    xCord = calcCord(analogIN1);
+
+
+}
+
+
+
+
 int main(void){
     display_init();
     rotate(1);
     fillSceen(BG_COLOR);
+    IECSET(1)=0x2;
+    enablePots();
+    
     while(1){
-       int i;
+        inputRead();
+
+        drawPaddle(last, 250, BG_COLOR);
+        drawPaddle(xCord, 250, PADDLE_COLOR);
+        delay_us(100);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //for(i  = 20; i < 220; i++){
             //drawCircle(i,i,20,RED);
             //delay_ms(10);
@@ -27,10 +83,11 @@ int main(void){
         //     fillRect(i + 50, 250, 1, 10, BG_COLOR);
         // }
         //drawBitmap(icon);
-        for (i = 0; i<=240 ; i++){
-        drawCircle(240,160,i,RED);
-        drawCircle(0, 160, i, BLUE);
-        }
+        // for (i = 0; i<=240 ; i++){
+        // drawCircle(240,160,i,RED);
+        // drawCircle(0, 160, i, BLUE);
+        // }
+
     }
     return 0;
 }
