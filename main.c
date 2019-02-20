@@ -6,6 +6,7 @@
 
 #define PADDLE_COLOR CYAN
 #define BG_COLOR WHITE
+#define GAME_SPEED 100
 int xCord;
 int last;
 
@@ -36,7 +37,7 @@ void inputRead() {
 
 }
 
-
+int counter = GAME_SPEED;
 
 
 int main(void){
@@ -45,7 +46,10 @@ int main(void){
     fillSceen(BG_COLOR);
     IECSET(1)=0x2;
     enablePots();
-    
+
+    enableTimer2(312500, 0x18, 0x111, 1);
+    enable_interrupt();
+
     while(1){
         inputRead();
 
@@ -90,4 +94,23 @@ int main(void){
 
     }
     return 0;
+}
+
+void timer2_interrupt_handler(void)
+{
+    IFSCLR(0) = 0x100;
+    counter--;
+
+    if(counter != 0 ){return;}
+    counter = GAME_SPEED;
+    /*
+    *           STUFF 
+    *       STUFF
+    *   STUFF
+    * STUFF
+    *   STUFF
+    *       STUFF
+    *           STUFF
+    *               STUFF
+    */
 }
