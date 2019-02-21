@@ -50,26 +50,39 @@ int main(void){
     enableTimer2(312500, 0x18, 0x111, 1);
     enable_interrupt();
 
-    while(1){
+    
+    return 0;
+}
+
+void timer2_interrupt_handler(void)
+{
+    IFSCLR(0) = 0x100;
+    counter++;
+
+    if(counter != GAME_SPEED ){return;}
+    counter = 0;
+
+    if(getbtns() != 0)
+    {
+        if(getbtns() & 4)
+        {
+            //stuff for BTN4
+        }
+        if(getbtns() & 2)
+        {
+            //stuff for BTN3
+        }
+        if(getbtns() & 1)
+        {
+            //stuff for BTN2
+        }
+        
+    }
         inputRead();
 
         drawPaddle(last, 250, BG_COLOR);
         drawPaddle(xCord, 250, PADDLE_COLOR);
-        delay_us(100);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      //  delay_us(100);
 
         //for(i  = 20; i < 220; i++){
             //drawCircle(i,i,20,RED);
@@ -91,44 +104,4 @@ int main(void){
         // drawCircle(240,160,i,RED);
         // drawCircle(0, 160, i, BLUE);
         // }
-
-    }
-    return 0;
-}
-
-void timer2_interrupt_handler(void)
-{
-    IFSCLR(0) = 0x100;
-    counter--;
-
-    if(counter != 0 ){return;}
-    counter = GAME_SPEED;
-
-    if(getbtns() != 0)
-    {
-        if(getbtns() & 4)
-        {
-            //stuff for BTN4
-        }
-        if(getbtns() & 2)
-        {
-            //stuff for BTN3
-        }
-        if(getbtns() & 1)
-        {
-            //stuff for BTN2
-        }
-        
-    }
-
-    /*
-    *           STUFF 
-    *       STUFF
-    *   STUFF
-    * STUFF
-    *   STUFF
-    *       STUFF
-    *           STUFF
-    *               STUFF
-    */
 }
