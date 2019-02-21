@@ -22,12 +22,12 @@ void enablePots() {
     AD1CON2SET = 0x400;
 
     //VCFG: negative refrence voltage for the ADC
-    AD1CON2SET = 0x4000; 
+   // AD1CON2SET = 0x4000; 
 
     // SAMC: 31 TAD
     AD1CON3SET = 0xF00;
 
-    //AD1CON3SET = 0x8000; //'clock thing
+    AD1CON3SET = 0x8000; //'clock thing
 
     // CSSL: ADC Input Pin Scan Selection bits
     AD1CSSLSET = 0x0010;   // external pot

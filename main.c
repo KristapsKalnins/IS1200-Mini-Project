@@ -47,7 +47,7 @@ int main(void){
     IECSET(1)=0x2;
     enablePots();
 
-    enableTimer2(312500, 0x18, 0x111, 1);
+    enableTimer2(312, 0x18, 0x111, 1);
     enable_interrupt();
 
    
