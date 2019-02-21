@@ -37,7 +37,7 @@ void inputRead() {
 
 }
 
-int counter = GAME_SPEED;
+int counter = 0;
 
 
 int main(void){
@@ -59,7 +59,7 @@ void timer2_interrupt_handler(void)
     IFSCLR(0) = 0x100;
     counter++;
 
-    if(counter != GAME_SPEED ){}
+    if(counter != GAME_SPEED ){return;}
     counter = 0;
 
     if(getbtns() != 0)
