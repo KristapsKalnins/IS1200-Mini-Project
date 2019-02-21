@@ -4,7 +4,7 @@
 #include "assets.h"
 #include "control.h"
 
-#define PADDLE_COLOR CYAN
+#define PADDLE_COLOR RED
 #define BG_COLOR WHITE
 #define GAME_SPEED 100
 int xCord;
@@ -53,10 +53,11 @@ int main(void){
     while(1){
         inputRead();
 
+        //if(!(last == xCord)){
         drawPaddle(last, 250, BG_COLOR);
         drawPaddle(xCord, 250, PADDLE_COLOR);
         delay_us(100);
-
+       // }
 
 
 

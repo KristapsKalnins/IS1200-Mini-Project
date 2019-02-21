@@ -27,8 +27,11 @@ void enablePots() {
     // SAMC: 31 TAD
     AD1CON3SET = 0xF00;
 
+    //AD1CON3SET = 0x8000; //'clock thing
+
     // CSSL: ADC Input Pin Scan Selection bits
-    AD1CSSLSET = 0x0110;
+    AD1CSSLSET = 0x0010;   // external pot
+   // AD1CSSLSET = 0x0104; //use in-built pot
 
     // start
     AD1CON1SET = 0x8000;
