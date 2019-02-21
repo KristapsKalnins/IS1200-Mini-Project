@@ -19,10 +19,7 @@ void enablePots() {
     // SMPI: 2 sample/convert sequences between interrupts
     AD1CON2SET = 0x4;
     // CSCNA: Scan inputs
-    AD1CON2SET = 0x400;
-
-    //VCFG: negative refrence voltage for the ADC
-   // AD1CON2SET = 0x4000; 
+    AD1CON2SET = 0x400; 
 
     // SAMC: 31 TAD
     AD1CON3SET = 0xF00;
@@ -31,7 +28,6 @@ void enablePots() {
 
     // CSSL: ADC Input Pin Scan Selection bits
     AD1CSSLSET = 0x0010;   // external pot
-   // AD1CSSLSET = 0x0104; //use in-built pot
 
     // start
     AD1CON1SET = 0x8000;

@@ -5,13 +5,17 @@
 #include "control.h"
 
 #define PADDLE_COLOR RED
-#define BG_COLOR WHITE
+#define BG_COLOR GREEN
 #define GAME_SPEED 100
+#define PADDLE_Y 270
 int xCord;
-int last;
+int lastxCord;
+int counter = 0;
+
+
 
 int calcCord(int c){
-    return c > 0 ? ((190 * c)/1024) : 0;
+    return c > 0 ? ((191 * c)/1024) : 0;
 }
 
 void inputRead() { 
@@ -31,13 +35,50 @@ void inputRead() {
         analogIN2 = ADC1BUF9;
     }
     
-    last = xCord;
+    lastxCord = xCord;
     xCord = calcCord(analogIN1);
 
 
 }
 
-int counter = 0;
+void updatePaddle(){
+    int diff;
+    inputRead();
+    diff = xCord - lastxCord;
+    if ((diff < 50) | (diff > -50)){
+        if(diff > 0){
+            fillRect(lastxCord,
+                    PADDLE_Y,
+                    diff,
+                    10,
+                    BG_COLOR);
+
+            fillRect(xCord + (50 - diff),
+                    PADDLE_Y,
+                    diff,
+                    10,
+                    PADDLE_COLOR);
+        }
+        else{
+            fillRect(lastxCord + (50+diff),
+                    PADDLE_Y,
+                    diff,
+                    10,
+                    BG_COLOR);
+            
+            fillRect(xCord,
+                    PADDLE_Y,
+                    (diff * -1),
+                    10,
+                    PADDLE_COLOR);
+        }
+    }
+    else{
+        drawPaddle(lastxCord, PADDLE_Y, BG_COLOR);
+        drawPaddle(xCord, PADDLE_Y, PADDLE_COLOR);
+    }
+}
+
 
 
 int main(void){
@@ -46,10 +87,10 @@ int main(void){
     fillSceen(BG_COLOR);
     IECSET(1)=0x2;
     enablePots();
-
-    enableTimer2(312, 0x18, 0x111, 1);
+    enableTimer2(3, 0x18, 0x111, 1);
     enable_interrupt();
-
+    inputRead();
+    fillRect(0, PADDLE_Y, 240, 10, BG_COLOR);
    
     return 0;
 }
@@ -78,10 +119,9 @@ void timer2_interrupt_handler(void)
         }
         
     }
-        inputRead();
+        updatePaddle();
 
-        drawPaddle(last, 250, BG_COLOR);
-        drawPaddle(xCord, 250, PADDLE_COLOR);
+
       //  delay_us(100);
 
         //for(i  = 20; i < 220; i++){
@@ -90,14 +130,14 @@ void timer2_interrupt_handler(void)
             //drawCircle(i-1,i-1,20,BG_COLOR);
         //}
         // for(i = 0; i < 190; i++){
-        //     fillRect(i+50, 250, 1, 10, PADDLE_COLOR);
+        //     fillRect(i+50, PADDLE_Y, 1, 10, PADDLE_COLOR);
         //     delay_ms(20);
-        //     fillRect(i, 250, 1, 10, BG_COLOR);
+        //     fillRect(i, PADDLE_Y, 1, 10, BG_COLOR);
         // }
         // for(i = 190; i > 0; i--){
-        //     fillRect(i, 250, 1, 10, PADDLE_COLOR);
+        //     fillRect(i, PADDLE_Y, 1, 10, PADDLE_COLOR);
         //     delay_ms(20);
-        //     fillRect(i + 50, 250, 1, 10, BG_COLOR);
+        //     fillRect(i + 50, PADDLE_Y, 1, 10, BG_COLOR);
         // }
         //drawBitmap(icon);
         // for (i = 0; i<=240 ; i++){
