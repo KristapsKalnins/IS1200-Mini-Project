@@ -2,8 +2,9 @@
 #define assets
 
 #include <stdint.h>
+
 const uint8_t const icon[32*32];
-static const unsigned char font[128*8];
+extern const uint8_t const font[255 * 5];
 uint32_t level1 [25][4];
 
 #endif

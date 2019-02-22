@@ -6,7 +6,7 @@
 
 
 #define PADDLE_COLOR RED
-#define BG_COLOR GREEN
+#define BG_COLOR BLACK
 #define GAME_SPEED 100
 #define PADDLE_Y 270
 #define BLOCK_COUNT1 25
@@ -48,9 +48,8 @@ void inputRead() {
 
 void drawLevel(char x){
     int i;
-    int j;
     if(x == 1){
-        for(i = 0; i<24 ;i++){
+        for(i = 0; i< 25 ;i++){
             drawBlock(level1[i][1], level1[i][2], level1[i][3]);
         }
     }
@@ -99,16 +98,18 @@ void updatePaddle(){
 
 int main(void){
     display_init();
-    rotate(1);
     fillSceen(BG_COLOR);
+    rotate(1);
+    drawLevel(1);
+    drawChar(4*15+120, 160,'G', WHITE, YELLOW, 15);
     IECSET(1)=0x2;
     enablePots();
     enableTimer2(3, 0x18, 0x111, 1);
     enable_interrupt();
-    inputRead();
-    fillRect(0, PADDLE_Y, 240, 10, BG_COLOR);
+
    
-    drawLevel(1);
+
+   
     return 0;
 }
 
@@ -137,6 +138,7 @@ void timer2_interrupt_handler(void)
         
     }
         updatePaddle();
+         //drawChar(0,0,'a', BLUE, BLUE, 5);
 
 
 

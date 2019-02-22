@@ -40,7 +40,6 @@ void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
 void hard_reset(void);
 void display_init(void);
 void drawPixel(uint16_t x1, uint16_t y1, uint32_t color);
-//void clear(uint16_t colour);
 void write_data_8(uint8_t data);
 void write_cmd_8(uint8_t com);
 void fillSceen(uint16_t color);
@@ -48,6 +47,9 @@ void fillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
 void drawPaddle(uint16_t x, uint16_t y, uint16_t color);
 void drawBitmap(const uint8_t* icon);
 void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color);
+void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size);
+void drawBlock(uint16_t x, uint16_t y, uint32_t color);
+void rotate(char c);
 
 
 #endif

@@ -220,11 +220,11 @@ void setAddress(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
 void rotate(char c) {
 	write_cmd_16(ILI9341_MAC);
 	if (c == 1) {
-		write_data_16(0x58);
+		write_data_16(0x48);
 	} else if (c == 2) {
-		write_data_16(0x88);
-	} else if (c == 3) {
 		write_data_16(0x28);
+	} else if (c == 3) {
+		write_data_16(0x88);
 	} else if (c == 4) {
 		write_data_16(0xE8);
 	}
@@ -341,15 +341,15 @@ void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_col
 		for(j = 0; j < 8; j++){
 			if (line & 0x1){
 				if(size == 1)
-					drawPixel(x+i, y+j, color);
+					drawPixel(x+(-i), y+j, color);
 				else
-					fillRect(x+(i*size), y+(j*size), size, size, color);
+					fillRect(x+(-i*size), y+(j*size), size, size, color);
 			}
 			else if (bg_color != color) {
 				if(size == 1)
-					drawPixel(x+i, y+j, bg_color);
+					drawPixel(x+(-i), y+j, bg_color);
 				else
-					fillRect(x+(i*size), y+(j*size), size, size, bg_color);
+					fillRect(x+(-i*size), y+(j*size), size, size, bg_color);
 			}
 			line >>= 1;
 		}

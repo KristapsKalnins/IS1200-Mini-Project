@@ -7,8 +7,8 @@
 #define BLOCK_LEN 30
 
 
-static const unsigned char font[] = {
-        0x00, 0x00, 0x00, 0x00, 0x00,
+const uint8_t const font[] = {
+  0x00, 0x00, 0x00, 0x00, 0x00,
 	0x3E, 0x5B, 0x4F, 0x5B, 0x3E,
 	0x3E, 0x6B, 0x4F, 0x6B, 0x3E,
 	0x1C, 0x3E, 0x7C, 0x3E, 0x1C,
@@ -334,4 +334,4 @@ uint32_t level1[25][4] =
         {1, FIRST_BLOCK_CORD_X - 2*BLOCK_LEN - 4, FIRST_BLOCK_CORD_Y + 4*BLOCK_THICC + 8, PURPLE},
         {1, FIRST_BLOCK_CORD_X - 3*BLOCK_LEN - 6, FIRST_BLOCK_CORD_Y + 4*BLOCK_THICC + 8, PURPLE},
         {1, FIRST_BLOCK_CORD_X - 4*BLOCK_LEN - 8, FIRST_BLOCK_CORD_Y + 4*BLOCK_THICC + 8, PURPLE}
-}
+};
