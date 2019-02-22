@@ -4,10 +4,15 @@
 #include "assets.h"
 #include "control.h"
 
+
 #define PADDLE_COLOR RED
 #define BG_COLOR GREEN
 #define GAME_SPEED 100
 #define PADDLE_Y 270
+#define BLOCK_COUNT1 25
+#define BLOCK_COUNT2 13
+#define BLOCK_COUNT3 16
+
 int xCord;
 int lastxCord;
 int counter = 0;
@@ -39,6 +44,16 @@ void inputRead() {
     xCord = calcCord(analogIN1);
 
 
+}
+
+void drawLevel(char x){
+    int i;
+    int j;
+    if(x == 1){
+        for(i = 0; i<24 ;i++){
+            drawBlock(level1[i][1], level1[i][2], level1[i][3]);
+        }
+    }
 }
 
 void updatePaddle(){
@@ -81,6 +96,7 @@ void updatePaddle(){
 
 
 
+
 int main(void){
     display_init();
     rotate(1);
@@ -92,6 +108,7 @@ int main(void){
     inputRead();
     fillRect(0, PADDLE_Y, 240, 10, BG_COLOR);
    
+    drawLevel(1);
     return 0;
 }
 
