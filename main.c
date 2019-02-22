@@ -46,6 +46,16 @@ void inputRead() {
 
 }
 
+void drawLevel(char x){
+    int i;
+    int j;
+    if(x == 1){
+        for(i = 0; i<24 ;i++){
+            drawBlock(level1[i][1], level1[i][2], level1[i][3]);
+        }
+    }
+}
+
 void updatePaddle(){
     int diff;
     inputRead();
@@ -98,6 +108,7 @@ int main(void){
     inputRead();
     fillRect(0, PADDLE_Y, 240, 10, BG_COLOR);
    
+    drawLevel(1);
     return 0;
 }
 
