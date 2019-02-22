@@ -4,10 +4,15 @@
 #include "assets.h"
 #include "control.h"
 
+
 #define PADDLE_COLOR RED
 #define BG_COLOR GREEN
 #define GAME_SPEED 100
 #define PADDLE_Y 270
+#define BLOCK_COUNT1 25
+#define BLOCK_COUNT2 13
+#define BLOCK_COUNT3 16
+
 int xCord;
 int lastxCord;
 int counter = 0;
@@ -78,6 +83,7 @@ void updatePaddle(){
         drawPaddle(xCord, PADDLE_Y, PADDLE_COLOR);
     }
 }
+
 
 
 

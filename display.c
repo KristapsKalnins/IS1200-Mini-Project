@@ -20,6 +20,10 @@
 #define DISPLAY_RESET_MASK 0x200
 #define DISPLAY_SELECT_PORT PORTD
 #define DISPLAY_SELECT_MASK 0x1
+
+// Bloku un raketes garumi un biezumi
+#define BLOCK_THICC 15
+#define BLOCK_LEN 30
 #define PADDLE_LENGTH 50
 #define PADDLE_THICKNESS 10
 
@@ -226,7 +230,9 @@ void rotate(char c) {
 	}
 }
 
-
+void drawBlock(uint16_t x, uint16_t y, uint32_t color){
+	fillRect(x, y, BLOCK_LEN, BLOCK_THICC,color);
+}
 
 
 void drawPixel(uint16_t x1, uint16_t y1, uint32_t color) {
