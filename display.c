@@ -35,7 +35,7 @@
 #define ILI9341_BPC					0xB5
 #define ILI9341_DFC					0xB6
 
-
+#define pgm_read_byte(addr) (*(const uint8_t*)(addr))
 
 volatile uint16_t LCD_W=240;
 volatile uint16_t LCD_H=320;
@@ -316,4 +316,36 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color) {
         drawPixel(x0 + y, y0 - x, color);
         drawPixel(x0 - y, y0 - x, color);
     }
+}
+
+void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size){
+	char i, j;
+	if ((x >= LCD_W) ||
+		(y >= LCD_H) ||
+		((x + 6 * size - 1) < 0) ||
+		((y + 8 * size - 1) < 0))
+	return;
+
+	for (i = 0; i < 6; i++){
+		uint8_t line;
+		if (i == 5)
+			line = 0x0;
+		else
+			line = pgm_read_byte(font + (c*5) + i);
+		for(j = 0; j < 8; j++){
+			if (line & 0x1){
+				if(size == 1)
+					drawPixel(x+i, y+j, color);
+				else
+					fillRect(x+(i*size), y+(j*size), size, size, color);
+			}
+			else if (bg_color != color) {
+				if(size == 1)
+					drawPixel(x+i, y+j, bg_color);
+				else
+					fillRect(x+(i*size), y+(j*size), size, size, bg_color);
+			}
+			line >>= 1;
+		}
+	}
 }

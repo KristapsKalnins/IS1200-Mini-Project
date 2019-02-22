@@ -122,26 +122,5 @@ void timer2_interrupt_handler(void)
         updatePaddle();
 
 
-      //  delay_us(100);
 
-        //for(i  = 20; i < 220; i++){
-            //drawCircle(i,i,20,RED);
-            //delay_ms(10);
-            //drawCircle(i-1,i-1,20,BG_COLOR);
-        //}
-        // for(i = 0; i < 190; i++){
-        //     fillRect(i+50, PADDLE_Y, 1, 10, PADDLE_COLOR);
-        //     delay_ms(20);
-        //     fillRect(i, PADDLE_Y, 1, 10, BG_COLOR);
-        // }
-        // for(i = 190; i > 0; i--){
-        //     fillRect(i, PADDLE_Y, 1, 10, PADDLE_COLOR);
-        //     delay_ms(20);
-        //     fillRect(i + 50, PADDLE_Y, 1, 10, BG_COLOR);
-        // }
-        //drawBitmap(icon);
-        // for (i = 0; i<=240 ; i++){
-        // drawCircle(240,160,i,RED);
-        // drawCircle(0, 160, i, BLUE);
-        // }
 }
