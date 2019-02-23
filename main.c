@@ -42,7 +42,7 @@ void advance () {
                 ballX >= level1[i][1] - BALL_R &&
                 ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
                 ballY >= level1[i][2] - BALL_R &&
-                ballY >= (level1[i][2] + BLOCK_THICC + BALL_R)
+                ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
             )
                 {
                     updateY = updateY * -1;
