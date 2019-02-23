@@ -55,7 +55,7 @@ void advance () {
     if(
         ballX >= xCord - BALL_R &&
         ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
-        ballY >= PADDLE_Y - BALL_R &&
+        ballY >= PADDLE_Y - BALL_R - 1 &&
         ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
     )
         {
