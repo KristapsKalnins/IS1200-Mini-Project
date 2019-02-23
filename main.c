@@ -8,6 +8,8 @@
 #define BG_COLOR BLACK
 #define GAME_SPEED 100
 #define PADDLE_Y 270
+#define PADDLE_THICKNESS 10
+#define PADDLE_LENGTH 50
 
 #define BALL_R 5
 
@@ -134,7 +136,7 @@ int main(void){
     fillSceen(BG_COLOR);
     rotate(1);
     drawCircle(ballX, ballY, BALL_R, WHITE);
-    drawLevel(3);
+    drawLevel(1);
     // setCursor(100,100);
     // setTextSize(5);
     // setTextColor(GREEN, YELLOW);
