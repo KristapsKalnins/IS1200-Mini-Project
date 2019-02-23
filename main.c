@@ -8,6 +8,8 @@
 #define BG_COLOR BLACK
 #define GAME_SPEED 100
 #define PADDLE_Y 270
+#define PADDLE_THICKNESS 10
+#define PADDLE_LENGTH 50
 
 #define BALL_R 5
 
@@ -31,12 +33,15 @@ void updateBall() {
 }
 
 void advance () {
-    if(ballX >= 234 || ballX == 6){
+    if(ballX <= xCord + (PADDLE_LENGTH/2) && ballX >= xCord - (PADDLE_LENGTH/2) && ballY == PADDLE_Y){
         updateX = updateX * -1;
-    };
-    if(ballY >= 314 || ballY == 6){
+    }
+    if(ballX >= 235 || ballX == 5){
+        updateX = updateX * -1;
+    }
+    if(ballY >= 315 || ballY == 5){
         updateY = updateY * -1;
-    };
+    }
     updateBall();
 }
 
