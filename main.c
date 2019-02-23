@@ -10,6 +10,8 @@
 #define PADDLE_Y 270
 #define PADDLE_THICKNESS 10
 #define PADDLE_LENGTH 50
+#define BLOCK_THICC 15
+#define BLOCK_LEN 30
 
 #define BALL_R 5
 
@@ -33,15 +35,42 @@ void updateBall() {
 }
 
 void advance () {
-    if(ballX >= xCord - 5 && ballX <= (xCord + PADDLE_LENGTH + 5) && ballY >= PADDLE_Y - 5 && ballY <= (PADDLE_Y + PADDLE_THICKNESS + 5)){
-        updateY = updateY * -1;
+    int i;
+    for(i = 0; 0 < 48; i++){
+        if(level1[i][0] == 1){
+            if(
+                ballX >= level1[i][1] - BALL_R &&
+                ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
+                ballY >= level1[i][2] - BALL_R &&
+                ballY >= (level1[i][2] + BLOCK_THICC + BALL_R)
+            )
+                {
+                    updateY = updateY * -1;
+                    level1[i][0] = 0;
+                    drawBlock(level1[i][1], level1[i][2], BG_COLOR);
+                }
+        }
     }
-    if(ballX >= 235 || ballX == 5){
+
+    if(
+        ballX >= xCord - BALL_R &&
+        ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
+        ballY >= PADDLE_Y - BALL_R &&
+        ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
+    )
+        {
+            updateY = updateY * -1;
+        }
+
+
+    if(ballX >= 240 - BALL_R || ballX == BALL_R){
         updateX = updateX * -1;
     }
-    if(ballY >= 315 || ballY == 5){
+
+    if(ballY >= 320 - BALL_R || ballY == BALL_R){
         updateY = updateY * -1;
     }
+
     updateBall();
 }
 
