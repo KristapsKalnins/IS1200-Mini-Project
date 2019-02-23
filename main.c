@@ -33,12 +33,15 @@ void updateBall() {
 }
 
 void advance () {
-    if(ballX >= 234 || ballX == 6){
+    if(ballX <= xCord + (PADDLE_LENGTH/2) && ballX >= xCord - (PADDLE_LENGTH/2) && ballY == PADDLE_Y){
         updateX = updateX * -1;
-    };
-    if(ballY >= 314 || ballY == 6){
+    }
+    if(ballX >= 235 || ballX == 5){
+        updateX = updateX * -1;
+    }
+    if(ballY >= 315 || ballY == 5){
         updateY = updateY * -1;
-    };
+    }
     updateBall();
 }
 
