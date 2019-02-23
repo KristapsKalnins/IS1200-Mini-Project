@@ -101,7 +101,7 @@ int main(void){
     fillSceen(BG_COLOR);
     rotate(1);
     drawLevel(1);
-    drawChar(4*15+120, 160,'G', WHITE, YELLOW, 15);
+    drawSymbol(0, 0,'G', WHITE, YELLOW, 5);
     IECSET(1)=0x2;
     enablePots();
     enableTimer2(3, 0x18, 0x111, 1);

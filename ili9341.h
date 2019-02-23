@@ -50,6 +50,6 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color);
 void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size);
 void drawBlock(uint16_t x, uint16_t y, uint32_t color);
 void rotate(char c);
-
+void drawSymbol(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size);
 
 #endif
