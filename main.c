@@ -109,7 +109,7 @@ int main(void){
     display_init();
     fillSceen(BG_COLOR);
     rotate(1);
-    drawLevel(2);
+    drawLevel(3);
     setCursor(100,100);
     setTextSize(5);
     setTextColor(GREEN, YELLOW);
