@@ -8,15 +8,32 @@
 #define BG_COLOR BLACK
 #define GAME_SPEED 100
 #define PADDLE_Y 270
-#define BLOCK_COUNT1 25
-#define BLOCK_COUNT2 13
-#define BLOCK_COUNT3 16
+
+#define BALL_R 5
+
+int ballX = 30;
+int ballY = 320;
+int updateX;
+int updateY;
 
 int xCord;
 int lastxCord;
 int counter = 0;
 
 
+
+void updateBall() {
+    drawCircle(ballX, ballY, BALL_R, BG_COLOR);
+    ballX = ballX + updateX;
+    ballY = ballY + updateY;
+    drawCircle(ballX, ballY, BALL_R, WHITE);
+}
+
+void advance () {
+    updateX = 1;
+    updateY = -1;
+    updateBall();
+}
 
 int calcCord(int c){
     return c > 0 ? ((191 * c)/1024) : 0;
@@ -109,6 +126,7 @@ int main(void){
     display_init();
     fillSceen(BG_COLOR);
     rotate(1);
+    drawCircle(ballX, ballY, BALL_R, WHITE);
     drawLevel(3);
     // setCursor(100,100);
     // setTextSize(5);
@@ -155,6 +173,7 @@ void timer2_interrupt_handler(void)
         updatePaddle();
          //drawChar(0,0,'a', BLUE, BLUE, 5);
 
+        advance();
 
 
 }
