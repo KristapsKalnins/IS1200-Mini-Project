@@ -11,10 +11,11 @@
 
 #define BALL_R 5
 
-int ballX = 30;
-int ballY = 320;
+int ballX = 130;
+int ballY = 220;
 int updateX;
 int updateY;
+int ballCounter = 0;
 
 int xCord;
 int lastxCord;
@@ -32,6 +33,12 @@ void updateBall() {
 void advance () {
     updateX = 1;
     updateY = -1;
+    if(ballX >= 240 || ballX <= 0){
+        updateX = updateX * -1;
+    };
+    if(ballY >= 320 || ballY <= 0){
+        updateY = updateY * -1;
+    };
     updateBall();
 }
 
@@ -172,8 +179,12 @@ void timer2_interrupt_handler(void)
     }
         updatePaddle();
          //drawChar(0,0,'a', BLUE, BLUE, 5);
+    ballCounter++;
 
+    if(ballCounter == 50){
+        ballCounter = 0;
         advance();
 
+    }
 
 }
