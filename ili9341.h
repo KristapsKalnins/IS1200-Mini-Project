@@ -30,7 +30,7 @@
 #define MAGENTA     0xF81F      
 #define YELLOW      0x07FF   
 #define WHITE       0xFFFF      
-#define ORANGE      0x03EF  
+#define ORANGE     ~0xFBE0      //0x03EF  
 #define GREENYELLOW 0xAFE5     
 #define PINK        0xF81F
 
@@ -51,5 +51,6 @@ void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_col
 void drawBlock(uint16_t x, uint16_t y, uint32_t color);
 void rotate(char c);
 void drawSymbol(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size);
+void writeString(uint16_t x, uint16_t y, char* string, uint32_t color, uint32_t bg_color, uint8_t size, uint8_t textwrap);
 
 #endif

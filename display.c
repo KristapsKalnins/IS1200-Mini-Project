@@ -359,16 +359,31 @@ void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_col
 void drawSymbol(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size){
 	drawChar(4*size+x, y, c, color, bg_color, size);
 }
-// void writeScreen(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size){
-// 	if (c == '\n'){
-// 		y += size*8;
-// 		x = 0;
-// 	}
-// 	else if(c== '\r'){
-// 		//do nothing
-// 	}
-// 	else if (c == '\t'){
-// 		int 
-// 	}
-
-// }
+void writeScreen(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size, uint8_t textwrap){
+	if (c == '\n'){
+		y += size*8;
+		x = 0;
+	}
+	else if(c== '\r'){
+		//do nothing
+	}
+	else if (c == '\t'){
+		int new = x + 4; //for tabbing
+		if (new < LCD_W){
+			x = new;
+		}
+	}
+	else {
+		drawSymbol(x, y, c, color, bg_color, size);
+		x += size*6;
+		if (textwrap && (x > (LCD_W - size*6))){
+			y += size*8;
+			x = 0;
+		}
+	}
+}
+void writeString(uint16_t x, uint16_t y, char* string, uint32_t color, uint32_t bg_color, uint8_t size, uint8_t textwrap){
+	while(*string){
+		writeScreen(x,y,*string++, color, bg_color, size, textwrap);
+	}
+}

@@ -5,7 +5,7 @@
 #include "control.h"
 
 
-#define PADDLE_COLOR RED
+#define PADDLE_COLOR MAGENTA
 #define BG_COLOR BLACK
 #define GAME_SPEED 100
 #define PADDLE_Y 270
@@ -101,7 +101,8 @@ int main(void){
     fillSceen(BG_COLOR);
     rotate(1);
     drawLevel(1);
-    drawSymbol(0, 0,'G', WHITE, YELLOW, 5);
+    writeString(100,0, "Parbaudijums", RED, BLUE, 1, 0);
+
     IECSET(1)=0x2;
     enablePots();
     enableTimer2(3, 0x18, 0x111, 1);
