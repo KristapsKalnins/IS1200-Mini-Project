@@ -182,7 +182,7 @@ void updatePaddle(){
 int main(void){
     display_init();
     rotate(1);
-   // splash();
+    splash();
     fillSceen(BG_COLOR);
     drawCircle(ballX, ballY, BALL_R, WHITE);
     drawLevel(1);

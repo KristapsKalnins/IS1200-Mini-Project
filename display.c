@@ -395,11 +395,11 @@ void writeScreen( uint8_t c){
 void writeString(char* string){
 	int j;
 	int count = 0;
-	for(j = 0; string[0] != '\0'; j++){
+	for(j = 0; string[j] != '\0'; j++){
 		count++;
 	}
 	int i; 
-	for(i = count; i >= 0; i--){
+	for(i = count - 1; i >= 0; i--){
 		writeScreen(string[i]);
 	}
 }
