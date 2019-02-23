@@ -1,6 +1,6 @@
+#include<stdio.h>
 #include <stdint.h>
 #include <pic32mx.h>
-#include <string.h>
 #include "ili9341.h"
 #include "spi.h"
 #include "assets.h"
@@ -393,8 +393,11 @@ void writeScreen( uint8_t c){
 }
 void writeString(char* string){
 	int i;
-	for(i = sizeof(string) - 1; i >= 0; i--){
+	for(i = 100; i >= 0; i--){
 		writeScreen(string[i]);
+		if (string[i] == (char) NULL){
+			break;
+		}
 	}
 }
 

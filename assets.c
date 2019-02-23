@@ -14,11 +14,11 @@
 
 void splash(){
 	fillSceen(WHITE);
-		setCursor(75,75);
-    setTextSize(3);
+		setCursor(0,0);
+    setTextSize(1);
     setTextColor(BLACK, WHITE);
     setWrap(1);
-    writeString("BREAKOUT");
+    writeString("Test");
 		while(1);
 		// setCursor(50, 260);
 		// setTextSize(3);
