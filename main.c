@@ -57,6 +57,11 @@ void drawLevel(char x){
             drawBlock(level2[i][1], level2[i][2], level2[i][3]);
         }
     }
+     if(x == 3){
+        for(i = 0; i< 51 ;i++){
+            drawBlock(level3[i][1], level3[i][2], level3[i][3]);
+        }
+    }
 }
 
 void updatePaddle(){
