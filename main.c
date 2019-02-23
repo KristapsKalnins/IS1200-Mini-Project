@@ -4,7 +4,6 @@
 #include "assets.h"
 #include "control.h"
 
-
 #define PADDLE_COLOR MAGENTA
 #define BG_COLOR BLACK
 #define GAME_SPEED 100
@@ -101,7 +100,11 @@ int main(void){
     fillSceen(BG_COLOR);
     rotate(1);
     drawLevel(1);
-    writeString(100,0, "Parbaudijums", RED, BLUE, 1, 0);
+    setCursor(100,100);
+    setTextSize(5);
+    setTextColor(GREEN, YELLOW);
+    setWrap(0);
+    writeString("TEST");
 
     IECSET(1)=0x2;
     enablePots();

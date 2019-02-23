@@ -51,6 +51,11 @@ void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_col
 void drawBlock(uint16_t x, uint16_t y, uint32_t color);
 void rotate(char c);
 void drawSymbol(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size);
-void writeString(uint16_t x, uint16_t y, char* string, uint32_t color, uint32_t bg_color, uint8_t size, uint8_t textwrap);
+void writeString(char* string);
+void setCursor(uint16_t x, uint16_t y);
+void setTextColor(uint32_t color, uint32_t bg_color);
+void setTextSize(uint8_t size);
+void setWrap(uint8_t wrap);
+void writeScreen( uint8_t c);
 
 #endif

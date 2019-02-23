@@ -43,7 +43,9 @@
 
 volatile uint16_t LCD_W=240;
 volatile uint16_t LCD_H=320;
-uint16_t LCDbuffer[512];
+uint8_t textsize, textwrap;
+uint16_t Xcursor, Ycursor;
+uint32_t textcolor, bgcolor;
 
 
 void delay_us(int c){
@@ -359,31 +361,47 @@ void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_col
 void drawSymbol(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size){
 	drawChar(4*size+x, y, c, color, bg_color, size);
 }
-void writeScreen(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size, uint8_t textwrap){
+
+void setCursor(uint16_t x, uint16_t y){
+	Xcursor = x;
+	Ycursor = y;
+}
+void setTextColor(uint32_t color, uint32_t bg_color){
+	textcolor = color;
+	bgcolor = bg_color;
+}
+void setTextSize(uint8_t size){
+	textsize = size;
+}
+void setWrap(uint8_t wrap){
+	textwrap = wrap;
+}
+
+void writeScreen( uint8_t c){
 	if (c == '\n'){
-		y += size*8;
-		x = 0;
+		Xcursor += textsize*8;
+		Ycursor = 0;
 	}
 	else if(c== '\r'){
 		//do nothing
 	}
 	else if (c == '\t'){
-		int new = x + 4; //for tabbing
+		int new = Xcursor + 4; //for tabbing
 		if (new < LCD_W){
-			x = new;
+			Xcursor = new;
 		}
 	}
 	else {
-		drawSymbol(x, y, c, color, bg_color, size);
-		x += size*6;
-		if (textwrap && (x > (LCD_W - size*6))){
-			y += size*8;
-			x = 0;
+		drawSymbol(Xcursor, Ycursor, c, textcolor, bgcolor, textsize);
+		Xcursor += textsize*6;
+		if (textwrap && (Xcursor > (LCD_W - textsize*6))){
+			Ycursor += textsize*8;
+			Xcursor = 0;
 		}
 	}
 }
-void writeString(uint16_t x, uint16_t y, char* string, uint32_t color, uint32_t bg_color, uint8_t size, uint8_t textwrap){
+void writeString(char* string){
 	while(*string){
-		writeScreen(x,y,*string++, color, bg_color, size, textwrap);
+		writeScreen(*string++);
 	}
 }
