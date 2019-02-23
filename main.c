@@ -53,6 +53,11 @@ void drawLevel(char x){
             drawBlock(level1[i][1], level1[i][2], level1[i][3]);
         }
     }
+     if(x == 2){
+        for(i = 0; i< 26 ;i++){
+            drawBlock(level2[i][1], level2[i][2], level2[i][3]);
+        }
+    }
 }
 
 void updatePaddle(){
@@ -100,7 +105,7 @@ int main(void){
     display_init();
     fillSceen(BG_COLOR);
     rotate(1);
-    drawLevel(1);
+    drawLevel(2);
     drawChar(4*15+120, 160,'G', WHITE, YELLOW, 15);
     IECSET(1)=0x2;
     enablePots();
