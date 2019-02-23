@@ -15,8 +15,8 @@
 
 int ballX = 130;
 int ballY = 220;
-int updateX;
-int updateY;
+int updateX = 1;
+int updateY = -1;
 int ballCounter = 0;
 
 int xCord;
@@ -33,12 +33,10 @@ void updateBall() {
 }
 
 void advance () {
-    updateX = 1;
-    updateY = -1;
-    if(ballX >= 239 || ballX == 0){
+    if(ballX >= 234 || ballX == 6){
         updateX = updateX * -1;
     };
-    if(ballY >= 319 || ballY == 0){
+    if(ballY >= 314 || ballY == 6){
         updateY = updateY * -1;
     };
     updateBall();
@@ -94,7 +92,7 @@ void updatePaddle(){
     int diff;
     inputRead();
     diff = xCord - lastxCord;
-    if ((diff < 50) | (diff > -50)){
+    if ((diff < 50) || (diff > -50)){
         if(diff > 0){
             fillRect(lastxCord,
                     PADDLE_Y,
@@ -111,7 +109,7 @@ void updatePaddle(){
         else{
             fillRect(lastxCord + (50+diff),
                     PADDLE_Y,
-                    diff,
+                    (diff * -1),
                     10,
                     BG_COLOR);
             
