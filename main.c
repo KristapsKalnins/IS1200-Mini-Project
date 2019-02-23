@@ -36,7 +36,7 @@ void updateBall() {
 
 void advance () {
     int i;
-    for(i = 0; 0 < 48; i++){
+    for(i = 0; i < 48; i++){
         if(level1[i][0] == 1){
             if(
                 ballX >= level1[i][1] - BALL_R &&
@@ -164,7 +164,7 @@ void updatePaddle(){
 int main(void){
     display_init();
     rotate(1);
-    splash();
+   // splash();
     fillSceen(BG_COLOR);
     drawCircle(ballX, ballY, BALL_R, WHITE);
     drawLevel(1);
