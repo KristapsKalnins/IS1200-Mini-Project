@@ -33,10 +33,10 @@ void updateBall() {
 void advance () {
     updateX = 1;
     updateY = -1;
-    if(ballX >= 240 || ballX <= 0){
+    if(ballX >= 239 || ballX == 0){
         updateX = updateX * -1;
     };
-    if(ballY >= 320 || ballY <= 0){
+    if(ballY >= 319 || ballY == 0){
         updateY = updateY * -1;
     };
     updateBall();
