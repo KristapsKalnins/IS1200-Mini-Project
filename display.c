@@ -391,9 +391,9 @@ void writeScreen( uint8_t c){
 	}
 }
 void writeString(char* string){
-	char stringsize = sizeof(string)/sizeof(char);
+	// char stringsize = sizeof(string)/sizeof(char);
 	int i;
-	for(i = stringsize - 1; i >= 0; i--){
+	for(i = 8 - 1; i >= 0; i--){
 		writeScreen(string[i]);
 	}
 }

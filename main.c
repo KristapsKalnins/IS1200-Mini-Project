@@ -129,8 +129,9 @@ void updatePaddle(){
 
 int main(void){
     display_init();
-    fillSceen(BG_COLOR);
     rotate(1);
+    splash();
+    fillSceen(BG_COLOR);
     drawCircle(ballX, ballY, BALL_R, WHITE);
     drawLevel(1);
     // setCursor(100,100);
@@ -138,7 +139,7 @@ int main(void){
     // setTextColor(GREEN, YELLOW);
     // setWrap(0);
     //writeString("TEST");
-    //drawBitmap(56, 96, logo, 128, 128, BLUE);
+    //drawBitmap(0, 0, logo, 200, 200, BLUE);
 
     IECSET(1)=0x2;
     enablePots();
