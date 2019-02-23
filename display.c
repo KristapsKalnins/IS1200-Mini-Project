@@ -395,9 +395,6 @@ void writeString(char* string){
 	int i;
 	for(i = 100; i >= 0; i--){
 		writeScreen(string[i]);
-		if (string[i] == (char) NULL){
-			break;
-		}
 	}
 }
 
