@@ -107,7 +107,7 @@ void updatePaddle(){
         else{
             fillRect(lastxCord + (50+diff),
                     PADDLE_Y,
-                    diff,
+                    (diff * -1),
                     10,
                     BG_COLOR);
             
@@ -132,7 +132,7 @@ int main(void){
     fillSceen(BG_COLOR);
     rotate(1);
     drawCircle(ballX, ballY, BALL_R, WHITE);
-    drawLevel(3);
+    drawLevel(1);
     // setCursor(100,100);
     // setTextSize(5);
     // setTextColor(GREEN, YELLOW);
