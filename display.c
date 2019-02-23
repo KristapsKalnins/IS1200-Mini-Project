@@ -281,16 +281,6 @@ void drawPaddle(uint16_t x, uint16_t y, uint16_t color){
 }
 
 
-void drawBitmap(const uint8_t* icon){
-	int i;
-	int j;
-	for(i = 0; i < 32; i++){
-		setAddress(100, i+100, 131, i+101);
-		for(j = 0; j < 32; j++){
-				write_data_16(icon[j+(i*32)]);
-		}
-	}
-}
 
 void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color) {
 	int16_t f = 1 - r;
@@ -401,7 +391,25 @@ void writeScreen( uint8_t c){
 	}
 }
 void writeString(char* string){
-	while(*string){
-		writeScreen(*string++);
+	char stringsize = sizeof(string)/sizeof(char);
+	int i;
+	for(i = stringsize - 1; i >= 0; i--){
+		writeScreen(string[i]);
 	}
+}
+
+
+void drawBitmap(uint16_t x, uint16_t y,
+			      const uint8_t *bitmap, uint16_t w, uint16_t h,
+			      uint32_t color) {
+
+  short i, j, byteWidth = (w + 7) / 8;//block size
+
+  for(j=0; j<h; j++) {
+    for(i=0; i<w; i++ ) {
+      if(pgm_read_byte(bitmap + j * byteWidth + i / 8) & (128 >> (i & 7))) {
+			drawPixel(x+i, y+j, color);
+      }
+    }
+  }
 }

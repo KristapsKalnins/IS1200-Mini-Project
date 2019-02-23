@@ -105,13 +105,12 @@ int main(void){
     fillSceen(BG_COLOR);
     rotate(1);
     drawLevel(2);
-    drawChar(4*15+120, 160,'G', WHITE, YELLOW, 15);
-    drawLevel(1);
     setCursor(100,100);
     setTextSize(5);
     setTextColor(GREEN, YELLOW);
     setWrap(0);
     writeString("TEST");
+    drawBitmap(56, 96, logo, 128, 128, BLUE);
 
     IECSET(1)=0x2;
     enablePots();
