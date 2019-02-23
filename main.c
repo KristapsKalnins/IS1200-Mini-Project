@@ -49,7 +49,7 @@ void inputRead() {
 void drawLevel(char x){
     int i;
     if(x == 1){
-        for(i = 0; i< 36 ;i++){
+        for(i = 0; i< 48 ;i++){
             drawBlock(level1[i][1], level1[i][2], level1[i][3]);
         }
     }
