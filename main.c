@@ -48,9 +48,11 @@ void advance () {
                     updateY = updateY * -1;
                     level1[i][0] = 0;
                     drawBlock(level1[i][1], level1[i][2], BG_COLOR);
+                    goto out;
                 }
         }
     }
+    out:
 
     if(
         ballX >= xCord - BALL_R &&
