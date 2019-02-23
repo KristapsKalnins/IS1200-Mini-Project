@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <pic32mx.h>
+#include <string.h>
 #include "ili9341.h"
 #include "spi.h"
 #include "assets.h"
@@ -391,9 +392,9 @@ void writeScreen( uint8_t c){
 	}
 }
 void writeString(char* string){
-	// char stringsize = sizeof(string)/sizeof(char);
+	size_t stringsize = strlen(string);
 	int i;
-	for(i = 8 - 1; i >= 0; i--){
+	for(i = stringsize; i >= 0; i--){
 		writeScreen(string[i]);
 	}
 }
