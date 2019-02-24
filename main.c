@@ -44,8 +44,13 @@ void advance () {
                 ballY >= level1[i][2] - BALL_R &&
                 ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
             )
-                {
+                {   
+                    if(ballX == level1[i][1] || ballX == level1[i][1] + PADDLE_LENGTH]){
+                        updateX = updateX * -1;
+                        goto over;
+                    }
                     updateY = updateY * -1;
+                    over:
                     level1[i][0] = 0;
                     drawBlock(level1[i][1], level1[i][2], BG_COLOR);
                     goto out;
