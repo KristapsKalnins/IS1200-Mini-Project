@@ -13,29 +13,6 @@
 
 
 
-void splash(){
-	fillSceen(WHITE);
-		setCursor(10,50);
-    setTextSize(4);
-    setTextColor(BLACK, WHITE);
-    setWrap(0);
-    writeString("BREAKOUT!");
-		while(1){
-		if(getbtns() & 0x2){
-			break;
-		}
-		setCursor(50, 260);
-		setTextSize(1);
-		setTextColor(BLACK, WHITE);
-		writeString("Press BTN1 to START!");
-		delay_ms(500);
-		setCursor(50, 260);
-		setTextSize(1);
-		setTextColor(WHITE, WHITE);
-		writeString("Press BTN1 to START!");
-		delay_ms(500);
-		}
-}
 
 const uint8_t const font[] = {
   0x00, 0x00, 0x00, 0x00, 0x00,
