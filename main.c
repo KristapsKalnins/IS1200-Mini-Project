@@ -12,6 +12,8 @@
 #define PADDLE_LENGTH 50
 #define BLOCK_THICC 15
 #define BLOCK_LEN 30
+#define MENUTEXTCOL BLACK
+#define MENUTEXTBGCOL WHITE
 
 #define BALL_R 5
 
@@ -218,33 +220,49 @@ void drawMenuMPtext(uint32_t tcol, uint32_t bcol){
 }
 void drawMenuSMtext(uint32_t tcol, uint32_t bcol){
     setTextColor(tcol, bcol);
-    setCursor(75, 200);
+    setCursor(90, 200);
 	writeString("Stuff");
 }
+void drawLevelText1(uint32_t tcol, uint32_t bcol){
+    setTextColor(tcol, bcol);
+    setCursor(45,50);
+    writeString("Level 1");
+}
+void drawLevelText2(uint32_t tcol, uint32_t bcol){
+    setTextColor(tcol, bcol);
+    setCursor(52, 125);
+	writeString("Level 2");
+}
+void drawLevelText3(uint32_t tcol, uint32_t bcol){
+    setTextColor(tcol, bcol);
+    setCursor(90, 200);
+	writeString("Level 3");
+}
+
 void mainMenu(){
 	fillSceen(WHITE);
     setTextSize(2);
-    drawMenuSPtext(BLACK, WHITE);
-    drawMenuMPtext(BLACK, WHITE);
-    drawMenuSMtext(BLACK, WHITE);
+    drawMenuSPtext(MENUTEXTCOL, MENUTEXTBGCOL);
+    drawMenuMPtext(MENUTEXTCOL, MENUTEXTBGCOL);
+    drawMenuSMtext(MENUTEXTCOL, MENUTEXTBGCOL);
 	while(1){
         inputRead();
         if(xCord >= 160 && xCord <=240){
-            drawMenuMPtext(BLACK, WHITE);
-            drawMenuSMtext(BLACK, WHITE);
-            drawMenuSPtext(WHITE, BLACK);
+            drawMenuMPtext(MENUTEXTCOL, MENUTEXTBGCOL);
+            drawMenuSMtext(MENUTEXTCOL, MENUTEXTBGCOL);
+            drawMenuSPtext(MENUTEXTBGCOL, MENUTEXTCOL);
             while(xCord >= 160 && xCord <=240){
                 inputRead();
                 if (getbtns() & 0x2){
-                    goto done;
+                    levelSelect();
                 }
             }
         }
         else if(xCord >= 80 && xCord <=160){
             inputRead();
-            drawMenuSPtext(BLACK, WHITE);
-            drawMenuSMtext(BLACK, WHITE);
-            drawMenuMPtext(WHITE, BLACK);
+            drawMenuSPtext(MENUTEXTCOL, MENUTEXTBGCOL);
+            drawMenuSMtext(MENUTEXTCOL, MENUTEXTBGCOL);
+            drawMenuMPtext(MENUTEXTBGCOL, MENUTEXTCOL);
             while(xCord >= 80 && xCord <=160){
                 inputRead();
                 if (getbtns() & 0x2){
@@ -253,9 +271,54 @@ void mainMenu(){
             }
         }
 		else if(xCord >= 0 && xCord <=80){
-            drawMenuSPtext(BLACK, WHITE);
-            drawMenuMPtext(BLACK, WHITE);
-            drawMenuSMtext(WHITE, BLACK);
+            drawMenuSPtext(MENUTEXTCOL, MENUTEXTBGCOL);
+            drawMenuMPtext(MENUTEXTCOL, MENUTEXTBGCOL);
+            drawMenuSMtext(MENUTEXTBGCOL, MENUTEXTCOL);
+            while(xCord >= 0 && xCord <=80){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+	}	
+    done:;
+}
+
+void levelSelect(){
+    fillSceen(WHITE);
+    setTextSize(2);
+    drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
+    drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
+    drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
+    while(1){
+        inputRead();
+        if(xCord >= 160 && xCord <=240){
+            drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText3(MENUTEXTBGCOL,MENUTEXTCOL);
+            while(xCord >= 160 && xCord <=240){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+        else if(xCord >= 80 && xCord <=160){
+            drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText2(MENUTEXTBGCOL,MENUTEXTCOL);
+            while(xCord >= 80 && xCord <=160){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+		else if(xCord >= 0 && xCord <=80){
+            drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText1(MENUTEXTBGCOL,MENUTEXTCOL);
             while(xCord >= 0 && xCord <=80){
                 inputRead();
                 if (getbtns() & 0x2){
@@ -281,6 +344,7 @@ int main(void){
     enablePots();
     splash();
     mainMenu();
+    levelSelect();
     fillSceen(BG_COLOR);
     drawCircle(ballX, ballY, BALL_R, WHITE);
     drawLevel(1);
