@@ -241,6 +241,56 @@ void drawLevelText3(uint32_t tcol, uint32_t bcol){
 	writeString("Level 3");
 }
 
+void levelSelect(){
+    fillSceen(WHITE);
+    setTextSize(2);
+    drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
+    drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
+    drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
+    while(1){
+        inputRead();
+        if(xCord >= 160 && xCord <=240){
+            drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText1(MENUTEXTBGCOL,MENUTEXTCOL);
+            while(xCord >= 160 && xCord <=240){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+        else if(xCord >= 80 && xCord <=160){
+            drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText2(MENUTEXTBGCOL,MENUTEXTCOL);
+            while(xCord >= 80 && xCord <=160){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+		else if(xCord >= 0 && xCord <=80){
+            drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
+            drawLevelText3(MENUTEXTBGCOL,MENUTEXTCOL);
+            while(xCord >= 0 && xCord <=80){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+	}	
+    done:;
+}
+
+
+
+
+
+
 void mainMenu(){
 	fillSceen(WHITE);
     setTextSize(2);
@@ -256,7 +306,7 @@ void mainMenu(){
             while(xCord >= 160 && xCord <=240){
                 inputRead();
                 if (getbtns() & 0x2){
-                    levelSelect();
+                    goto done;
                 }
             }
         }
@@ -287,50 +337,7 @@ void mainMenu(){
     done:;
 }
 
-void levelSelect(){
-    fillSceen(WHITE);
-    setTextSize(2);
-    drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
-    drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
-    drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
-    while(1){
-        inputRead();
-        if(xCord >= 160 && xCord <=240){
-            drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
-            drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
-            drawLevelText3(MENUTEXTBGCOL,MENUTEXTCOL);
-            while(xCord >= 160 && xCord <=240){
-                inputRead();
-                if (getbtns() & 0x2){
-                    goto done;
-                }
-            }
-        }
-        else if(xCord >= 80 && xCord <=160){
-            drawLevelText1(MENUTEXTCOL,MENUTEXTBGCOL);
-            drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
-            drawLevelText2(MENUTEXTBGCOL,MENUTEXTCOL);
-            while(xCord >= 80 && xCord <=160){
-                inputRead();
-                if (getbtns() & 0x2){
-                    goto done;
-                }
-            }
-        }
-		else if(xCord >= 0 && xCord <=80){
-            drawLevelText3(MENUTEXTCOL,MENUTEXTBGCOL);
-            drawLevelText2(MENUTEXTCOL,MENUTEXTBGCOL);
-            drawLevelText1(MENUTEXTBGCOL,MENUTEXTCOL);
-            while(xCord >= 0 && xCord <=80){
-                inputRead();
-                if (getbtns() & 0x2){
-                    goto done;
-                }
-            }
-        }
-	}	
-    done:;
-}
+
 
 
 
