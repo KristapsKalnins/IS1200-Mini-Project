@@ -46,7 +46,8 @@ void advance () {
                 ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
             )
                 {   
-                    if(ballX == level1[i][1] || ballX == level1[i][1] + PADDLE_LENGTH){
+                    if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
+                    {
                         updateX = updateX * -1;
                         goto over;
                     }
