@@ -13,7 +13,7 @@
 #define BLOCK_THICC 15
 #define BLOCK_LEN 30
 #define XSTART 120
-#define YSTART 264
+#define YSTART 260
 
 #define BALL_R 5
 
@@ -94,7 +94,7 @@ void advance () {
                 updateX = updateX * -1;
             }
             updateY = updateY * -1;
-            yey:
+            yey: ;
         }
 
 
@@ -111,6 +111,7 @@ void advance () {
     {
         ballX = XSTART;
         ballY = YSTART;
+        updateBall;
     }
 
     updateBall();
