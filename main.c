@@ -183,12 +183,105 @@ void updatePaddle(){
 }
 
 
+void splash(){
+	fillSceen(WHITE);
+	setCursor(10,50);
+  setTextSize(4);
+  setTextColor(BLACK, WHITE);
+  setWrap(0);
+  writeString("BREAKOUT!");
+	while(1){
+		if(getbtns() & 0x2)
+			break;
+		setCursor(50, 260);
+		setTextSize(1);
+		setTextColor(BLACK, WHITE);
+		writeString("Press BTN1 to START!");
+		delay_ms(500);
+		if(getbtns() & 0x2)
+			break;
+		setCursor(50, 260);
+		setTextSize(1);
+		setTextColor(WHITE, WHITE);
+		writeString("Press BTN1 to START!");
+		delay_ms(500);
+		}
+}
+void drawMenuSPtext(uint32_t tcol, uint32_t bcol){
+    setTextColor(tcol, bcol);
+    setCursor(45,50);
+    writeString("Single-Player");
+}
+void drawMenuMPtext(uint32_t tcol, uint32_t bcol){
+    setTextColor(tcol, bcol);
+    setCursor(52, 125);
+	writeString("Multi-Player");
+}
+void drawMenuSMtext(uint32_t tcol, uint32_t bcol){
+    setTextColor(tcol, bcol);
+    setCursor(75, 200);
+	writeString("Stuff");
+}
+void mainMenu(){
+	fillSceen(WHITE);
+    setTextSize(2);
+    drawMenuSPtext(BLACK, WHITE);
+    drawMenuMPtext(BLACK, WHITE);
+    drawMenuSMtext(BLACK, WHITE);
+	while(1){
+        inputRead();
+        if(xCord >= 160 && xCord <=240){
+            drawMenuMPtext(BLACK, WHITE);
+            drawMenuSMtext(BLACK, WHITE);
+            drawMenuSPtext(WHITE, BLACK);
+            while(xCord >= 160 && xCord <=240){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+        else if(xCord >= 80 && xCord <=160){
+            inputRead();
+            drawMenuSPtext(BLACK, WHITE);
+            drawMenuSMtext(BLACK, WHITE);
+            drawMenuMPtext(WHITE, BLACK);
+            while(xCord >= 80 && xCord <=160){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+		else if(xCord >= 0 && xCord <=80){
+            drawMenuSPtext(BLACK, WHITE);
+            drawMenuMPtext(BLACK, WHITE);
+            drawMenuSMtext(WHITE, BLACK);
+            while(xCord >= 0 && xCord <=80){
+                inputRead();
+                if (getbtns() & 0x2){
+                    goto done;
+                }
+            }
+        }
+	}	
+    done:;
+}
+
+
+
+
+
+
+
 
 
 int main(void){
     display_init();
     rotate(1);
-   // splash();
+    enablePots();
+    splash();
+    mainMenu();
     fillSceen(BG_COLOR);
     drawCircle(ballX, ballY, BALL_R, WHITE);
     drawLevel(1);
@@ -200,7 +293,6 @@ int main(void){
     //drawBitmap(0, 0, logo, 200, 200, BLUE);
 
     IECSET(1)=0x2;
-    enablePots();
     enableTimer2(3, 0x18, 0x111, 1);
     enable_interrupt();
 

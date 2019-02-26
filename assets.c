@@ -1,6 +1,7 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h> 
 #include "ili9341.h"
+#include "control.h"
 #define FIRST_BLOCK_CORD_X1 210
 #define FIRST_BLOCK_CORD_Y1 40
 #define BLOCK_THICC 15
@@ -12,25 +13,6 @@
 
 
 
-void splash(){
-	fillSceen(WHITE);
-		setCursor(0,0);
-    setTextSize(1);
-    setTextColor(BLACK, WHITE);
-    setWrap(1);
-    writeString("Test");
-		while(1);
-		// setCursor(50, 260);
-		// setTextSize(3);
-		// while(1){
-		// setTextColor(BLACK, WHITE);
-		// writeString("Press BTN1 to START!");
-		// delay_ms(500);
-		// setTextColor(WHITE, WHITE);
-		// writeString("Press BTN1 to START!");
-		// delay_ms(250);
-		// }
-}
 
 const uint8_t const font[] = {
   0x00, 0x00, 0x00, 0x00, 0x00,
