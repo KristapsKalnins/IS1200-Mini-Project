@@ -14,11 +14,13 @@
 #define BLOCK_LEN 30
 #define MENUTEXTCOL BLACK
 #define MENUTEXTBGCOL WHITE
+#define XSTART 120
+#define YSTART 264
 
 #define BALL_R 5
 
-int ballX = 130;
-int ballY = 220;
+int ballX = XSTART;
+int ballY = YSTART;
 int updateX = 1;
 int updateY = -1;
 int ballCounter = 0;
@@ -70,6 +72,7 @@ void advance () {
         ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
     )
         {
+
             if(updateX > 0){
                 updateX = updateX * -1;
             }
@@ -83,19 +86,33 @@ void advance () {
         ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
     )
         {
-            if(updateX < 0){
+            if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
+                {
+                    updateX = updateX * -1;
+                    goto yey;
+                }
+            if(updateX < 0)
+            {
                 updateX = updateX * -1;
             }
             updateY = updateY * -1;
+            yey:
         }
 
 
-    if(ballX >= 240 - BALL_R || ballX == BALL_R){
+    if(ballX >= 240 - BALL_R || ballX == BALL_R)
+    {
         updateX = updateX * -1;
     }
 
-    if(ballY >= 320 - BALL_R || ballY == BALL_R){
+    if(ballY == BALL_R)
+    {
         updateY = updateY * -1;
+    }
+    if(ballY >= 320 - BALL_R)
+    {
+        ballX = XSTART;
+        ballY = YSTART;
     }
 
     updateBall();
