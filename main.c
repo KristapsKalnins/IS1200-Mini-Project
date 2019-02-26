@@ -40,14 +40,16 @@ void advance () {
     int i;
     for(i = 0; i < 48; i++){
         if(level1[i][0] == 1){
-            if(
+            if
+            (
                 ballX >= level1[i][1] - BALL_R &&
                 ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
                 ballY >= level1[i][2] - BALL_R &&
                 ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
             )
                 {   
-                    if(ballX == level1[i][1] || ballX == level1[i][1] + PADDLE_LENGTH){
+                    if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
+                    {
                         updateX = updateX * -1;
                         goto over;
                     }
