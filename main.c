@@ -109,9 +109,10 @@ void advance () {
     }
     if(ballY >= 320 - BALL_R)
     {
+        fillRect(0, 285 , 240, 35, BG_COLOR);
         ballX = XSTART;
         ballY = YSTART;
-        updateBall;
+        
     }
 
     updateBall();
