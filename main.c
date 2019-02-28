@@ -5,9 +5,11 @@
 #include "control.h"
 
 #define PADDLE_COLOR MAGENTA
+#define PADDLE2_COLOR BLUE
 #define BG_COLOR BLACK
 #define GAME_SPEED 100
 #define PADDLE_Y 270
+#define PADDLE2_Y 20
 #define PADDLE_THICKNESS 10
 #define PADDLE_LENGTH 50
 #define BLOCK_THICC 15
@@ -15,18 +17,22 @@
 #define MENUTEXTCOL BLACK
 #define MENUTEXTBGCOL WHITE
 #define XSTART 120
-#define YSTART 264
+#define YSTART 254
 
 #define BALL_R 5
 
 int ballX = XSTART;
 int ballY = YSTART;
+int ballSpeed;
 int updateX = 1;
 int updateY = -1;
 int ballCounter = 0;
+int multiPlayer = 0;
 
-int xCord;
-int lastxCord;
+uint16_t xCord;
+uint16_t x2Cord;
+uint16_t lastxCord;
+uint16_t lastx2Cord;
 int counter = 0;
 
 
@@ -38,7 +44,33 @@ void updateBall() {
     drawCircle(ballX, ballY, BALL_R, WHITE);
 }
 
+void inputRead() { 
+    int analogIN1;
+    int analogIN2;
+
+    IFSCLR(1) = 0x2; //clears the ADC interrupt flag
+    AD1CON1SET = 0x4; //Start sampling automatically
+    while(!IFS(1) & 0x2); //While sampling, do nothing
+            
+    if (AD1CON2 & 0x80){
+        analogIN1 = ADC1BUF0;
+        analogIN2 = ADC1BUF1;   
+    }
+    else{
+        analogIN1 = ADC1BUF8;
+        analogIN2 = ADC1BUF9;
+    }
+    
+    lastxCord = xCord;
+    xCord = calcCord(analogIN1);
+    lastx2Cord = x2Cord;
+    x2Cord = calcCord(analogIN2);
+
+
+}
+
 void advance () {
+   
     int i;
     for(i = 0; i < 48; i++){
         if(level1[i][0] == 1){
@@ -64,7 +96,7 @@ void advance () {
         }
     }
     out:
-
+  
     if(
         ballX >= xCord - BALL_R &&
         ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
@@ -96,7 +128,7 @@ void advance () {
                 updateX = updateX * -1;
             }
             updateY = updateY * -1;
-            yey:
+            yey:;
         }
 
 
@@ -111,8 +143,10 @@ void advance () {
     }
     if(ballY >= 320 - BALL_R)
     {
-        ballX = XSTART;
+        ballX = xCord + PADDLE_LENGTH/2;
         ballY = YSTART;
+        updateX = 1;
+        updateY = -1;
     }
 
     updateBall();
@@ -122,28 +156,7 @@ int calcCord(int c){
     return c > 0 ? ((191 * c)/1024) : 0;
 }
 
-void inputRead() { 
-    int analogIN1;
-    int analogIN2;
 
-    IFSCLR(1) = 0x2; //clears the ADC interrupt flag
-    AD1CON1SET = 0x4; //Start sampling automatically
-    while(!IFS(1) & 0x2); //While sampling, do nothing
-            
-    if (AD1CON2 & 0x80){
-        analogIN1 = ADC1BUF0;
-        analogIN2 = ADC1BUF1;   
-    }
-    else{
-        analogIN1 = ADC1BUF8;
-        analogIN2 = ADC1BUF9;
-    }
-    
-    lastxCord = xCord;
-    xCord = calcCord(analogIN1);
-
-
-}
 
 void drawLevel(char x){
     int i;
@@ -164,41 +177,40 @@ void drawLevel(char x){
     }
 }
 
-void updatePaddle(){
-    int diff;
-    inputRead();
-    diff = xCord - lastxCord;
-    if ((diff < 50) || (diff > -50)){
+void updatePaddle(uint16_t x, uint16_t last, uint16_t height, uint32_t color){
+    int diff = 0;
+    diff = x - last;
+    if ((diff < 50) | (diff > -50)){
         if(diff > 0){
-            fillRect(lastxCord,
-                    PADDLE_Y,
+            fillRect(last,
+                    height,
                     diff,
                     10,
                     BG_COLOR);
 
-            fillRect(xCord + (50 - diff),
-                    PADDLE_Y,
+            fillRect(x + (50 - diff),
+                    height,
                     diff,
                     10,
-                    PADDLE_COLOR);
+                    color);
         }
         else{
-            fillRect(lastxCord + (50+diff),
-                    PADDLE_Y,
+            fillRect(last + (50+diff),
+                    height,
                     (diff * -1),
                     10,
                     BG_COLOR);
             
-            fillRect(xCord,
-                    PADDLE_Y,
+            fillRect(x,
+                    height,
                     (diff * -1),
                     10,
-                    PADDLE_COLOR);
+                    color);
         }
     }
     else{
-        drawPaddle(lastxCord, PADDLE_Y, BG_COLOR);
-        drawPaddle(xCord, PADDLE_Y, PADDLE_COLOR);
+        drawPaddle(last, height, BG_COLOR);
+        drawPaddle(x, height, color);
     }
 }
 
@@ -211,19 +223,19 @@ void splash(){
   setWrap(0);
   writeString("BREAKOUT!");
 	while(1){
-		if(getbtns() & 0x2)
+		if(getbtns() & 0x4)
 			break;
 		setCursor(50, 260);
 		setTextSize(1);
 		setTextColor(BLACK, WHITE);
-		writeString("Press BTN1 to START!");
+		writeString("Press BTN4 to START!");
 		delay_ms(500);
-		if(getbtns() & 0x2)
+		if(getbtns() & 0x4)
 			break;
 		setCursor(50, 260);
 		setTextSize(1);
 		setTextColor(WHITE, WHITE);
-		writeString("Press BTN1 to START!");
+		writeString("Press BTN4 to START!");
 		delay_ms(500);
 		}
 }
@@ -272,7 +284,14 @@ void levelSelect(){
             drawLevelText1(MENUTEXTBGCOL,MENUTEXTCOL);
             while(xCord >= 160 && xCord <=240){
                 inputRead();
-                if (getbtns() & 0x2){
+                if (getbtns() & 0x4){
+                    ballSpeed = 50;
+                    fillSceen(BG_COLOR);
+                    drawCircle(ballX, ballY, BALL_R, WHITE);
+                    drawLevel(1);
+                    IECSET(1)=0x2;
+                    enableTimer2(3, 0x18, 0x111, 1);
+                    enable_interrupt();
                     goto done;
                 }
             }
@@ -283,7 +302,14 @@ void levelSelect(){
             drawLevelText2(MENUTEXTBGCOL,MENUTEXTCOL);
             while(xCord >= 80 && xCord <=160){
                 inputRead();
-                if (getbtns() & 0x2){
+                if (getbtns() & 0x4){
+                    ballSpeed = 25;
+                    fillSceen(BG_COLOR);
+                    drawCircle(ballX, ballY, BALL_R, WHITE);
+                    drawLevel(2);
+                    IECSET(1)=0x2;
+                    enableTimer2(3, 0x18, 0x111, 1);
+                    enable_interrupt();
                     goto done;
                 }
             }
@@ -294,7 +320,14 @@ void levelSelect(){
             drawLevelText3(MENUTEXTBGCOL,MENUTEXTCOL);
             while(xCord >= 0 && xCord <=80){
                 inputRead();
-                if (getbtns() & 0x2){
+                if (getbtns() & 0x4){
+                    ballSpeed = 10;
+                    fillSceen(BG_COLOR);
+                    drawCircle(ballX, ballY, BALL_R, WHITE);
+                    drawLevel(3);
+                    IECSET(1)=0x2;
+                    enableTimer2(3, 0x18, 0x111, 1);
+                    enable_interrupt();
                     goto done;
                 }
             }
@@ -322,8 +355,9 @@ void mainMenu(){
             drawMenuSPtext(MENUTEXTBGCOL, MENUTEXTCOL);
             while(xCord >= 160 && xCord <=240){
                 inputRead();
-                if (getbtns() & 0x2){
-                    goto done;
+                if (getbtns() & 0x4){
+                    multiPlayer = 0;
+                    levelSelect();
                 }
             }
         }
@@ -334,8 +368,9 @@ void mainMenu(){
             drawMenuMPtext(MENUTEXTBGCOL, MENUTEXTCOL);
             while(xCord >= 80 && xCord <=160){
                 inputRead();
-                if (getbtns() & 0x2){
-                    goto done;
+                if (getbtns() & 0x4){
+                    multiPlayer = 1;
+                    levelSelect();
                 }
             }
         }
@@ -345,13 +380,12 @@ void mainMenu(){
             drawMenuSMtext(MENUTEXTBGCOL, MENUTEXTCOL);
             while(xCord >= 0 && xCord <=80){
                 inputRead();
-                if (getbtns() & 0x2){
-                    goto done;
+                if (getbtns() & 0x4){
+                    levelSelect();
                 }
             }
         }
 	}	
-    done:;
 }
 
 
@@ -370,24 +404,6 @@ int main(void){
     enablePots();
     splash();
     mainMenu();
-    levelSelect();
-    fillSceen(BG_COLOR);
-    drawCircle(ballX, ballY, BALL_R, WHITE);
-    drawLevel(1);
-    // setCursor(100,100);
-    // setTextSize(5);
-    // setTextColor(GREEN, YELLOW);
-    // setWrap(0);
-    //writeString("TEST");
-    //drawBitmap(0, 0, logo, 200, 200, BLUE);
-
-    IECSET(1)=0x2;
-    enableTimer2(3, 0x18, 0x111, 1);
-    enable_interrupt();
-
-   
-
-   
     return 0;
 }
 
@@ -402,12 +418,12 @@ void timer2_interrupt_handler(void)
     if(getbtns() != 0)
     {
         if(getbtns() & 4)
-        {
-            //stuff for BTN4
+        {  
+            //btn4
         }
         if(getbtns() & 2)
         {
-            //stuff for BTN3
+            //btn3
         }
         if(getbtns() & 1)
         {
@@ -415,11 +431,15 @@ void timer2_interrupt_handler(void)
         }
         
     }
-        updatePaddle();
-         //drawChar(0,0,'a', BLUE, BLUE, 5);
+        inputRead();
+        updatePaddle(xCord, lastxCord, PADDLE_Y, PADDLE_COLOR);
+        if (multiPlayer == 1){
+        updatePaddle(x2Cord, lastx2Cord, PADDLE2_Y, PADDLE2_COLOR);
+        }
+
     ballCounter++;
 
-    if(ballCounter == 50){
+    if(ballCounter == ballSpeed){
         ballCounter = 0;
         advance();
 

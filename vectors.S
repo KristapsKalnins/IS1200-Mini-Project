@@ -23,6 +23,11 @@ enable_interrupt:
 		ei
 		jr	$ra
 
+.global disable_interrupt
+disable_interrupt:
+		di
+		jr	$ra
+
 .align 4
 .global __use_isr_install
 __use_isr_install:
