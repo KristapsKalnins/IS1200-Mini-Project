@@ -17,7 +17,7 @@
 #define MENUTEXTCOL BLACK
 #define MENUTEXTBGCOL WHITE
 #define XSTART 120
-#define YSTART 254
+#define YSTART 260
 
 #define BALL_R 5
 
@@ -147,6 +147,7 @@ void advance () {
         ballY = YSTART;
         updateX = 1;
         updateY = -1;
+        updateBall();
     }
 
     updateBall();
