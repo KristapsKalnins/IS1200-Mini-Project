@@ -146,7 +146,8 @@ void advance () {
         fillRect(0, 285 , 240, 35, BG_COLOR);
         ballX = XSTART;
         ballY = YSTART;
-        
+        updateX = 1;
+        updateY = -1;
     }
 
     updateBall();
