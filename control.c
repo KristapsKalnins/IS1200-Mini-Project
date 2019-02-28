@@ -28,7 +28,7 @@ void enablePots() {
     AD1CON3SET = 0x8000;
 
     // CSSL: ADC Input Pin Scan Selection bits
-    AD1CSSLSET = 0x0010;   // external pot pib A! 
+    AD1CSSLSET = 0x0110;   // external pots pin A1 and A2 
 
     // start
     AD1CON1SET = 0x8000;
@@ -52,6 +52,7 @@ void enableTimer2(int period, int priority, int prescaling, int interrupts)
 
     T2CONSET = 0x8000;      //enable
 }
+
 
 int getbtns(void)
 {
