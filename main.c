@@ -98,7 +98,7 @@ void advance () {
                     }
             }
         }
-        out:
+        out: ;
     }
 
     if(hitInt == 2)
@@ -117,17 +117,17 @@ void advance () {
                         if(ballX + BALL_R == level2[i][1] || ballX - BALL_R == level2[i][1] + BLOCK_LEN)
                         {
                             updateX = updateX * -1;
-                            goto over;
+                            goto over2;
                         }
                         updateY = updateY * -1;
-                        over:
+                        over2:
                         level2[i][0] = 0;
                         drawBlock(level2[i][1], level2[i][2], BG_COLOR);
                         goto out2;
                     }
             }
         }
-        out2:
+        out2: ;
     }
 
     if(hitInt == 3)
@@ -146,17 +146,17 @@ void advance () {
                         if(ballX + BALL_R == level3[i][1] || ballX - BALL_R == level3[i][1] + BLOCK_LEN)
                         {
                             updateX = updateX * -1;
-                            goto over;
+                            goto over3;
                         }
                         updateY = updateY * -1;
-                        over:
+                        over3:
                         level3[i][0] = 0;
                         drawBlock(level3[i][1], level3[i][2], BG_COLOR);
                         goto out3;
                     }
             }
         }
-        out3:
+        out3: ;
     }
     
     if(
