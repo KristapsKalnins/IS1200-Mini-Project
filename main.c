@@ -77,6 +77,17 @@ void advance () {
         int i;
         for(i = 0; i < 48; i++){
             if(level1[i][0] == 1){
+                 if(i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47)
+                    {
+                        if
+                        (
+                            ballX >= level1[i][1] &&
+                            ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
+                            ballY >= level1[i][2] &&
+                            ballY <= (level1[i][2] + BLOCK_THICC + BALL_R) 
+                        )
+                        goto yeet;
+                    }
                 if
                 (
                     ballX >= level1[i][1] - BALL_R &&
@@ -85,6 +96,7 @@ void advance () {
                     ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
                 )
                     {   
+                        yeet: ;
                         if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
                         {
                             updateX = updateX * -1;
