@@ -25,6 +25,7 @@
 
 int scoreInd = 0;
 int scoreIndprev = -1;
+int lifecount = 3;
 
 
 int ballX = XSTART;
@@ -75,6 +76,16 @@ void inputRead() {
 
 
 }
+
+
+void gameOver(){
+    fillSceen(RED);
+    setCursor(50, 150);
+    setTextColor(BLACK, RED);
+    writeString("GAME OVER!");
+    for(;;);
+}
+
 
 void advance () {
 
@@ -205,7 +216,7 @@ void advance () {
                                 ballY >= mullevel1[i][2] &&
                                 ballY <= (mullevel1[i][2] + BLOCK_THICC + BALL_R) 
                             )
-                            goto yeet;
+                            goto yeetm;
                         }
                     if
                     (
@@ -215,24 +226,24 @@ void advance () {
                         ballY <= (mullevel1[i][2] + BLOCK_THICC + BALL_R)
                     )
                         {   
-                            yeet: ;
+                            yeetm: ;
                             if(ballX + BALL_R == mullevel1[i][1] || ballX - BALL_R == mullevel1[i][1] + BLOCK_LEN)
                             {
                                 updateX = updateX * -1;
-                                goto over;
+                                goto overm;
                             }
                             updateY = updateY * -1;
-                            over:
+                            overm:
                             mullevel1[i][0] = 0;
                             drawBlock(mullevel1[i][1], mullevel1[i][2], BG_COLOR);
                             scoreIndprev = scoreInd;
                             scoreInd++;
 
-                            goto out;
+                            goto outm;
                         }
                 }
             }
-            out: ;
+            outm: ;
         }
 
         if(hitInt == 2)
@@ -251,20 +262,20 @@ void advance () {
                             if(ballX + BALL_R == mullevel2[i][1] || ballX - BALL_R == mullevel2[i][1] + BLOCK_LEN)
                             {
                                 updateX = updateX * -1;
-                                goto over2;
+                                goto over2m;
                             }
                             updateY = updateY * -1;
-                            over2:
+                            over2m:
                             mullevel2[i][0] = 0;
                             drawBlock(mullevel2[i][1], mullevel2[i][2], BG_COLOR);
                             scoreIndprev = scoreInd;
                             scoreInd++;
 
-                            goto out2;
+                            goto out2m;
                         }
                 }
             }
-            out2: ;
+            out2m: ;
         }
 
         if(hitInt == 3)
@@ -283,20 +294,20 @@ void advance () {
                             if(ballX + BALL_R == mullevel3[i][1] || ballX - BALL_R == mullevel3[i][1] + BLOCK_LEN)
                             {
                                 updateX = updateX * -1;
-                                goto over3;
+                                goto over3m;
                             }
                             updateY = updateY * -1;
-                            over3:
+                            over3m:
                             mullevel3[i][0] = 0;
                             drawBlock(mullevel3[i][1], mullevel3[i][2], BG_COLOR);
                             scoreIndprev = scoreInd;
                             scoreInd++;
 
-                            goto out3;
+                            goto out3m;
                         }
                 }
             }
-            out3: ;
+            out3m: ;
         }
     }
     if(
@@ -350,6 +361,16 @@ void advance () {
         ballY = YSTART;
         updateX = 1;
         updateY = -1;
+        if (lifecount == 3)
+            fillRect(198, 0,14,14,BG_COLOR);
+        else if (lifecount == 2)
+            fillRect(212, 0, 14, 14, BG_COLOR);
+        else if (lifecount == 1)
+            fillRect(226,0,14,14,BG_COLOR);
+        else
+            gameOver();
+        lifecount--;
+        
     }
 
     updateBall();
@@ -363,19 +384,39 @@ int calcCord(int c){
 
 void drawLevel(char x){
     int i;
-    if(x == 1){
-        for(i = 0; i< 48 ;i++){
-            drawBlock(level1[i][1], level1[i][2], level1[i][3]);
+    if(multiPlayer == 0){
+        if(x == 1){
+            for(i = 0; i< 48 ;i++){
+                drawBlock(level1[i][1], level1[i][2], level1[i][3]);
+            }
+        }
+        if(x == 2){
+            for(i = 0; i< 26 ;i++){
+                drawBlock(level2[i][1], level2[i][2], level2[i][3]);
+            }
+        }
+        if(x == 3){
+            for(i = 0; i< 51 ;i++){
+                drawBlock(level3[i][1], level3[i][2], level3[i][3]);
+            }
         }
     }
-     if(x == 2){
-        for(i = 0; i< 26 ;i++){
-            drawBlock(level2[i][1], level2[i][2], level2[i][3]);
+
+    if(multiPlayer == 1){
+        if(x == 1){
+            for(i = 0; i< 48 ;i++){
+                drawBlock(mullevel1[i][1], mullevel1[i][2], mullevel1[i][3]);
+            }
         }
-    }
-     if(x == 3){
-        for(i = 0; i< 51 ;i++){
-            drawBlock(level3[i][1], level3[i][2], level3[i][3]);
+        if(x == 2){
+            for(i = 0; i< 26 ;i++){
+                drawBlock(mullevel2[i][1], mullevel2[i][2], mullevel2[i][3]);
+            }
+        }
+        if(x == 3){
+            for(i = 0; i< 51 ;i++){
+                drawBlock(mullevel3[i][1], mullevel3[i][2], mullevel3[i][3]);
+            }
         }
     }
 }
@@ -479,6 +520,17 @@ void drawScoreText(){
     writeString("SCORE: ");
 }
 
+void drawLife1(){
+    fillRect(226,0,14,14,RED);
+    fillRect(212,0,14,14,YELLOW);
+    fillRect(198,0,14,14,GREEN);
+}
+
+
+
+
+
+
 void levelSelect(){
     fillSceen(WHITE);
     setTextSize(2);
@@ -497,7 +549,7 @@ void levelSelect(){
                     ballSpeed = 50;
                     fillSceen(BG_COLOR);
                     drawScoreText();
-                    drawBitmap(228,0,heart, 15, 12, RED);
+                    drawLife1();
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 1;
                     drawLevel(1);
