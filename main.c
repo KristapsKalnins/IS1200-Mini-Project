@@ -1,4 +1,5 @@
 #include <pic32mx.h>
+#include <stdlib.h>
 #include "ili9341.h"
 #include "spi.h"
 #include "assets.h"
@@ -7,6 +8,7 @@
 #define PADDLE_COLOR MAGENTA
 #define PADDLE2_COLOR BLUE
 #define BG_COLOR BLACK
+#define SCORE_COLOR YELLOW
 #define GAME_SPEED 100
 #define PADDLE_Y 270
 #define PADDLE2_Y 20
@@ -20,6 +22,10 @@
 #define YSTART 260
 
 #define BALL_R 5
+
+int scoreInd = 0;
+int scoreIndprev = -1;
+
 
 int ballX = XSTART;
 int ballY = YSTART;
@@ -106,6 +112,8 @@ void advance () {
                         over:
                         level1[i][0] = 0;
                         drawBlock(level1[i][1], level1[i][2], BG_COLOR);
+                        scoreIndprev = scoreInd;
+                        scoreInd++;
                         goto out;
                     }
             }
@@ -135,6 +143,8 @@ void advance () {
                         over2:
                         level2[i][0] = 0;
                         drawBlock(level2[i][1], level2[i][2], BG_COLOR);
+                        scoreIndprev = scoreInd;
+                        scoreInd ++;
                         goto out2;
                     }
             }
@@ -164,6 +174,8 @@ void advance () {
                         over3:
                         level3[i][0] = 0;
                         drawBlock(level3[i][1], level3[i][2], BG_COLOR);
+                        scoreIndprev = scoreInd;
+                        scoreInd ++;
                         goto out3;
                     }
             }
@@ -344,6 +356,12 @@ void drawLevelText3(uint32_t tcol, uint32_t bcol){
     setCursor(90, 200);
 	writeString("Level 3");
 }
+void drawScoreText(){
+    setCursor(34,0);
+    setTextSize(2);
+    setTextColor(SCORE_COLOR, BG_COLOR);
+    writeString("SCORE: ");
+}
 
 void levelSelect(){
     fillSceen(WHITE);
@@ -362,6 +380,8 @@ void levelSelect(){
                 if (getbtns() & 0x4){
                     ballSpeed = 50;
                     fillSceen(BG_COLOR);
+                    drawScoreText();
+                    drawBitmap(228,0,heart, 15, 12, RED);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 1;
                     drawLevel(1);
@@ -381,6 +401,7 @@ void levelSelect(){
                 if (getbtns() & 0x4){
                     ballSpeed = 25;
                     fillSceen(BG_COLOR);
+                    drawScoreText();
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 2;
                     drawLevel(2);
@@ -400,6 +421,7 @@ void levelSelect(){
                 if (getbtns() & 0x4){
                     ballSpeed = 10;
                     fillSceen(BG_COLOR);
+                    drawScoreText();
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 3;
                     drawLevel(3);
@@ -467,6 +489,13 @@ void mainMenu(){
 }
 
 
+void drawScore(uint32_t color, uint32_t bg_color, int index){
+    setCursor(1,0);
+    setTextSize(2);
+    setTextColor(color, bg_color);
+    writeString(scoreOut[index]);
+}
+
 
 
 
@@ -513,6 +542,13 @@ void timer2_interrupt_handler(void)
         updatePaddle(xCord, lastxCord, PADDLE_Y, PADDLE_COLOR);
         if (multiPlayer == 1){
         updatePaddle(x2Cord, lastx2Cord, PADDLE2_Y, PADDLE2_COLOR);
+        }
+        if (scoreInd != scoreIndprev){
+                drawScore(BG_COLOR, BG_COLOR, scoreIndprev);
+                drawScore(SCORE_COLOR, BG_COLOR, scoreInd);
+                scoreIndprev = scoreInd;
+                
+
         }
 
     ballCounter++;
