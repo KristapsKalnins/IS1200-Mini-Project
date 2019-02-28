@@ -77,112 +77,228 @@ void inputRead() {
 }
 
 void advance () {
-   
-   if(hitInt == 1)
+
+   if(multiPlayer == 0)
    {
-        int i;
-        for(i = 0; i < 48; i++){
-            if(level1[i][0] == 1){
-                 if(i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47)
-                    {
-                        if
-                        (
-                            ballX >= level1[i][1] &&
-                            ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
-                            ballY >= level1[i][2] &&
-                            ballY <= (level1[i][2] + BLOCK_THICC + BALL_R) 
-                        )
-                        goto yeet;
-                    }
-                if
-                (
-                    ballX >= level1[i][1] - BALL_R &&
-                    ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
-                    ballY >= level1[i][2] - BALL_R &&
-                    ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
-                )
-                    {   
-                        yeet: ;
-                        if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
+        if(hitInt == 1)
+        {
+            int i;
+            for(i = 0; i < 48; i++){
+                if(level1[i][0] == 1){
+                    if(i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47)
                         {
-                            updateX = updateX * -1;
-                            goto over;
+                            if
+                            (
+                                ballX >= level1[i][1] &&
+                                ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
+                                ballY >= level1[i][2] &&
+                                ballY <= (level1[i][2] + BLOCK_THICC + BALL_R) 
+                            )
+                            goto yeet;
                         }
-                        updateY = updateY * -1;
-                        over:
-                        level1[i][0] = 0;
-                        drawBlock(level1[i][1], level1[i][2], BG_COLOR);
-                        scoreIndprev = scoreInd;
-                        scoreInd++;
-                        goto out;
-                    }
+                    if
+                    (
+                        ballX >= level1[i][1] - BALL_R &&
+                        ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
+                        ballY >= level1[i][2] - BALL_R &&
+                        ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
+                    )
+                        {   
+                            yeet: ;
+                            if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
+                            {
+                                updateX = updateX * -1;
+                                goto over;
+                            }
+                            updateY = updateY * -1;
+                            over:
+                            level1[i][0] = 0;
+                            drawBlock(level1[i][1], level1[i][2], BG_COLOR);
+                            scoreIndprev = scoreInd;
+                            scoreInd++;
+
+                            goto out;
+                        }
+                }
             }
+            out: ;
         }
-        out: ;
+
+        if(hitInt == 2)
+        {
+            int i;
+            for(i = 0; i < 26; i++){
+                if(level2[i][0] == 1){
+                    if
+                    (
+                        ballX >= level2[i][1] - BALL_R &&
+                        ballX <= (level2[i][1] + BLOCK_LEN + BALL_R) &&
+                        ballY >= level2[i][2] - BALL_R &&
+                        ballY <= (level2[i][2] + BLOCK_THICC + BALL_R)
+                    )
+                        {   
+                            if(ballX + BALL_R == level2[i][1] || ballX - BALL_R == level2[i][1] + BLOCK_LEN)
+                            {
+                                updateX = updateX * -1;
+                                goto over2;
+                            }
+                            updateY = updateY * -1;
+                            over2:
+                            level2[i][0] = 0;
+                            drawBlock(level2[i][1], level2[i][2], BG_COLOR);
+                            scoreIndprev = scoreInd;
+                            scoreInd++;
+
+                            goto out2;
+                        }
+                }
+            }
+            out2: ;
+        }
+
+        if(hitInt == 3)
+        {
+            int i;
+            for(i = 0; i < 51; i++){
+                if(level3[i][0] == 1){
+                    if
+                    (
+                        ballX >= level3[i][1] - BALL_R &&
+                        ballX <= (level3[i][1] + BLOCK_LEN + BALL_R) &&
+                        ballY >= level3[i][2] - BALL_R &&
+                        ballY <= (level3[i][2] + BLOCK_THICC + BALL_R)
+                    )
+                        {   
+                            if(ballX + BALL_R == level3[i][1] || ballX - BALL_R == level3[i][1] + BLOCK_LEN)
+                            {
+                                updateX = updateX * -1;
+                                goto over3;
+                            }
+                            updateY = updateY * -1;
+                            over3:
+                            level3[i][0] = 0;
+                            drawBlock(level3[i][1], level3[i][2], BG_COLOR);
+                            scoreIndprev = scoreInd;
+                            scoreInd++;
+
+                            goto out3;
+                        }
+                }
+            }
+            out3: ;
+        }
     }
 
-    if(hitInt == 2)
-    {
-        int i;
-        for(i = 0; i < 26; i++){
-            if(level2[i][0] == 1){
-                if
-                (
-                    ballX >= level2[i][1] - BALL_R &&
-                    ballX <= (level2[i][1] + BLOCK_LEN + BALL_R) &&
-                    ballY >= level2[i][2] - BALL_R &&
-                    ballY <= (level2[i][2] + BLOCK_THICC + BALL_R)
-                )
-                    {   
-                        if(ballX + BALL_R == level2[i][1] || ballX - BALL_R == level2[i][1] + BLOCK_LEN)
+    if(multiPlayer == 1)
+   {
+        if(hitInt == 1)
+        {
+            int i;
+            for(i = 0; i < 48; i++){
+                if(mullevel1[i][0] == 1){
+                    if(i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47)
                         {
-                            updateX = updateX * -1;
-                            goto over2;
+                            if
+                            (
+                                ballX >= mullevel1[i][1] &&
+                                ballX <= (mullevel1[i][1] + BLOCK_LEN + BALL_R) &&
+                                ballY >= mullevel1[i][2] &&
+                                ballY <= (mullevel1[i][2] + BLOCK_THICC + BALL_R) 
+                            )
+                            goto yeet;
                         }
-                        updateY = updateY * -1;
-                        over2:
-                        level2[i][0] = 0;
-                        drawBlock(level2[i][1], level2[i][2], BG_COLOR);
-                        scoreIndprev = scoreInd;
-                        scoreInd ++;
-                        goto out2;
-                    }
-            }
-        }
-        out2: ;
-    }
+                    if
+                    (
+                        ballX >= mullevel1[i][1] - BALL_R &&
+                        ballX <= (mullevel1[i][1] + BLOCK_LEN + BALL_R) &&
+                        ballY >= mullevel1[i][2] - BALL_R &&
+                        ballY <= (mullevel1[i][2] + BLOCK_THICC + BALL_R)
+                    )
+                        {   
+                            yeet: ;
+                            if(ballX + BALL_R == mullevel1[i][1] || ballX - BALL_R == mullevel1[i][1] + BLOCK_LEN)
+                            {
+                                updateX = updateX * -1;
+                                goto over;
+                            }
+                            updateY = updateY * -1;
+                            over:
+                            mullevel1[i][0] = 0;
+                            drawBlock(mullevel1[i][1], mullevel1[i][2], BG_COLOR);
+                            scoreIndprev = scoreInd;
+                            scoreInd++;
 
-    if(hitInt == 3)
-    {
-        int i;
-        for(i = 0; i < 51; i++){
-            if(level3[i][0] == 1){
-                if
-                (
-                    ballX >= level3[i][1] - BALL_R &&
-                    ballX <= (level3[i][1] + BLOCK_LEN + BALL_R) &&
-                    ballY >= level3[i][2] - BALL_R &&
-                    ballY <= (level3[i][2] + BLOCK_THICC + BALL_R)
-                )
-                    {   
-                        if(ballX + BALL_R == level3[i][1] || ballX - BALL_R == level3[i][1] + BLOCK_LEN)
-                        {
-                            updateX = updateX * -1;
-                            goto over3;
+                            goto out;
                         }
-                        updateY = updateY * -1;
-                        over3:
-                        level3[i][0] = 0;
-                        drawBlock(level3[i][1], level3[i][2], BG_COLOR);
-                        scoreIndprev = scoreInd;
-                        scoreInd ++;
-                        goto out3;
-                    }
+                }
             }
+            out: ;
         }
-        out3: ;
+
+        if(hitInt == 2)
+        {
+            int i;
+            for(i = 0; i < 26; i++){
+                if(mullevel2[i][0] == 1){
+                    if
+                    (
+                        ballX >= mullevel2[i][1] - BALL_R &&
+                        ballX <= (mullevel2[i][1] + BLOCK_LEN + BALL_R) &&
+                        ballY >= mullevel2[i][2] - BALL_R &&
+                        ballY <= (mullevel2[i][2] + BLOCK_THICC + BALL_R)
+                    )
+                        {   
+                            if(ballX + BALL_R == mullevel2[i][1] || ballX - BALL_R == mullevel2[i][1] + BLOCK_LEN)
+                            {
+                                updateX = updateX * -1;
+                                goto over2;
+                            }
+                            updateY = updateY * -1;
+                            over2:
+                            mullevel2[i][0] = 0;
+                            drawBlock(mullevel2[i][1], mullevel2[i][2], BG_COLOR);
+                            scoreIndprev = scoreInd;
+                            scoreInd++;
+
+                            goto out2;
+                        }
+                }
+            }
+            out2: ;
+        }
+
+        if(hitInt == 3)
+        {
+            int i;
+            for(i = 0; i < 51; i++){
+                if(mullevel3[i][0] == 1){
+                    if
+                    (
+                        ballX >= mullevel3[i][1] - BALL_R &&
+                        ballX <= (mullevel3[i][1] + BLOCK_LEN + BALL_R) &&
+                        ballY >= mullevel3[i][2] - BALL_R &&
+                        ballY <= (mullevel3[i][2] + BLOCK_THICC + BALL_R)
+                    )
+                        {   
+                            if(ballX + BALL_R == mullevel3[i][1] || ballX - BALL_R == mullevel3[i][1] + BLOCK_LEN)
+                            {
+                                updateX = updateX * -1;
+                                goto over3;
+                            }
+                            updateY = updateY * -1;
+                            over3:
+                            mullevel3[i][0] = 0;
+                            drawBlock(mullevel3[i][1], mullevel3[i][2], BG_COLOR);
+                            scoreIndprev = scoreInd;
+                            scoreInd++;
+
+                            goto out3;
+                        }
+                }
+            }
+            out3: ;
+        }
     }
-    
     if(
         ballX >= xCord - BALL_R &&
         ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
