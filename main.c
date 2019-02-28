@@ -28,6 +28,7 @@ int updateX = 1;
 int updateY = -1;
 int ballCounter = 0;
 int multiPlayer = 0;
+int hitInt = 0;
 
 uint16_t xCord;
 uint16_t x2Cord;
@@ -71,32 +72,93 @@ void inputRead() {
 
 void advance () {
    
-    int i;
-    for(i = 0; i < 48; i++){
-        if(level1[i][0] == 1){
-            if
-            (
-                ballX >= level1[i][1] - BALL_R &&
-                ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
-                ballY >= level1[i][2] - BALL_R &&
-                ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
-            )
-                {   
-                    if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
-                    {
-                        updateX = updateX * -1;
-                        goto over;
+   if(hitInt == 1)
+   {
+        int i;
+        for(i = 0; i < 48; i++){
+            if(level1[i][0] == 1){
+                if
+                (
+                    ballX >= level1[i][1] - BALL_R &&
+                    ballX <= (level1[i][1] + BLOCK_LEN + BALL_R) &&
+                    ballY >= level1[i][2] - BALL_R &&
+                    ballY <= (level1[i][2] + BLOCK_THICC + BALL_R)
+                )
+                    {   
+                        if(ballX + BALL_R == level1[i][1] || ballX - BALL_R == level1[i][1] + BLOCK_LEN)
+                        {
+                            updateX = updateX * -1;
+                            goto over;
+                        }
+                        updateY = updateY * -1;
+                        over:
+                        level1[i][0] = 0;
+                        drawBlock(level1[i][1], level1[i][2], BG_COLOR);
+                        goto out;
                     }
-                    updateY = updateY * -1;
-                    over:
-                    level1[i][0] = 0;
-                    drawBlock(level1[i][1], level1[i][2], BG_COLOR);
-                    goto out;
-                }
+            }
         }
+        out:
     }
-    out:
-  
+
+    if(hitInt == 2)
+    {
+        int i;
+        for(i = 0; i < 26; i++){
+            if(level2[i][0] == 1){
+                if
+                (
+                    ballX >= level2[i][1] - BALL_R &&
+                    ballX <= (level2[i][1] + BLOCK_LEN + BALL_R) &&
+                    ballY >= level2[i][2] - BALL_R &&
+                    ballY <= (level2[i][2] + BLOCK_THICC + BALL_R)
+                )
+                    {   
+                        if(ballX + BALL_R == level2[i][1] || ballX - BALL_R == level2[i][1] + BLOCK_LEN)
+                        {
+                            updateX = updateX * -1;
+                            goto over;
+                        }
+                        updateY = updateY * -1;
+                        over:
+                        level2[i][0] = 0;
+                        drawBlock(level2[i][1], level2[i][2], BG_COLOR);
+                        goto out2;
+                    }
+            }
+        }
+        out2:
+    }
+
+    if(hitInt == 3)
+    {
+        int i;
+        for(i = 0; i < 51; i++){
+            if(level3[i][0] == 1){
+                if
+                (
+                    ballX >= level3[i][1] - BALL_R &&
+                    ballX <= (level3[i][1] + BLOCK_LEN + BALL_R) &&
+                    ballY >= level3[i][2] - BALL_R &&
+                    ballY <= (level3[i][2] + BLOCK_THICC + BALL_R)
+                )
+                    {   
+                        if(ballX + BALL_R == level3[i][1] || ballX - BALL_R == level3[i][1] + BLOCK_LEN)
+                        {
+                            updateX = updateX * -1;
+                            goto over;
+                        }
+                        updateY = updateY * -1;
+                        over:
+                        level3[i][0] = 0;
+                        drawBlock(level3[i][1], level3[i][2], BG_COLOR);
+                        goto out3;
+                    }
+            }
+        }
+        out3:
+    }
+    
     if(
         ballX >= xCord - BALL_R &&
         ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
@@ -289,6 +351,7 @@ void levelSelect(){
                     ballSpeed = 50;
                     fillSceen(BG_COLOR);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
+                    hitInt = 1;
                     drawLevel(1);
                     IECSET(1)=0x2;
                     enableTimer2(3, 0x18, 0x111, 1);
@@ -307,6 +370,7 @@ void levelSelect(){
                     ballSpeed = 25;
                     fillSceen(BG_COLOR);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
+                    hitInt = 2;
                     drawLevel(2);
                     IECSET(1)=0x2;
                     enableTimer2(3, 0x18, 0x111, 1);
@@ -325,6 +389,7 @@ void levelSelect(){
                     ballSpeed = 10;
                     fillSceen(BG_COLOR);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
+                    hitInt = 3;
                     drawLevel(3);
                     IECSET(1)=0x2;
                     enableTimer2(3, 0x18, 0x111, 1);
