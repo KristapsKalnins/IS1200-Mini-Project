@@ -147,7 +147,6 @@ void advance () {
         ballY = YSTART;
         updateX = 1;
         updateY = -1;
-        updateBall();
     }
 
     updateBall();
