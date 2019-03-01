@@ -20,6 +20,8 @@
 #define MENUTEXTBGCOL WHITE
 #define XSTART 120
 #define YSTART 260
+#define X2START 120
+#define Y2START 30 
 
 #define BALL_R 5
 
@@ -310,68 +312,149 @@ void advance () {
             out3m: ;
         }
     }
-    if(
-        ballX >= xCord - BALL_R &&
-        ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
-        ballY >= PADDLE_Y - BALL_R - 1 &&
-        ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
-    )
-        {
 
-            if(updateX > 0){
-                updateX = updateX * -1;
+    if(multiPlayer == 0 || multiPlayer == 1){
+        if(
+            ballX >= xCord - BALL_R &&
+            ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
+            ballY >= PADDLE_Y - BALL_R - 1 &&
+            ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
+        )
+            {
+
+                if(updateX > 0){
+                    updateX = updateX * -1;
+                }
+                updateY = updateY * -1;
             }
-            updateY = updateY * -1;
-        }
 
-    if(
-        ballX > xCord + PADDLE_LENGTH/2 - BALL_R &&
-        ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
-        ballY >= PADDLE_Y - BALL_R - 1 &&
-        ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
-    )
-        {
-            if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
+        if(
+            ballX > xCord + PADDLE_LENGTH/2 - BALL_R &&
+            ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
+            ballY >= PADDLE_Y - BALL_R - 1 &&
+            ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
+        )
+            {
+                if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
+                    {
+                        updateX = updateX * -1;
+                        goto yey;
+                    }
+                if(updateX < 0)
                 {
                     updateX = updateX * -1;
-                    goto yey;
                 }
-            if(updateX < 0)
-            {
-                updateX = updateX * -1;
+                updateY = updateY * -1;
+                yey:;
             }
-            updateY = updateY * -1;
-            yey:;
+
+
+        if(ballX >= 240 - BALL_R || ballX == BALL_R)
+        {
+            updateX = updateX * -1;
         }
 
-
-    if(ballX >= 240 - BALL_R || ballX == BALL_R)
-    {
-        updateX = updateX * -1;
+        if(ballY == BALL_R)
+        {
+            updateY = updateY * -1;
+        }
+        if(ballY >= 320 - BALL_R)
+        {
+            fillRect(ballX, ballY , BALL_R*2, BALL_R*2, BG_COLOR);
+            if(multiPlayer == 0)
+            {
+                ballX = XSTART;
+                ballY = YSTART;
+                updateX = 1;
+                updateY = -1;
+            }
+            if(multiPlayer == 1)
+            {
+                ballX = X2START;
+                ballY = Y2START;
+                updateX = -1;
+                updateY = 1;
+            }
+            if (lifecount == 3)
+                fillRect(198, 0,14,14,BG_COLOR);
+            else if (lifecount == 2)
+                fillRect(212, 0, 14, 14, BG_COLOR);
+            else if (lifecount == 1)
+                fillRect(226,0,14,14,BG_COLOR);
+            else
+                gameOver();
+            lifecount--;
+            
+        }
     }
 
-    if(ballY == BALL_R)
-    {
-        updateY = updateY * -1;
+/*************************paddle2**********************************/
+
+    if(multiPlayer == 1){
+        if(
+            ballX >= x2Cord - BALL_R &&
+            ballX <= (x2Cord + PADDLE_LENGTH / 2 + BALL_R) &&
+            ballY >= PADDLE2_Y - BALL_R - 1 &&
+            ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
+        )
+            {
+
+                if(updateX > 0){
+                    updateX = updateX * -1;
+                }
+                updateY = updateY * -1;
+            }
+
+        if(
+            ballX >= x2Cord + PADDLE_LENGTH/2 - BALL_R &&
+            ballX <= (x2Cord + PADDLE_LENGTH + BALL_R) &&
+            ballY >= PADDLE2_Y - BALL_R - 1 &&
+            ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
+        )
+            {
+                if(ballX + BALL_R == x2Cord || ballX - BALL_R == x2Cord + PADDLE_LENGTH)
+                    {
+                        updateX = updateX * -1;
+                        goto yey2;
+                    }
+                if(updateX < 0)
+                {
+                    updateX = updateX * -1;
+                }
+                updateY = updateY * -1;
+                yey2:;
+            }
+
+
+        if(ballX >= 240 - BALL_R || ballX == BALL_R)
+        {
+            updateX = updateX * -1;
+        }
+
+        if(ballY == BALL_R)
+        {
+            updateY = updateY * -1;
+        }
+        if(ballY <= 0 + BALL_R)
+        {
+            fillRect(ballX, ballY , BALL_R*2, BALL_R*2, BG_COLOR);
+            ballX = XSTART;
+            ballY = YSTART;
+            updateX = 1;
+            updateY = -1;
+            if (lifecount == 3)
+                fillRect(198, 0,14,14,BG_COLOR);
+            else if (lifecount == 2)
+                fillRect(212, 0, 14, 14, BG_COLOR);
+            else if (lifecount == 1)
+                fillRect(226,0,14,14,BG_COLOR);
+            else
+                gameOver();
+            lifecount--;
+            
+        }
     }
-    if(ballY >= 320 - BALL_R)
-    {
-        fillRect(0, 285 , 240, 35, BG_COLOR);
-        ballX = XSTART;
-        ballY = YSTART;
-        updateX = 1;
-        updateY = -1;
-        if (lifecount == 3)
-            fillRect(198, 0,14,14,BG_COLOR);
-        else if (lifecount == 2)
-            fillRect(212, 0, 14, 14, BG_COLOR);
-        else if (lifecount == 1)
-            fillRect(226,0,14,14,BG_COLOR);
-        else
-            gameOver();
-        lifecount--;
-        
-    }
+
 
     updateBall();
 }
@@ -723,6 +806,7 @@ void timer2_interrupt_handler(void)
 
     if(ballCounter == ballSpeed){
         ballCounter = 0;
+        inputRead();
         advance();
 
     }

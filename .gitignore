@@ -23,3 +23,5 @@ control.c.o
 .deps/control.c.P
 .deps/main.c.P
 vectors.S.o
+.deps/stubs.c.P
+.deps/vectors.S.P
