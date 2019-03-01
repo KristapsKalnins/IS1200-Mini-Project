@@ -8,10 +8,10 @@
 #define PADDLE_COLOR MAGENTA
 #define PADDLE2_COLOR BLUE
 #define BG_COLOR BLACK
-#define SCORE_COLOR YELLOW
+// #define SCORE_COLOR YELLOW
 #define GAME_SPEED 100
 #define PADDLE_Y 270
-#define PADDLE2_Y 20
+#define PADDLE2_Y 40
 #define PADDLE_THICKNESS 10
 #define PADDLE_LENGTH 50
 #define BLOCK_THICC 15
@@ -21,16 +21,20 @@
 #define XSTART 120
 #define YSTART 260
 #define X2START 120
-#define Y2START 40 
+#define Y2START 60 
 
 #define BALL_R 5
 
 int scoreInd = 0;
 int scoreIndprev = -1;
+int scoreInd2 = 0;
+int scoreIndprev2 = -1;
 int lifecount = 2;
+int lifecount2 = 2;
 int maxYHit;
 int paddle1Hit = 0;
 int paddle2Hit = 0;
+char hit = 0;
 
 int ballX = XSTART;
 int ballY = YSTART;
@@ -74,9 +78,9 @@ void inputRead() {
     }
     
     lastxCord = xCord;
-    xCord = calcCord(analogIN1);
+    xCord = calcCord(1024 -analogIN1);
     lastx2Cord = x2Cord;
-    x2Cord = calcCord(analogIN2);
+    x2Cord = calcCord(1024 -analogIN2);
 
 
 }
@@ -240,8 +244,14 @@ void advance () {
                             overm:
                             mullevel1[i][0] = 0;
                             drawBlock(mullevel1[i][1], mullevel1[i][2], BG_COLOR);
+                            if(hit == 0){
                             scoreIndprev = scoreInd;
                             scoreInd++;
+                            }
+                            else{
+                            scoreIndprev2 = scoreInd2;
+                            scoreInd2++;
+                            }
 
                             goto outm;
                         }
@@ -272,8 +282,14 @@ void advance () {
                             over2m:
                             mullevel2[i][0] = 0;
                             drawBlock(mullevel2[i][1], mullevel2[i][2], BG_COLOR);
+                            if(hit == 0){
                             scoreIndprev = scoreInd;
                             scoreInd++;
+                            }
+                            else{
+                            scoreIndprev2 = scoreInd2;
+                            scoreInd2++;
+                            }
 
                             goto out2m;
                         }
@@ -304,9 +320,14 @@ void advance () {
                             over3m:
                             mullevel3[i][0] = 0;
                             drawBlock(mullevel3[i][1], mullevel3[i][2], BG_COLOR);
+                            if(hit == 0){
                             scoreIndprev = scoreInd;
                             scoreInd++;
-
+                            }
+                            else{
+                            scoreIndprev2 = scoreInd2;
+                            scoreInd2++;
+                            }
                             goto out3m;
                         }
                 }
@@ -330,6 +351,7 @@ void advance () {
                     }
                     updateY = updateY * -1;
                     paddle1Hit = 1;
+                    hit = 0;
                 }
 
             if(
@@ -351,6 +373,7 @@ void advance () {
                     }
                     updateY = updateY * -1;
                     paddle1Hit = 1;
+                    hit = 0;
                     yey:;
                 }
         }
@@ -380,6 +403,7 @@ void advance () {
                 ballY = YSTART;
                 updateX = 1;
                 updateY = -1;
+                hit = 0;
             }
             if(multiPlayer == 1)
             {
@@ -387,6 +411,7 @@ void advance () {
                 ballY = Y2START;
                 updateX = -1;
                 updateY = 1;
+                hit = 1;
             }
             if (lifecount == 2)
                 fillRect(196, 0,14,14,BG_COLOR);
@@ -416,6 +441,7 @@ void advance () {
                     }
                     updateY = updateY * -1;
                     paddle2Hit = 1;
+                    hit = 1;      //score meme Kristaps
                 }
 
             if(
@@ -429,6 +455,7 @@ void advance () {
                     if(ballX + BALL_R == x2Cord || ballX - BALL_R == x2Cord + PADDLE_LENGTH)
                         {
                             updateX = updateX * -1;
+                            hit = 1; // score meme Kristaps
                             goto yey2;
                         }
                     if(updateX < 0)
@@ -437,6 +464,7 @@ void advance () {
                     }
                     updateY = updateY * -1;
                     paddle2Hit = 1;
+                    hit = 1;
                     yey2:;
                 }
         }
@@ -461,15 +489,16 @@ void advance () {
             fillRect(ballX, ballY , BALL_R*2, BALL_R*2, BG_COLOR);
             ballX = XSTART;
             ballY = YSTART;
+            hit = 0;
             updateX = 1;
             updateY = -1;
-            if (lifecount == 2)
-                fillRect(196, 0,14,14,BG_COLOR);
-            else if (lifecount == 1)
-                fillRect(211, 0, 14, 14, BG_COLOR);
+            if (lifecount2 == 2)
+                fillRect(30, 306,14,14,BG_COLOR);
+            else if (lifecount2 == 1)
+                fillRect(15, 306, 14, 14, BG_COLOR);
             else
                 gameOver();
-            lifecount--;
+            lifecount2--;
         }
     }
     paddle1Hit = 0;
@@ -619,17 +648,27 @@ void drawLevelText3(uint32_t tcol, uint32_t bcol){
 void drawScoreText(){
     setCursor(34,0);
     setTextSize(2);
-    setTextColor(SCORE_COLOR, BG_COLOR);
+    setTextColor(PADDLE_COLOR, BG_COLOR);
+    writeString("SCORE: ");
+}
+void drawScoreText2(){
+    setCursor(156,306);
+    setTextSize(2);
+    setTextColor(PADDLE2_COLOR, BG_COLOR);
     writeString("SCORE: ");
 }
 
 void drawLife1(){
-    fillRect(226,0,14,14,CYAN);
-    fillRect(211,0,14,14,CYAN);
-    fillRect(196,0,14,14,CYAN);
+    fillRect(226,0,14,14,PADDLE_COLOR);
+    fillRect(211,0,14,14,PADDLE_COLOR);
+    fillRect(196,0,14,14,PADDLE_COLOR);
 }
 
-
+void drawLife2(){
+    fillRect(0,306,14,14, PADDLE2_COLOR);
+    fillRect(15,306,14,14,PADDLE2_COLOR);
+    fillRect(30,306,14,14, PADDLE2_COLOR);
+}
 
 
 
@@ -652,6 +691,10 @@ void levelSelect(){
                     ballSpeed = 50;
                     fillSceen(BG_COLOR);
                     drawScoreText();
+                    if(multiPlayer == 1){
+                    drawScoreText2();
+                    drawLife2();
+                    }
                     drawLife1();
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 1;
@@ -673,6 +716,11 @@ void levelSelect(){
                     ballSpeed = 25;
                     fillSceen(BG_COLOR);
                     drawScoreText();
+                    if(multiPlayer == 1){
+                    drawScoreText2();
+                    drawLife2();
+                    }
+                    drawLife1();
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 2;
                     drawLevel(2);
@@ -693,6 +741,11 @@ void levelSelect(){
                     ballSpeed = 10;
                     fillSceen(BG_COLOR);
                     drawScoreText();
+                    if(multiPlayer == 1){
+                    drawScoreText2();
+                    drawLife2();
+                    }
+                    drawLife1();
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 3;
                     drawLevel(3);
@@ -767,7 +820,12 @@ void drawScore(uint32_t color, uint32_t bg_color, int index){
     writeString(scoreOut[index]);
 }
 
-
+void drawScore2(uint32_t color, uint32_t bg_color, int index){
+    setCursor(123,306);
+    setTextSize(2);
+    setTextColor(color, bg_color);
+    writeString(scoreOut[index]);
+}
 
 
 
@@ -812,14 +870,17 @@ void timer2_interrupt_handler(void)
         inputRead();
         updatePaddle(xCord, lastxCord, PADDLE_Y, PADDLE_COLOR);
         if (multiPlayer == 1){
-        updatePaddle(x2Cord, lastx2Cord, PADDLE2_Y, PADDLE2_COLOR);
+            updatePaddle(x2Cord, lastx2Cord, PADDLE2_Y, PADDLE2_COLOR);
         }
         if (scoreInd != scoreIndprev){
-                drawScore(BG_COLOR, BG_COLOR, scoreIndprev);
-                drawScore(SCORE_COLOR, BG_COLOR, scoreInd);
-                scoreIndprev = scoreInd;
-                
-
+            drawScore(BG_COLOR, BG_COLOR, scoreIndprev);
+            drawScore(PADDLE_COLOR, BG_COLOR, scoreInd);
+            scoreIndprev = scoreInd;
+        }
+        else if(scoreInd2 != scoreIndprev2){
+            drawScore2(BG_COLOR, BG_COLOR, scoreIndprev2);
+            drawScore2(PADDLE2_COLOR, BG_COLOR, scoreInd2);
+            scoreIndprev2 = scoreInd2;
         }
 
     ballCounter++;
