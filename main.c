@@ -21,14 +21,16 @@
 #define XSTART 120
 #define YSTART 260
 #define X2START 120
-#define Y2START 30 
+#define Y2START 40 
 
 #define BALL_R 5
 
 int scoreInd = 0;
 int scoreIndprev = -1;
 int lifecount = 3;
-
+int maxYHit;
+int paddle1Hit = 0;
+int paddle2Hit = 0;
 
 int ballX = XSTART;
 int ballY = YSTART;
@@ -314,49 +316,60 @@ void advance () {
     }
 
     if(multiPlayer == 0 || multiPlayer == 1){
-        if(
-            ballX >= xCord - BALL_R &&
-            ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
-            ballY >= PADDLE_Y - BALL_R - 1 &&
-            ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
-        )
-            {
-
-                if(updateX > 0){
-                    updateX = updateX * -1;
+        if(paddle1Hit == 0)
+        {
+            if(
+                ballX >= xCord - BALL_R &&
+                ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
+                ballY >= PADDLE_Y - BALL_R - 1 &&
+                ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
+            )
+                {
+                    if(updateX > 0){
+                        updateX = updateX * -1;
+                    }
+                    updateY = updateY * -1;
+                    paddle1Hit = 1;
                 }
-                updateY = updateY * -1;
-            }
 
-        if(
-            ballX > xCord + PADDLE_LENGTH/2 - BALL_R &&
-            ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
-            ballY >= PADDLE_Y - BALL_R - 1 &&
-            ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
-        )
-            {
-                if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
+            if(
+                ballX > xCord + PADDLE_LENGTH/2 - BALL_R &&
+                ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
+                ballY >= PADDLE_Y - BALL_R - 1 &&
+                ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
+            )
+                {
+                    
+                    if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
+                        {
+                            updateX = updateX * -1;
+                            goto yey;
+                        }
+                    if(updateX < 0)
                     {
                         updateX = updateX * -1;
-                        goto yey;
                     }
-                if(updateX < 0)
-                {
-                    updateX = updateX * -1;
+                    updateY = updateY * -1;
+                    paddle1Hit = 1;
+                    yey:;
                 }
-                updateY = updateY * -1;
-                yey:;
-            }
+        }
 
 
         if(ballX >= 240 - BALL_R || ballX == BALL_R)
         {
-            updateX = updateX * -1;
+            if(maxYHit == 0){
+                updateX = updateX * -1;
+                maxYHit = 1;
+            }
         }
 
         if(ballY == BALL_R)
         {
-            updateY = updateY * -1;
+            
+                updateY = updateY * -1;
+            
+            
         }
         if(ballY >= 320 - BALL_R)
         {
@@ -391,49 +404,59 @@ void advance () {
 /*************************paddle2**********************************/
 
     if(multiPlayer == 1){
-        if(
-            ballX >= x2Cord - BALL_R &&
-            ballX <= (x2Cord + PADDLE_LENGTH / 2 + BALL_R) &&
-            ballY >= PADDLE2_Y - BALL_R - 1 &&
-            ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
-        )
-            {
-
-                if(updateX > 0){
-                    updateX = updateX * -1;
+        if(paddle2Hit == 0)
+        {
+            if(
+                ballX >= x2Cord - BALL_R &&
+                ballX <= (x2Cord + PADDLE_LENGTH / 2 + BALL_R) &&
+                ballY >= PADDLE2_Y - BALL_R - 1 &&
+                ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
+            )
+                {
+                    if(updateX > 0){
+                        updateX = updateX * -1;
+                    }
+                    updateY = updateY * -1;
+                    paddle2Hit = 1;
                 }
-                updateY = updateY * -1;
-            }
 
-        if(
-            ballX >= x2Cord + PADDLE_LENGTH/2 - BALL_R &&
-            ballX <= (x2Cord + PADDLE_LENGTH + BALL_R) &&
-            ballY >= PADDLE2_Y - BALL_R - 1 &&
-            ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
-        )
-            {
-                if(ballX + BALL_R == x2Cord || ballX - BALL_R == x2Cord + PADDLE_LENGTH)
+            if(
+                ballX >= x2Cord + PADDLE_LENGTH/2 - BALL_R &&
+                ballX <= (x2Cord + PADDLE_LENGTH + BALL_R) &&
+                ballY >= PADDLE2_Y - BALL_R - 1 &&
+                ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
+            )
+                {
+                    
+                    if(ballX + BALL_R == x2Cord || ballX - BALL_R == x2Cord + PADDLE_LENGTH)
+                        {
+                            updateX = updateX * -1;
+                            goto yey2;
+                        }
+                    if(updateX < 0)
                     {
                         updateX = updateX * -1;
-                        goto yey2;
                     }
-                if(updateX < 0)
-                {
-                    updateX = updateX * -1;
+                    updateY = updateY * -1;
+                    paddle2Hit = 1;
+                    yey2:;
                 }
-                updateY = updateY * -1;
-                yey2:;
-            }
-
+        }
 
         if(ballX >= 240 - BALL_R || ballX == BALL_R)
         {
-            updateX = updateX * -1;
+            if(maxYHit == 0){
+                updateX = updateX * -1;
+                maxYHit = 1;
+            }
         }
 
         if(ballY == BALL_R)
         {
-            updateY = updateY * -1;
+            
+                updateY = updateY * -1;
+                
+            
         }
         if(ballY <= 0 + BALL_R)
         {
@@ -454,7 +477,9 @@ void advance () {
             
         }
     }
-
+    paddle1Hit = 0;
+    paddle2Hit = 0;
+    maxYHit = 0;
 
     updateBall();
 }
@@ -806,7 +831,7 @@ void timer2_interrupt_handler(void)
 
     if(ballCounter == ballSpeed){
         ballCounter = 0;
-        inputRead();
+        
         advance();
 
     }
