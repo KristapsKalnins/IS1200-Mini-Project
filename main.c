@@ -27,7 +27,7 @@
 
 int scoreInd = 0;
 int scoreIndprev = -1;
-int lifecount = 3;
+int lifecount = 2;
 
 
 int ballX = XSTART;
@@ -375,12 +375,10 @@ void advance () {
                 updateX = -1;
                 updateY = 1;
             }
-            if (lifecount == 3)
-                fillRect(198, 0,14,14,BG_COLOR);
-            else if (lifecount == 2)
-                fillRect(212, 0, 14, 14, BG_COLOR);
+            if (lifecount == 2)
+                fillRect(196, 0,14,14,BG_COLOR);
             else if (lifecount == 1)
-                fillRect(226,0,14,14,BG_COLOR);
+                fillRect(211, 0, 14, 14, BG_COLOR);
             else
                 gameOver();
             lifecount--;
@@ -442,16 +440,13 @@ void advance () {
             ballY = YSTART;
             updateX = 1;
             updateY = -1;
-            if (lifecount == 3)
-                fillRect(198, 0,14,14,BG_COLOR);
-            else if (lifecount == 2)
-                fillRect(212, 0, 14, 14, BG_COLOR);
+            if (lifecount == 2)
+                fillRect(196, 0,14,14,BG_COLOR);
             else if (lifecount == 1)
-                fillRect(226,0,14,14,BG_COLOR);
+                fillRect(211, 0, 14, 14, BG_COLOR);
             else
                 gameOver();
             lifecount--;
-            
         }
     }
 
@@ -604,9 +599,9 @@ void drawScoreText(){
 }
 
 void drawLife1(){
-    fillRect(226,0,14,14,RED);
-    fillRect(212,0,14,14,YELLOW);
-    fillRect(198,0,14,14,GREEN);
+    fillRect(226,0,14,14,CYAN);
+    fillRect(211,0,14,14,CYAN);
+    fillRect(196,0,14,14,CYAN);
 }
 
 
