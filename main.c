@@ -351,7 +351,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle1Hit = 2;
+                    paddle1Hit = 5;
                     hit = 0;
                 }
 
@@ -366,7 +366,7 @@ void advance () {
                     if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
                         {
                             updateX = updateX * -1;
-                            paddle1Hit = 2;
+                            paddle1Hit = 5;
                             hit = 0;
                             goto yey;
                         }
@@ -375,7 +375,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle1Hit = 2;
+                    paddle1Hit = 5;
                     hit = 0;
                     yey:;
                 }
@@ -443,7 +443,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle2Hit = 2;
+                    paddle2Hit = 5;
                     hit = 1;      //score meme Kristaps
                 }
 
@@ -458,7 +458,7 @@ void advance () {
                     if(ballX + BALL_R == x2Cord || ballX - BALL_R == x2Cord + PADDLE_LENGTH)
                         {
                             updateX = updateX * -1;
-                            paddle2Hit = 2;
+                            paddle2Hit = 5;
                             hit = 1; // score meme Kristaps
                             goto yey2;
                         }
@@ -467,7 +467,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle2Hit = 2;
+                    paddle2Hit = 5;
                     hit = 1;
                     yey2:;
                 }
