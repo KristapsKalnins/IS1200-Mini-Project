@@ -32,8 +32,7 @@ int scoreIndprev2 = -1;
 int lifecount = 2;
 int lifecount2 = 2;
 int maxYHit;
-int paddle1Hit = 0;
-int paddle2Hit = 0;
+
 char hit = 0;
 
 int ballX = XSTART;
@@ -94,6 +93,8 @@ void gameOver(){
     for(;;);
 }
 
+int paddle1Hit = 0;
+int paddle2Hit = 0;
 
 void advance () {
 
@@ -504,8 +505,14 @@ void advance () {
             lifecount2--;
         }
     }
-    paddle1Hit = paddle1Hit - 1;
-    paddle2Hit = paddle2Hit - 1;
+    if(paddle1Hit > 0)
+    {
+        paddle1Hit = paddle1Hit - 1;
+    }
+    if(paddle2Hit > 0)
+    {
+        paddle2Hit = paddle2Hit - 1;
+    }
     maxYHit = 0;
 
     updateBall();
