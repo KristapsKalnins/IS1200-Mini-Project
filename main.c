@@ -350,7 +350,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle1Hit = 1;
+                    paddle1Hit = 2;
                     hit = 0;
                 }
 
@@ -372,7 +372,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle1Hit = 1;
+                    paddle1Hit = 2;
                     hit = 0;
                     yey:;
                 }
@@ -440,7 +440,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle2Hit = 1;
+                    paddle2Hit = 2;
                     hit = 1;      //score meme Kristaps
                 }
 
@@ -463,7 +463,7 @@ void advance () {
                         updateX = updateX * -1;
                     }
                     updateY = updateY * -1;
-                    paddle2Hit = 1;
+                    paddle2Hit = 2;
                     hit = 1;
                     yey2:;
                 }
@@ -501,8 +501,8 @@ void advance () {
             lifecount2--;
         }
     }
-    paddle1Hit = 0;
-    paddle2Hit = 0;
+    paddle1Hit = paddle1Hit - 1;
+    paddle2Hit = paddle2Hit - 1;
     maxYHit = 0;
 
     updateBall();
