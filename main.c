@@ -365,6 +365,8 @@ void advance () {
                     if(ballX + BALL_R == xCord || ballX - BALL_R == xCord + PADDLE_LENGTH)
                         {
                             updateX = updateX * -1;
+                            paddle1Hit = 2;
+                            hit = 0;
                             goto yey;
                         }
                     if(updateX < 0)
@@ -455,6 +457,7 @@ void advance () {
                     if(ballX + BALL_R == x2Cord || ballX - BALL_R == x2Cord + PADDLE_LENGTH)
                         {
                             updateX = updateX * -1;
+                            paddle2Hit = 2;
                             hit = 1; // score meme Kristaps
                             goto yey2;
                         }
