@@ -32,8 +32,11 @@ int scoreIndprev2 = -1;
 int lifecount = 2;
 int lifecount2 = 2;
 int maxYHit;
+int level = 0;
 
 char hit = 0;
+char p1Scorefix = 0;
+char tophit = 0;
 
 int ballX = XSTART;
 int ballY = YSTART;
@@ -86,20 +89,144 @@ void inputRead() {
 
 
 void gameOver(){
-    fillSceen(RED);
-    setCursor(50, 150);
-    setTextColor(BLACK, RED);
-    writeString("GAME OVER!");
-    for(;;);
+    if (multiPlayer == 0){
+        if (lifecount == 0){
+            fillSceen(RED);
+            setCursor(60, 135);
+            setTextColor(BLACK, RED);
+            writeString("GAME OVER!");
+            setCursor(70, 165);
+            writeString("FINAL SCORE:");
+            setCursor(25, 165);
+            writeString(scoreOut[scoreInd]);
+        }
+        else{
+            fillSceen(GREEN);
+            setCursor(90, 135);
+            setTextColor(BLACK, GREEN);
+            writeString("WIN!");
+            setCursor(70, 165);
+            writeString("FINAL SCORE:");
+            setCursor(25, 165);
+            writeString(scoreOut[scoreInd]);
+        }
+    }
+    else if(multiPlayer == 1){
+        if (lifecount == 0 || lifecount2 == 0){
+            fillSceen(RED);
+            setCursor(60, 120);
+            setTextColor(BLACK, RED);
+            writeString("GAME OVER!");
+            setCursor(60, 145);
+            writeString("PLAYER1 SCORE:");
+            setCursor(15, 145);
+            setTextColor(PADDLE_COLOR, RED);
+            writeString(scoreOut[scoreInd]);
+            setCursor(60, 170);
+            setTextColor(BLACK, RED);
+            writeString("PLAYER2 SCORE:");
+            setCursor(15, 170);
+            setTextColor(PADDLE2_COLOR, RED);
+            writeString(scoreOut[scoreInd2]);
+            setTextColor(BLACK, RED);
+            if (lifecount == 0) {
+                setCursor(50, 195);
+                writeString("PLAYER2 WINS!");
+            }
+            else if(lifecount2 == 0){
+                setCursor(50, 195);
+                writeString("PLAYER1 WINS!");
+            }
+            // else{
+            //     setCursor(80, 195);
+            //     writeString("DRAW!");
+            // }
+            
+        }
+        else{
+            fillSceen(GREEN);
+            setCursor(90, 120);
+            setTextColor(BLACK, GREEN);
+            writeString("WIN!");
+            setCursor(60, 145);
+            writeString("PLAYER1 SCORE:");
+            setCursor(15, 145);
+            setTextColor(PADDLE_COLOR, GREEN);
+            writeString(scoreOut[scoreInd]);
+            setCursor(60, 170);
+            setTextColor(BLACK, GREEN);
+            writeString("PLAYER2 SCORE:");
+            setCursor( 15, 170);
+            setTextColor(PADDLE2_COLOR, GREEN);
+            writeString(scoreOut[scoreInd2]);
+            setTextColor(BLACK, GREEN);
+            if (scoreInd2 > scoreInd) {
+                setCursor(50, 195);
+                writeString("PLAYER2 WINS!");
+            }
+            else if(scoreInd2 < scoreInd){
+                setCursor(50, 195);
+                writeString("PLAYER1 WINS!");
+            }
+            else{
+                setCursor(80, 195);
+                writeString("DRAW!");
+            }
+        }
+    }
+for(;;);
 }
 
 int paddle1Hit = 0;
 int paddle2Hit = 0;
 
+void drawLife1(char c){
+    if (c == 2){
+    fillRect(226,0,14,14,PADDLE_COLOR);
+    fillRect(211,0,14,14,PADDLE_COLOR);
+    fillRect(196,0,14,14,PADDLE_COLOR);
+    }
+    else if(c == 1){
+    fillRect(226,0,14,14,PADDLE_COLOR);
+    fillRect(211,0,14,14,PADDLE_COLOR);
+    }
+    else if(c == 0){
+      fillRect(226,0,14,14,PADDLE_COLOR);  
+    }
+}
+
+void drawScoreText(){
+    setCursor(34,0);
+    setTextSize(2);
+    setTextColor(PADDLE_COLOR, BG_COLOR);
+    writeString("SCORE: ");
+}
+
+void drawScore(uint32_t color, uint32_t bg_color, int index){
+    setCursor(1,0);
+    setTextSize(2);
+    setTextColor(color, bg_color);
+    writeString(scoreOut[index]);
+}
+
+
+
 void advance () {
 
    if(multiPlayer == 0)
    {
+        if(level == 1)
+            if(scoreInd == 48)
+                gameOver();
+        if(level == 2)
+            if(scoreInd == 25)
+                gameOver();
+        if(level == 3)
+            if(scoreInd == 34)
+                gameOver();
+
+
+
         if(hitInt == 1)
         {
             int i;
@@ -179,7 +306,7 @@ void advance () {
         if(hitInt == 3)
         {
             int i;
-            for(i = 0; i < 51; i++){
+            for(i = 0; i < 34; i++){
                 if(level3[i][0] == 1){
                     if
                     (
@@ -302,7 +429,7 @@ void advance () {
         if(hitInt == 3)
         {
             int i;
-            for(i = 0; i < 51; i++){
+            for(i = 0; i < 34; i++){
                 if(mullevel3[i][0] == 1){
                     if
                     (
@@ -396,7 +523,8 @@ void advance () {
         {
             
                 updateY = updateY * -1;
-            
+                tophit = 1;
+
             
         }
         if(ballY >= 305 - BALL_R)
@@ -427,11 +555,42 @@ void advance () {
             lifecount--;
             
         }
+        if(tophit == 1)
+            p1Scorefix++;
+        if (p1Scorefix == 14){
+            if (lifecount == 2)
+                drawLife1(2);
+            if (lifecount == 1)
+                drawLife1(1);
+            if (lifecount == 0)
+                drawLife1(0);
+            drawScoreText();
+            drawScore(PADDLE_COLOR, BG_COLOR, scoreInd);
+            p1Scorefix = 0;
+            tophit = 0;
+        }
     }
 
 /*************************paddle2**********************************/
 
     if(multiPlayer == 1){
+
+         if(level == 1){
+            if((scoreInd + scoreInd2) == 48){
+                gameOver();
+            }
+         }
+        if(level == 2){
+            if((scoreInd + scoreInd2) == 25){
+                gameOver();
+            }
+        }
+        if(level == 3){
+            if((scoreInd + scoreInd2) == 34){
+                gameOver();
+            }
+        }
+
         if(paddle2Hit == 0)
         {
             if(
@@ -542,7 +701,7 @@ void drawLevel(char x){
             }
         }
         if(x == 3){
-            for(i = 0; i< 51 ;i++){
+            for(i = 0; i< 34 ;i++){
                 drawBlock(level3[i][1], level3[i][2], level3[i][3]);
             }
         }
@@ -560,7 +719,7 @@ void drawLevel(char x){
             }
         }
         if(x == 3){
-            for(i = 0; i< 51 ;i++){
+            for(i = 0; i< 34 ;i++){
                 drawBlock(mullevel3[i][1], mullevel3[i][2], mullevel3[i][3]);
             }
         }
@@ -659,12 +818,7 @@ void drawLevelText3(uint32_t tcol, uint32_t bcol){
     setCursor(90, 200);
 	writeString("Level 3");
 }
-void drawScoreText(){
-    setCursor(34,0);
-    setTextSize(2);
-    setTextColor(PADDLE_COLOR, BG_COLOR);
-    writeString("SCORE: ");
-}
+
 void drawScoreText2(){
     setCursor(156,306);
     setTextSize(2);
@@ -672,11 +826,7 @@ void drawScoreText2(){
     writeString("SCORE: ");
 }
 
-void drawLife1(){
-    fillRect(226,0,14,14,PADDLE_COLOR);
-    fillRect(211,0,14,14,PADDLE_COLOR);
-    fillRect(196,0,14,14,PADDLE_COLOR);
-}
+
 
 void drawLife2(){
     fillRect(0,306,14,14, PADDLE2_COLOR);
@@ -702,6 +852,7 @@ void levelSelect(){
             while(xCord >= 160 && xCord <=240){
                 inputRead();
                 if (getbtns() & 0x4){
+                    level = 1;
                     ballSpeed = 50;
                     fillSceen(BG_COLOR);
                     drawScoreText();
@@ -709,7 +860,7 @@ void levelSelect(){
                     drawScoreText2();
                     drawLife2();
                     }
-                    drawLife1();
+                    drawLife1(2);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 1;
                     drawLevel(1);
@@ -727,14 +878,15 @@ void levelSelect(){
             while(xCord >= 80 && xCord <=160){
                 inputRead();
                 if (getbtns() & 0x4){
-                    ballSpeed = 25;
+                    level = 2;
+                    ballSpeed = 40;
                     fillSceen(BG_COLOR);
                     drawScoreText();
                     if(multiPlayer == 1){
                     drawScoreText2();
                     drawLife2();
                     }
-                    drawLife1();
+                    drawLife1(2);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 2;
                     drawLevel(2);
@@ -752,14 +904,15 @@ void levelSelect(){
             while(xCord >= 0 && xCord <=80){
                 inputRead();
                 if (getbtns() & 0x4){
-                    ballSpeed = 10;
+                    level = 3;
+                    ballSpeed = 30;
                     fillSceen(BG_COLOR);
                     drawScoreText();
                     if(multiPlayer == 1){
                     drawScoreText2();
                     drawLife2();
                     }
-                    drawLife1();
+                    drawLife1(2);
                     drawCircle(ballX, ballY, BALL_R, WHITE);
                     hitInt = 3;
                     drawLevel(3);
@@ -827,12 +980,7 @@ void mainMenu(){
 }
 
 
-void drawScore(uint32_t color, uint32_t bg_color, int index){
-    setCursor(1,0);
-    setTextSize(2);
-    setTextColor(color, bg_color);
-    writeString(scoreOut[index]);
-}
+
 
 void drawScore2(uint32_t color, uint32_t bg_color, int index){
     setCursor(123,306);
@@ -869,7 +1017,7 @@ void timer2_interrupt_handler(void)
     {
         if(getbtns() & 4)
         {  
-            //btn4
+            gameOver();
         }
         if(getbtns() & 2)
         {

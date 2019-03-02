@@ -27,3 +27,7 @@ vectors.S.o
 .deps/vectors.S.P
 .vscode/ipch/fe39d5747ed111c1/MAIN.ipch
 .vscode/ipch/fe39d5747ed111c1/mmap_address.bin
+.vscode/ipch/40f397a744509770/mmap_address.bin
+.vscode/ipch/37b82f010a753e81/mmap_address.bin
+.vscode/ipch/40f397a744509770/DISPLAY.ipch
+.vscode/ipch/37b82f010a753e81/ASSETS.ipch

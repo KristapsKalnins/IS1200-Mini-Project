@@ -11,7 +11,7 @@
 #define FIRST_BLOCK_CORD_Y2 25  // mid value 107
 #define FIRST_BLOCK_CORD_Y2M 107
 #define FIRST_BLOCK_CORD_X3 210
-#define FIRST_BLOCK_CORD_Y3 10 // mid value 93
+#define FIRST_BLOCK_CORD_Y3 15 // mid value 93
 #define FIRST_BLOCK_CORD_Y3M 93
 
 
@@ -750,7 +750,7 @@ uint32_t level2 [26][4] = {
 
 };
 
-uint32_t level3 [51][4] = {
+uint32_t level3 [34][4] = {
         {1, FIRST_BLOCK_CORD_X3 - BLOCK_LEN, FIRST_BLOCK_CORD_Y3, YELLOW},
         {1, FIRST_BLOCK_CORD_X3 - 2*BLOCK_LEN, FIRST_BLOCK_CORD_Y3, YELLOW},
         {1, FIRST_BLOCK_CORD_X3 - 3*BLOCK_LEN, FIRST_BLOCK_CORD_Y3, YELLOW},
