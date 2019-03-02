@@ -25,3 +25,5 @@ control.c.o
 vectors.S.o
 .deps/stubs.c.P
 .deps/vectors.S.P
+.vscode/ipch/fe39d5747ed111c1/MAIN.ipch
+.vscode/ipch/fe39d5747ed111c1/mmap_address.bin

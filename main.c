@@ -353,6 +353,7 @@ void advance () {
                     updateY = updateY * -1;
                     paddle1Hit = 5;
                     hit = 0;
+                    goto yamero;
                 }
 
             if(
@@ -378,6 +379,7 @@ void advance () {
                     paddle1Hit = 5;
                     hit = 0;
                     yey:;
+                    yamero: ;
                 }
         }
 
@@ -397,9 +399,9 @@ void advance () {
             
             
         }
-        if(ballY >= 320 - BALL_R)
+        if(ballY >= 305 - BALL_R)
         {
-            fillRect(ballX, ballY , BALL_R*2, BALL_R*2, BG_COLOR);
+            fillRect(ballX - BALL_R, ballY - BALL_R , BALL_R*2 + 1, BALL_R*2 + 1 , BG_COLOR);
             if(multiPlayer == 0)
             {
                 ballX = XSTART;
@@ -445,6 +447,7 @@ void advance () {
                     updateY = updateY * -1;
                     paddle2Hit = 5;
                     hit = 1;      //score meme Kristaps
+                    goto yamero2;
                 }
 
             if(
@@ -470,6 +473,7 @@ void advance () {
                     paddle2Hit = 5;
                     hit = 1;
                     yey2:;
+                    yamero2: ;
                 }
         }
 
@@ -488,9 +492,9 @@ void advance () {
                 
             
         }
-        if(ballY <= 0 + BALL_R)
+        if(ballY <= 15 + BALL_R)
         {
-            fillRect(ballX, ballY , BALL_R*2, BALL_R*2, BG_COLOR);
+            fillRect(ballX - BALL_R, ballY - BALL_R , BALL_R*2 + 1, BALL_R*2 + 1, BG_COLOR);
             ballX = XSTART;
             ballY = YSTART;
             hit = 0;
