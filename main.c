@@ -871,17 +871,18 @@ void timer2_interrupt_handler(void)
         updatePaddle(xCord, lastxCord, PADDLE_Y, PADDLE_COLOR);
         if (multiPlayer == 1){
             updatePaddle(x2Cord, lastx2Cord, PADDLE2_Y, PADDLE2_COLOR);
+            if(scoreInd2 != scoreIndprev2){
+                drawScore2(BG_COLOR, BG_COLOR, scoreIndprev2);
+                drawScore2(PADDLE2_COLOR, BG_COLOR, scoreInd2);
+                scoreIndprev2 = scoreInd2;
+            }
         }
         if (scoreInd != scoreIndprev){
             drawScore(BG_COLOR, BG_COLOR, scoreIndprev);
             drawScore(PADDLE_COLOR, BG_COLOR, scoreInd);
             scoreIndprev = scoreInd;
         }
-        else if(scoreInd2 != scoreIndprev2){
-            drawScore2(BG_COLOR, BG_COLOR, scoreIndprev2);
-            drawScore2(PADDLE2_COLOR, BG_COLOR, scoreInd2);
-            scoreIndprev2 = scoreInd2;
-        }
+       
 
     ballCounter++;
 
