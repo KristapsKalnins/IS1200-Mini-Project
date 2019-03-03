@@ -5,8 +5,8 @@
 #include "assets.h"
 #include "control.h"
 
-#define PADDLE_COLOR MAGENTA
-#define PADDLE2_COLOR BLUE
+#define PADDLE_COLOR ORANGE
+#define PADDLE2_COLOR LIGHTBLUE
 #define BG_COLOR BLACK
 // #define SCORE_COLOR YELLOW
 #define GAME_SPEED 100
@@ -787,6 +787,7 @@ void updatePaddle(uint16_t x, uint16_t last, uint16_t height, uint32_t color){
 
 void splash(){
 	fillSceen(WHITE);
+    drawBitmap(64,95,logo, 128, 128, BLUE);
 	setCursor(10,50);
   setTextSize(4);
   setTextColor(BLACK, WHITE);
@@ -795,14 +796,14 @@ void splash(){
 	while(1){
 		if(getbtns() & 0x4)
 			break;
-		setCursor(50, 260);
+		setCursor(60, 260);
 		setTextSize(1);
 		setTextColor(BLACK, WHITE);
 		writeString("Press BTN4 to START!");
 		delay_ms(500);
 		if(getbtns() & 0x4)
 			break;
-		setCursor(50, 260);
+		setCursor(60, 260);
 		setTextSize(1);
 		setTextColor(WHITE, WHITE);
 		writeString("Press BTN4 to START!");
@@ -811,32 +812,27 @@ void splash(){
 }
 void drawMenuSPtext(uint32_t tcol, uint32_t bcol){
     setTextColor(tcol, bcol);
-    setCursor(45,50);
+    setCursor(45,116);
     writeString("Single-Player");
 }
 void drawMenuMPtext(uint32_t tcol, uint32_t bcol){
     setTextColor(tcol, bcol);
-    setCursor(52, 125);
+    setCursor(50, 194);
 	writeString("Multi-Player");
-}
-void drawMenuSMtext(uint32_t tcol, uint32_t bcol){
-    setTextColor(tcol, bcol);
-    setCursor(90, 200);
-	writeString("Stuff");
 }
 void drawLevelText1(uint32_t tcol, uint32_t bcol){
     setTextColor(tcol, bcol);
-    setCursor(45,50);
+    setCursor(80,80);
     writeString("Level 1");
 }
 void drawLevelText2(uint32_t tcol, uint32_t bcol){
     setTextColor(tcol, bcol);
-    setCursor(52, 125);
+    setCursor(80, 155);
 	writeString("Level 2");
 }
 void drawLevelText3(uint32_t tcol, uint32_t bcol){
     setTextColor(tcol, bcol);
-    setCursor(90, 200);
+    setCursor(80, 230);
 	writeString("Level 3");
 }
 
@@ -958,14 +954,12 @@ void mainMenu(){
     setTextSize(2);
     drawMenuSPtext(MENUTEXTCOL, MENUTEXTBGCOL);
     drawMenuMPtext(MENUTEXTCOL, MENUTEXTBGCOL);
-    drawMenuSMtext(MENUTEXTCOL, MENUTEXTBGCOL);
 	while(1){
         inputRead();
-        if(xCord >= 160 && xCord <=240){
+        if(xCord >= 120 && xCord <=240){
             drawMenuMPtext(MENUTEXTCOL, MENUTEXTBGCOL);
-            drawMenuSMtext(MENUTEXTCOL, MENUTEXTBGCOL);
             drawMenuSPtext(MENUTEXTBGCOL, MENUTEXTCOL);
-            while(xCord >= 160 && xCord <=240){
+            while(xCord >= 120 && xCord <=240){
                 inputRead();
                 if (getbtns() & 0x4){
                     multiPlayer = 0;
@@ -973,26 +967,14 @@ void mainMenu(){
                 }
             }
         }
-        else if(xCord >= 80 && xCord <=160){
+        else if(xCord >= 0 && xCord <=120){
             inputRead();
             drawMenuSPtext(MENUTEXTCOL, MENUTEXTBGCOL);
-            drawMenuSMtext(MENUTEXTCOL, MENUTEXTBGCOL);
             drawMenuMPtext(MENUTEXTBGCOL, MENUTEXTCOL);
-            while(xCord >= 80 && xCord <=160){
+            while(xCord >= 0 && xCord <=120){
                 inputRead();
                 if (getbtns() & 0x4){
                     multiPlayer = 1;
-                    levelSelect();
-                }
-            }
-        }
-		else if(xCord >= 0 && xCord <=80){
-            drawMenuSPtext(MENUTEXTCOL, MENUTEXTBGCOL);
-            drawMenuMPtext(MENUTEXTCOL, MENUTEXTBGCOL);
-            drawMenuSMtext(MENUTEXTBGCOL, MENUTEXTCOL);
-            while(xCord >= 0 && xCord <=80){
-                inputRead();
-                if (getbtns() & 0x4){
                     levelSelect();
                 }
             }

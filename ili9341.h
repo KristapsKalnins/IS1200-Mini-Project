@@ -14,6 +14,7 @@
 #define DISPLAY_SELECT_PORT PORTD
 #define DISPLAY_SELECT_MASK 0x1
 
+#define LIGHTBLUE	~0x041F
 #define BLACK       0x0000      
 #define NAVY        0x7800        
 #define DARKGREEN   0x03E0      
@@ -48,7 +49,7 @@ void drawPaddle(uint16_t x, uint16_t y, uint16_t color);
 void drawBitmap(uint16_t x, uint16_t y,
 			      const uint8_t *bitmap, uint16_t w, uint16_t h,
 			      uint32_t color);
-void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color);
+void drawCircle(uint16_t x0, uint16_t y0, uint16_t r, uint32_t color);
 void drawCircleNF(int16_t x0, int16_t y0, int16_t r, uint32_t color); // NON FILLED
 void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size);
 void drawBlock(uint16_t x, uint16_t y, uint32_t color);

@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-const uint8_t const logo[200*200];
+const uint8_t const logo[5646];
 const uint8_t const heart[15*12];
 extern const uint8_t const font[255 * 5];
 uint32_t level1 [48][4];
