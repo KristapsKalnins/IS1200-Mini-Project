@@ -36,6 +36,7 @@
 #define PINK        0xF81F
 
 void delay_ms(int c);
+void delay_sp(int c);
 void spi_initialize(void);
 void setAddress(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2);
 void hard_reset(void);

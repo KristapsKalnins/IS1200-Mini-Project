@@ -5,6 +5,7 @@
 #include "ili9341.h"
 #include "spi.h"
 #include "assets.h"
+#include "control.h"
 
 #define DISPLAY_VDD PORTFbits.RF1
 #define DISPLAY_VLED PORTFbits.RD2
@@ -60,6 +61,16 @@ void delay_ms(int c){
     int con = c * 4444;
     int i;
     for(i = con; i > 0; i--);
+}
+void delay_sp(int c){
+	int con = c * 4444;
+  int i;
+  for(i = con; i > 0; i--){
+		if (getbtns() & 0x4) {
+			break;
+		}
+		
+	}
 }
 
 

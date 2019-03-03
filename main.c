@@ -800,14 +800,14 @@ void splash(){
 		setTextSize(1);
 		setTextColor(BLACK, WHITE);
 		writeString("Press BTN4 to START!");
-		delay_ms(500);
+		delay_sp(150);
 		if(getbtns() & 0x4)
 			break;
 		setCursor(60, 260);
 		setTextSize(1);
 		setTextColor(WHITE, WHITE);
 		writeString("Press BTN4 to START!");
-		delay_ms(500);
+		delay_sp(150);
 		}
 }
 void drawMenuSPtext(uint32_t tcol, uint32_t bcol){
@@ -1020,7 +1020,7 @@ void timer2_interrupt_handler(void)
     {
         if(getbtns() & 4)
         {  
-            gameOver();
+        
         }
         if(getbtns() & 2)
         {
