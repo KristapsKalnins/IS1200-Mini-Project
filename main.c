@@ -56,7 +56,28 @@ int counter = 0;
 
 
 void updateBall() {
-    drawCircle(ballX, ballY, BALL_R, BG_COLOR);
+    drawCircleNF(ballX, ballY, BALL_R, BG_COLOR);
+    if (updateX > 0 && updateY < 0 ){
+        drawPixel(ballX-BALL_R+3, ballY + BALL_R-1, BG_COLOR);
+        drawPixel(ballX-BALL_R+2, ballY + BALL_R-2, BG_COLOR);
+        drawPixel(ballX-BALL_R+1, ballY + BALL_R-3, BG_COLOR);
+    }
+    else if(updateX < 0 && updateY > 0){
+        drawPixel(ballX+BALL_R-3, ballY - BALL_R+1, BG_COLOR);
+        drawPixel(ballX+BALL_R-2, ballY - BALL_R+2, BG_COLOR);
+        drawPixel(ballX+BALL_R-1, ballY - BALL_R+3, BG_COLOR);
+    }
+    else if(updateX < 0 && updateY < 0){
+        drawPixel(ballX+BALL_R-3, ballY + BALL_R-1, BG_COLOR);
+        drawPixel(ballX+BALL_R-2, ballY + BALL_R-2, BG_COLOR);
+        drawPixel(ballX+BALL_R-1, ballY + BALL_R-3, BG_COLOR);
+    }
+    else if(updateX > 0 && updateY > 0){
+        drawPixel(ballX-BALL_R+3, ballY - BALL_R+1, BG_COLOR);
+        drawPixel(ballX-BALL_R+2, ballY - BALL_R+2, BG_COLOR);
+        drawPixel(ballX-BALL_R+1, ballY - BALL_R+3, BG_COLOR);
+    }
+
     ballX = ballX + updateX;
     ballY = ballY + updateY;
     drawCircle(ballX, ballY, BALL_R, WHITE);
@@ -469,7 +490,7 @@ void advance () {
         {
             if(
                 ballX >= xCord - BALL_R &&
-                ballX <= (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
+                ballX < (xCord + PADDLE_LENGTH / 2 + BALL_R) &&
                 ballY >= PADDLE_Y - BALL_R - 1 &&
                 ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
             )
@@ -484,7 +505,7 @@ void advance () {
                 }
 
             if(
-                ballX > xCord + PADDLE_LENGTH/2 - BALL_R &&
+                ballX >= xCord + PADDLE_LENGTH/2 - BALL_R &&
                 ballX <= (xCord + PADDLE_LENGTH + BALL_R) &&
                 ballY >= PADDLE_Y - BALL_R - 1 &&
                 ballY <= (PADDLE_Y + PADDLE_THICKNESS + BALL_R)
@@ -595,7 +616,7 @@ void advance () {
         {
             if(
                 ballX >= x2Cord - BALL_R &&
-                ballX <= (x2Cord + PADDLE_LENGTH / 2 + BALL_R) &&
+                ballX < (x2Cord + PADDLE_LENGTH / 2 + BALL_R) &&
                 ballY >= PADDLE2_Y - BALL_R - 1 &&
                 ballY <= (PADDLE2_Y + PADDLE_THICKNESS + BALL_R)
             )

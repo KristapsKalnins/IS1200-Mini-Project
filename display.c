@@ -284,7 +284,7 @@ void drawPaddle(uint16_t x, uint16_t y, uint16_t color){
 
 
 
-void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color) {
+void drawCircleNF(int16_t x0, int16_t y0, int16_t r, uint32_t color) {
 	int16_t f = 1 - r;
 	int16_t ddF_x = 1;
 	int16_t ddF_y = -2 * r;
@@ -317,6 +317,7 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color) {
         drawPixel(x0 - y, y0 - x, color);
     }
 }
+
 
 void drawChar(uint16_t x, uint16_t y, uint8_t c, uint32_t color, uint32_t bg_color, uint8_t size){
 	char i, j;
@@ -418,4 +419,54 @@ void drawBitmap(uint16_t x, uint16_t y,
       }
     }
   }
+}
+
+void drawVertLine(uint16_t x, uint16_t y, uint16_t h, uint32_t color) {
+
+  if((x >= LCD_W) || (y >= LCD_H)) return;
+
+  if((y+h-1) >= LCD_H)
+    h = LCD_H-y;
+
+  setAddress(x, y, x, y+h-1);
+
+	while(h--){
+		write_data_16(color);
+	}
+}
+
+
+void fillCircleHelper(uint16_t x0, uint16_t y0, uint16_t r,
+    uint32_t cornername, uint16_t delta, uint16_t color) {
+// Helper function for drawing filled circles
+  short f     = 1 - r;
+  short ddF_x = 1;
+  short ddF_y = -2 * r;
+  short x     = 0;
+  short y     = r;
+
+  while (x<y) {
+    if (f >= 0) {
+      y--;
+      ddF_y += 2;
+      f     += ddF_y;
+    }
+    x++;
+    ddF_x += 2;
+    f     += ddF_x;
+
+    if (cornername & 0x1) {
+      drawVertLine(x0+x, y0-y, 2*y+1+delta, color);
+      drawVertLine(x0+y, y0-x, 2*x+1+delta, color);
+    }
+    if (cornername & 0x2) {
+      drawVertLine(x0-x, y0-y, 2*y+1+delta, color);
+      drawVertLine(x0-y, y0-x, 2*x+1+delta, color);
+    }
+  }
+}
+
+void drawCircle(uint16_t x0, uint16_t y0, uint16_t r, uint32_t color) {
+  drawVertLine(x0, y0-r, 2*r+1, color);
+  fillCircleHelper(x0, y0, r, 3, 0, color);
 }
