@@ -12,6 +12,6 @@ void write_cmd_8(uint8_t com);
 void write_data_8(uint8_t data);
 void write_cmd_16(uint16_t com);
 void write_data_16(uint16_t data);
-void write_data_multi(uint16_t* out,uint16_t count);
+// void write_data_multi(uint16_t* out,uint16_t count);
 void rotate(char c);
 #endif

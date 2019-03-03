@@ -105,15 +105,15 @@ void write_data_16(uint16_t data)//data write
 	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
 }
 
-uint16_t spi_multi(uint16_t* dataOut, uint16_t count){
-    uint16_t i;
-	while(!(SPI2STAT & 0x08));
-	for(i = 0; i < count; i++){
-		SPI2BUF = dataOut[i];
-		while(!(SPI2STAT & 1));
-		return SPI2BUF;
-	}
-}
+// uint16_t spi_multi(uint16_t* dataOut, uint16_t count){
+//     uint16_t i;
+// 	while(!(SPI2STAT & 0x08));
+// 	for(i = 0; i < count; i++){
+// 		SPI2BUF = dataOut[i];
+// 		while(!(SPI2STAT & 1));
+// 		return SPI2BUF;
+// 	}
+// }
 
 // uint16_t spi_dma(uint16_t* dataOut, uint16_t count){
 // uint16_t i;
@@ -128,13 +128,13 @@ uint16_t spi_multi(uint16_t* dataOut, uint16_t count){
 
 
 // }
-void write_data_multi(uint16_t* out,uint16_t count)
-{
-	DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;//set dc high for data
-	DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_MASK;//set cs low for operation
- 	spi_multi(out, count);
-	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
-}
+// void write_data_multi(uint16_t* out,uint16_t count)
+// {
+// 	DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;//set dc high for data
+// 	DISPLAY_SELECT_PORT &= ~DISPLAY_SELECT_MASK;//set cs low for operation
+//  	spi_multi(out, count);
+// 	DISPLAY_SELECT_PORT |= DISPLAY_SELECT_MASK;
+// }
 
 
 

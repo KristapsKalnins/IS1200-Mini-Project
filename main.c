@@ -578,7 +578,7 @@ void advance () {
         }
         if(tophit == 1)
             p1Scorefix++;
-        if (p1Scorefix == 14){
+        if (p1Scorefix == 15){
             if (lifecount == 2)
                 drawLife1(2);
             if (lifecount == 1)
