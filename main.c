@@ -794,15 +794,19 @@ void splash(){
   setWrap(0);
   writeString("BREAKOUT!");
 	while(1){
-		if(getbtns() & 0x4)
+		if(getbtns() & 0x4){
+            while(getbtns() & 0x4);
 			break;
+        }
 		setCursor(60, 260);
 		setTextSize(1);
 		setTextColor(BLACK, WHITE);
 		writeString("Press BTN4 to START!");
 		delay_sp(150);
-		if(getbtns() & 0x4)
+		if(getbtns() & 0x4){
+            while(getbtns() & 0x4);
 			break;
+        }
 		setCursor(60, 260);
 		setTextSize(1);
 		setTextColor(WHITE, WHITE);
@@ -869,6 +873,7 @@ void levelSelect(){
             while(xCord >= 160 && xCord <=240){
                 inputRead();
                 if (getbtns() & 0x4){
+                    while(getbtns() & 0x4);
                     level = 1;
                     ballSpeed = 50;
                     fillSceen(BG_COLOR);
@@ -895,6 +900,7 @@ void levelSelect(){
             while(xCord >= 80 && xCord <=160){
                 inputRead();
                 if (getbtns() & 0x4){
+                    while(getbtns() & 0x4);
                     level = 2;
                     ballSpeed = 40;
                     fillSceen(BG_COLOR);
@@ -921,6 +927,7 @@ void levelSelect(){
             while(xCord >= 0 && xCord <=80){
                 inputRead();
                 if (getbtns() & 0x4){
+                    while(getbtns() & 0x4);
                     level = 3;
                     ballSpeed = 30;
                     fillSceen(BG_COLOR);
@@ -962,6 +969,7 @@ void mainMenu(){
             while(xCord >= 120 && xCord <=240){
                 inputRead();
                 if (getbtns() & 0x4){
+                    while(getbtns() & 0x4);
                     multiPlayer = 0;
                     levelSelect();
                 }
@@ -974,6 +982,7 @@ void mainMenu(){
             while(xCord >= 0 && xCord <=120){
                 inputRead();
                 if (getbtns() & 0x4){
+                    while(getbtns() & 0x4);
                     multiPlayer = 1;
                     levelSelect();
                 }
