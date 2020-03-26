@@ -111,7 +111,7 @@ void inputRead() {
 
 void gameOver(){
     if (multiPlayer == 0){
-        if (lifecount == 0){
+        if (lifecount == -1){
             fillSceen(RED);
             setCursor(60, 135);
             setTextColor(BLACK, RED);
@@ -133,7 +133,7 @@ void gameOver(){
         }
     }
     else if(multiPlayer == 1){
-        if (lifecount == 0 || lifecount2 == 0){
+        if (lifecount == -1 || lifecount2 == -1){
             fillSceen(RED);
             setCursor(60, 120);
             setTextColor(BLACK, RED);
@@ -150,11 +150,11 @@ void gameOver(){
             setTextColor(PADDLE2_COLOR, RED);
             writeString(scoreOut[scoreInd2]);
             setTextColor(BLACK, RED);
-            if (lifecount == 0) {
+            if (lifecount == -1) {
                 setCursor(50, 195);
                 writeString("PLAYER2 WINS!");
             }
-            else if(lifecount2 == 0){
+            else if(lifecount2 == -1){
                 setCursor(50, 195);
                 writeString("PLAYER1 WINS!");
             }
@@ -571,8 +571,10 @@ void advance () {
                 fillRect(196, 0,14,14,BG_COLOR);
             else if (lifecount == 1)
                 fillRect(211, 0, 14, 14, BG_COLOR);
-            else
+            else{
+                lifecount--;
                 gameOver();
+            }
             lifecount--;
             
         }
@@ -684,8 +686,10 @@ void advance () {
                 fillRect(30, 306,14,14,BG_COLOR);
             else if (lifecount2 == 1)
                 fillRect(15, 306, 14, 14, BG_COLOR);
-            else
+            else{
+                lifecount2--;
                 gameOver();
+            }
             lifecount2--;
         }
     }
