@@ -23,6 +23,7 @@
 #define X2START 120
 #define Y2START 60 
 
+//Ball radius in pixels
 #define BALL_R 5
 
 int scoreInd = 0;
